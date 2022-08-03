@@ -1,9 +1,7 @@
 #include <Windows.h>
 
-DWORD oldAddr = 0x00430685;
-DWORD retAddr = oldAddr + 0x6;
-char patchFolder[] = ".\\DirA\\";
-char* fileName;
+char* pFileName = 0;
+char repFolder[] = ".\\DirA\\";
 
 extern "C" VOID __declspec(dllexport) Dir_A() {}
 
@@ -19,36 +17,74 @@ VOID WriteHookCode(DWORD oldAddr, DWORD tarAddr)
     memcpy((void*)oldAddr, code, 6);
 }
 
-BOOL FileExists()
+BOOL FileExist()
 {
-    char catPath[MAX_PATH] = {0};
-    strcat_s(catPath, patchFolder);
-    strcat_s(catPath, fileName);
+    char repPath[MAX_PATH] = { 0 };
+    lstrcatA(repPath, repFolder);
+    lstrcatA(repPath, pFileName);
+    pFileName = 0;
 
-    DWORD dwAttrib = GetFileAttributesA(catPath);
-    return (dwAttrib != INVALID_FILE_ATTRIBUTES &&!(dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
+    DWORD isFileExist = GetFileAttributesA(repPath);
+    return (isFileExist != INVALID_FILE_ATTRIBUTES &&!(isFileExist & FILE_ATTRIBUTE_DIRECTORY));
 }
 
-VOID __declspec(naked) SetBasePath()
+DWORD oldAddr_PB3 = 0x0043FE8D;
+DWORD retAddr_PB3 = oldAddr_PB3 + 0x6;
+VOID __declspec(naked) PB3_SetBasePath()
 {
     __asm
     {
-        add edi, 0x1068
+        add esi, 0x1068
         pushad
         pushfd
-        mov fileName,ebx
+        mov eax,dword ptr[ebp - 0x908]
+        mov pFileName,eax
     }
 
-    if (FileExists())
+    if (FileExist())
     {
-        __asm mov dword ptr[ esp+0x4 ], offset patchFolder;
+        __asm mov dword ptr[ esp + 0x8 ], offset repFolder
     }
 
     __asm
     {
         popfd
         popad
-        jmp retAddr
+        jmp retAddr_PB3
+    }
+}
+
+DWORD oldAddr_PS3 = 0x0046CE10;
+DWORD retAddr_PS3 = oldAddr_PS3 + 0x9;
+VOID __declspec(naked) PS3_SetBasePath()
+{
+    __asm
+    {
+        push ebp
+        mov ebp,esp
+        sub esp, 0x810
+        pushad
+        pushfd
+        mov pFileName,ebx
+    }
+
+    if (FileExist())
+    {
+        __asm mov dword ptr[esp + 0x1C], offset repFolder
+        *(BYTE*)0x0046CEF1 = 0xEB;
+        *(BYTE*)0x0046CF1D = 0xEB;
+    }
+    else
+    {
+        *(BYTE*)0x0046CEF1 = 0x74;
+        *(BYTE*)0x0046CF1D = 0x74;
+    }
+
+    __asm
+    {
+        popfd
+        popad
+        jmp retAddr_PS3
     }
 }
 
@@ -60,7 +96,8 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     switch (ul_reason_for_call)
     {
     case DLL_PROCESS_ATTACH:
-        WriteHookCode(oldAddr, (DWORD)SetBasePath);
+        WriteHookCode(oldAddr_PB3, (DWORD)PB3_SetBasePath);
+        WriteHookCode(oldAddr_PS3, (DWORD)PS3_SetBasePath);
         break;
     case DLL_THREAD_ATTACH:
         break;
