@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CmvsFileHook", "CmvsFileHook\CmvsFileHook.vcxproj", "{3D151800-91DD-45F1-87B9-B2A62DDDFB0B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CmvsHookLoader", "CmvsHookLoader\CmvsHookLoader.vcxproj", "{6C188C58-9B5B-4EEA-8793-19B2AD0F40D7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CmvsFileLoader", "CmvsFileLoader\CmvsFileLoader.vcxproj", "{6C188C58-9B5B-4EEA-8793-19B2AD0F40D7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
