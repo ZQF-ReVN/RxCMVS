@@ -1,5 +1,11 @@
 # CmvsFileHook
-Hook CMVS Engine FileRead Path
+Hook CMVS Engine FileRead Path  
+
+Supported Versions  
+3.80-3.76  
+3.42-3.20  
+2.10-1.10  
+[Click here for details](https://github.com/Dir-A/CmvsFileHook/blob/main/CmvsFileHook/CmvsFileHook/CMVSVersion.h)
 
 # Tested Games
 クナド国記 PKG  
