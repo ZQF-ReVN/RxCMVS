@@ -42,6 +42,9 @@
     <ClCompile Include="..\Detours\modules.cpp">
       <Filter>Detours</Filter>
     </ClCompile>
+    <ClCompile Include="DiBProcess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Tools.h">
@@ -55,6 +58,9 @@
     </ClInclude>
     <ClInclude Include="..\Detours\detours.h">
       <Filter>Detours</Filter>
+    </ClInclude>
+    <ClInclude Include="DiBProcess.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
