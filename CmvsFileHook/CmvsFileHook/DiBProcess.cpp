@@ -2,7 +2,7 @@
 
 struct BITMAPDEC
 {
-	LPVOID lpBMPBuffer;
+	PBYTE lpBMPBuffer;
 	PBYTE lpBits;
 	LONG szBytesPerLine;
 	DWORD szDiB;
@@ -35,10 +35,10 @@ VOID InitBMPStruct()
 	memcpy(&g_bFile, g_bDec.lpBMPBuffer, sizeof(g_bFile));
 
 	//Init InfoHeader
-	memcpy(&g_bInfo, (LPVOID)((size_t)g_bDec.lpBMPBuffer + sizeof(g_bFile)), sizeof(g_bInfo));
+	memcpy(&g_bInfo, &g_bDec.lpBMPBuffer[sizeof(g_bFile)], sizeof(g_bInfo));
 
 	//Set Poniter To Bits Data
-	g_bDec.lpBits = (PBYTE)((size_t)g_bDec.lpBMPBuffer + sizeof(g_bFile) + sizeof(g_bInfo));
+	g_bDec.lpBits = &g_bDec.lpBMPBuffer[sizeof(g_bFile) + sizeof(g_bInfo)];
 
 	//Calculate Perline Size
 	g_bDec.szBytesPerLine = ((g_bInfo.biWidth * g_bInfo.biBitCount + 31) / 32) * 4;
@@ -114,7 +114,7 @@ BOOL VerFlipBitMap()
 	return FALSE;
 }
 
-BOOL DumpBMPFile(LPVOID lpBuffer,LPCSTR lpFileName,DWORD dwSizeDiB)
+BOOL DumpBMPFile(PBYTE lpBuffer,LPCSTR lpFileName,DWORD dwSizeDiB)
 {
 	g_bFile = { 0 };
 	g_bInfo = { 0 };

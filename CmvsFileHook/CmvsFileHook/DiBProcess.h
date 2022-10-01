@@ -2,4 +2,4 @@
 #include <iostream>
 #include <Windows.h>
 
-BOOL DumpBMPFile(LPVOID lpBuffer, LPCSTR lpOutFileName,DWORD dwSizeDiB);
+BOOL DumpBMPFile(PBYTE lpBuffer, LPCSTR lpOutFileName,DWORD dwSizeDiB);
