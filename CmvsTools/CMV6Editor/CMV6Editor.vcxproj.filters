@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="CMV6Editor">
+      <UniqueIdentifier>{bf1d9462-f6c9-424d-b4d2-c3087c37efae}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CMV6Editor.h">
+      <Filter>CMV6Editor</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CMV6Editor.cpp">
+      <Filter>CMV6Editor</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

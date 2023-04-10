@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="CmvsFileHook">
+      <UniqueIdentifier>{5f41a43a-6c99-4e4e-afa2-1e62893a50ef}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CmvsFileHook.cpp">
+      <Filter>CmvsFileHook</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CmvsFileHook.h">
+      <Filter>CmvsFileHook</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

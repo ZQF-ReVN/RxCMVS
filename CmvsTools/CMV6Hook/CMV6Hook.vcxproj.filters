@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="JBPX">
+      <UniqueIdentifier>{6a270595-d290-4fc7-bffe-a526c2850ccf}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="JBPX.cpp">
+      <Filter>JBPX</Filter>
+    </ClCompile>
+    <ClCompile Include="dllmain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="JBPX.h">
+      <Filter>JBPX</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
