@@ -1,11 +1,11 @@
-# CmvsFileHook
+# CMSFileHook
 Hook CMVS Engine FileRead Path  
 
 Supported Versions  
 3.80-3.76  
 3.42-3.20  
 2.10-1.10  
-[Click here for details](https://github.com/Dir-A/CMVS-Tools/blob/main/CmvsTools/CmvsFileHook/CmvsFileHook.h)
+[Click here for details](https://github.com/Dir-A/CMVS-Tools/blob/main/CMVSTools/Modules/CMVSTools/CMVSFileHook.h)
 
 ## Tested Games
 クナド国記 PKG  
@@ -22,18 +22,18 @@ Supported Versions
 ## About
 A Simple Dll Makes CMVS Engine Read Files Without Repack  
 
-![image](https://github.com/Dir-A/CmvsFileHook/blob/main/image/CmvsFileHook_test.png)
+![image](https://github.com/Dir-A/CMVS-Tools/blob/main/image/CMVSFileHook_test.png)
 
 Dump File(Undergoing testing and refinement)
 
-![image](https://github.com/Dir-A/CmvsFileHook/blob/main/image/CmvsFileHook_test1.png)
+![image](https://github.com/Dir-A/CMVS-Tools/blob/main/image/CMVSFileHook_test1.png)
 
-# CmvsExtract
+# CMVSExtract
 CMVS Engine File Extract (Dynamic)  
 
 I'll refine it when I can, it's just a demo for now
 
-![image](https://github.com/Dir-A/CmvsFileHook/blob/main/image/CmvsDynamic_test.png)
+![image](https://github.com/Dir-A/CMVS-Tools/blob/main/image/CMVSDynamic_test.png)
 
 # PS3TextEditor
 Insert text at the end of the script file while modifying the address    
@@ -41,7 +41,7 @@ Insert text at the end of the script file while modifying the address
 Support .ps3 .ps2  
 Need to decrypt file first  
 You can use Garbro to extract script files  
-or use [CmvsFileHook](https://github.com/Dir-A/CmvsFileHook)
+or use [CMVSFileHook](https://github.com/Dir-A/CMVS-Tools)
 ## Usage
 Input 'd' to extract text from .ps3 .ps2 files and save it as .txt  
 Input 'i' to insert text from .txt files save it as .ps3.new  
@@ -57,7 +57,7 @@ Input 'i' to insert text from .txt files save it as .ps3.new
 ハピメア PKG  
 しあわせ家族部 PKG  
 未来ノスタルジア PKG   
-![img](https://github.com/Dir-A/CmvsFileHook/blob/main/image/PS3TextEditor_test0.png)
+![img](https://github.com/Dir-A/CMVS-Tools/blob/main/image/PS3TextEditor_test0.png)
 ## Reference
 https://github.com/xmoeproject/CMVS-Engine/tree/master/Ps3TextDumper  
 https://github.com/Yggdrasill-Moe/Niflheim/tree/master/cmvs
