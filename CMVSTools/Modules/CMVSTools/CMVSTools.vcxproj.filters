@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="CMV6Editor">
+      <UniqueIdentifier>{e0240332-f673-463e-b74c-64a3e80476df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MGVEditor">
+      <UniqueIdentifier>{78a9499e-e1e7-4cf9-afe3-45dcaf7bccf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PS3Editor">
+      <UniqueIdentifier>{66d3cdcf-1f51-49f7-8d21-706174fa9824}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CMV6Hook">
+      <UniqueIdentifier>{6adfa702-d290-493c-8f62-147591d0f3c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CMVSFileHook">
+      <UniqueIdentifier>{388d04af-d9df-43b6-9181-814b8dd37cdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CMVSFileDump">
+      <UniqueIdentifier>{a4a2f8e8-2bda-4a36-b549-b36a4d67ff87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CMVSExtract">
+      <UniqueIdentifier>{aa83988c-80ae-4a53-a5d7-a265866e0fe2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="CMVSFileHook.cpp">
+      <Filter>CMVSFileHook</Filter>
+    </ClCompile>
+    <ClCompile Include="CMVSExtract.cpp">
+      <Filter>CMVSExtract</Filter>
+    </ClCompile>
+    <ClCompile Include="CMV6Editor.cpp">
+      <Filter>CMV6Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="MGVEditor.cpp">
+      <Filter>MGVEditor</Filter>
+    </ClCompile>
+    <ClCompile Include="PS3Editor.cpp">
+      <Filter>PS3Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="CMV6Hook.cpp">
+      <Filter>CMV6Hook</Filter>
+    </ClCompile>
+    <ClCompile Include="CMVSFileDump.cpp">
+      <Filter>CMVSFileDump</Filter>
+    </ClCompile>
+    <ClCompile Include="CMVSFilePixelArray.cpp">
+      <Filter>CMVSFileDump</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CMVSFileHook.h">
+      <Filter>CMVSFileHook</Filter>
+    </ClInclude>
+    <ClInclude Include="CMV6Editor.h">
+      <Filter>CMV6Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="MGVEditor.h">
+      <Filter>MGVEditor</Filter>
+    </ClInclude>
+    <ClInclude Include="PS3Editor.h">
+      <Filter>PS3Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="CMVSExtract.h">
+      <Filter>CMVSExtract</Filter>
+    </ClInclude>
+    <ClInclude Include="CMV6Hook.h">
+      <Filter>CMV6Hook</Filter>
+    </ClInclude>
+    <ClInclude Include="CMVSFileDump.h">
+      <Filter>CMVSFileDump</Filter>
+    </ClInclude>
+    <ClInclude Include="CMVSFilePixelArray.h">
+      <Filter>CMVSFileDump</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
