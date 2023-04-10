@@ -3,7 +3,7 @@
 #include <fstream>
 
 
-namespace CmvsTools
+namespace CMVSTools
 {
 	namespace MGVFile
 	{

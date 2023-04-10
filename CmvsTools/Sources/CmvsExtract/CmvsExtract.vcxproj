@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Modules\CmvsTools\CmvsTools.vcxproj">
+    <ProjectReference Include="..\..\Modules\CMVSTools\CMVSTools.vcxproj">
       <Project>{ec945747-5e9d-4dbd-80ae-7744256bae22}</Project>
     </ProjectReference>
   </ItemGroup>
@@ -22,8 +22,9 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{f9b4f065-8a1f-427b-ad80-ac9bebe25bf8}</ProjectGuid>
-    <RootNamespace>CmvsDynamic</RootNamespace>
+    <RootNamespace>CMVSDynamic</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>CMVSExtract</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

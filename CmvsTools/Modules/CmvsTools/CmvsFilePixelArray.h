@@ -2,9 +2,9 @@
 #include <iostream>
 #include <Windows.h>
 
-namespace CmvsTools
+namespace CMVSTools
 {
-	namespace CmvsFileDump
+	namespace CMVSFileDump
 	{
 		BOOL DumpBMPFile(PBYTE lpBuffer, LPCSTR lpOutFileName, DWORD dwSizeDiB);
 	}

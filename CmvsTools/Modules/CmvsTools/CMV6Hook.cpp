@@ -9,7 +9,7 @@
 #include <Windows.h>
 #include <iostream>
 
-namespace CmvsTools
+namespace CMVSTools
 {
 	namespace CMV6Hook
 	{

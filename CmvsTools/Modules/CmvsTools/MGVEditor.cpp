@@ -1,7 +1,7 @@
 #include "MGVEditor.h"
 
 
-namespace CmvsTools
+namespace CMVSTools
 {
 	namespace MGVFile
 	{

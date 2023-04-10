@@ -4,7 +4,7 @@
 #include <vector>
 
 
-namespace CmvsTools
+namespace CMVSTools
 {
 	namespace PS3Editor
 	{

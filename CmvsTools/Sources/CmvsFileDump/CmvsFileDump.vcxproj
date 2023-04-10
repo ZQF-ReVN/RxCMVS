@@ -22,8 +22,9 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{5e28ca9e-6934-42c8-9c6c-1515bb559790}</ProjectGuid>
-    <RootNamespace>CmvsFileDump</RootNamespace>
+    <RootNamespace>CMVSFileDump</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>CMVSFileDump</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -130,7 +131,7 @@
     <ClCompile Include="dllmain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Modules\CmvsTools\CmvsTools.vcxproj">
+    <ProjectReference Include="..\..\Modules\CMVSTools\CMVSTools.vcxproj">
       <Project>{ec945747-5e9d-4dbd-80ae-7744256bae22}</Project>
     </ProjectReference>
   </ItemGroup>

@@ -2,7 +2,7 @@
 #include "../../ThirdParty/TDA/StringX.h"
 
 
-namespace CmvsTools
+namespace CMVSTools
 {
 	namespace PS3Editor
 	{

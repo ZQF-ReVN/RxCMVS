@@ -1,9 +1,9 @@
 #pragma once
 
 
-namespace CmvsTools
+namespace CMVSTools
 {
-	namespace CmvsExtract
+	namespace CMVSExtract
 	{
 		void SetCmvsExtract();
 	}

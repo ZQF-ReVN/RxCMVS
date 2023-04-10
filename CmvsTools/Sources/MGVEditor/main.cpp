@@ -1,6 +1,6 @@
 #include "../../Modules/CmvsTools/MGVEditor.h"
 
-using namespace CmvsTools::MGVFile;
+using namespace CMVSTools::MGVFile;
 
 
 void UnpackMGV()

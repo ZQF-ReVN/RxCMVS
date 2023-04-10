@@ -2,7 +2,7 @@
 
 #include "../../Modules/CmvsTools/CMV6Hook.h"
 
-using namespace CmvsTools::CMV6Hook;
+using namespace CMVSTools::CMV6Hook;
 
 
 VOID StartHook()

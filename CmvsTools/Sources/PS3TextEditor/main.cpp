@@ -3,7 +3,7 @@
 #include "../../Modules/CmvsTools/PS3Editor.h"
 #include "../../ThirdParty/TDA/EnumFiles.h"
 
-using namespace CmvsTools::PS3Editor;
+using namespace CMVSTools::PS3Editor;
 
 
 int main()

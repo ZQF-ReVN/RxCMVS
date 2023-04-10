@@ -2,7 +2,7 @@
 
 #include "../../Modules/CmvsTools/CmvsExtract.h"
 
-using namespace CmvsTools::CmvsExtract;
+using namespace CMVSTools::CMVSExtract;
 
 VOID StartHook()
 {

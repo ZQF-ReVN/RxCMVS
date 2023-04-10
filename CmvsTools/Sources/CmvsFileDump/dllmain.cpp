@@ -2,7 +2,7 @@
 
 #include "../../Modules/CmvsTools/CmvsFileDump.h"
 
-using namespace CmvsTools::CmvsFileDump;
+using namespace CMVSTools::CMVSFileDump;
 
 
 VOID StartHook()

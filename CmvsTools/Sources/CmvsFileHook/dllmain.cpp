@@ -2,7 +2,7 @@
 
 #include "../../Modules/CmvsTools/CmvsFileHook.h"
 
-using namespace CmvsTools::CmvsFileHook;
+using namespace CMVSTools::CMVSFileHook;
 
 
 static DWORD g_dwExeBase = (DWORD)GetModuleHandleW(NULL);

@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Modules\CmvsTools\CmvsTools.vcxproj">
+    <ProjectReference Include="..\..\Modules\CMVSTools\CMVSTools.vcxproj">
       <Project>{ec945747-5e9d-4dbd-80ae-7744256bae22}</Project>
     </ProjectReference>
   </ItemGroup>
@@ -30,8 +30,9 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{bbf3f6c1-8f1f-43b5-9abc-8b09172cf689}</ProjectGuid>
-    <RootNamespace>CmvsFileHook</RootNamespace>
+    <RootNamespace>CMVSFileHook</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>CMVSFileHook</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

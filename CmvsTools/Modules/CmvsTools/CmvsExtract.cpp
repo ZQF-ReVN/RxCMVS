@@ -7,9 +7,9 @@
 #include "../../ThirdParty/TDA/DetoursX.h"
 
 
-namespace CmvsTools
+namespace CMVSTools
 {
-	namespace CmvsExtract
+	namespace CMVSExtract
 	{
 		static std::string g_msFileName;
 		static std::vector<PDWORD> g_vecThisPointer;

@@ -1,9 +1,9 @@
 #pragma once
 
 
-namespace CmvsTools
+namespace CMVSTools
 {
-	namespace CmvsFileHook
+	namespace CMVSFileHook
 	{
 		void SetPS3Hook_210_(unsigned int uiPS2Raw, unsigned int uiPS2Dec, unsigned int uiPS2Com);
 		void SetPB3Hook_210_(unsigned int uiPB3Raw);

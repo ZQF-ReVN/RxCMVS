@@ -5,7 +5,7 @@
 #include "../../ThirdParty/libwebp/include/decode.h"
 #pragma comment(lib,"../../ThirdParty/libwebp/lib/libwebp.lib")
 
-using namespace CmvsTools::CMV6File;
+using namespace CMVSTools::CMV6File;
 
 
 void EncodeWebP(std::wstring strFileName)

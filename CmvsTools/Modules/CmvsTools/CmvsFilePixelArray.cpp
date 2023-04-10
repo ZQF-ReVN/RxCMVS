@@ -1,8 +1,8 @@
 #include "CmvsFilePixelArray.h"
 
-namespace CmvsTools
+namespace CMVSTools
 {
-	namespace CmvsFileDump
+	namespace CMVSFileDump
 	{
 		struct BITMAPDEC
 		{

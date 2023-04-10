@@ -4,9 +4,9 @@
 #include <Windows.h>
 
 
-namespace CmvsTools
+namespace CMVSTools
 {
-	namespace CmvsFileHook
+	namespace CMVSFileHook
 	{
 		static DWORD g_dwPS3Raw = NULL;
 		static DWORD g_dwPB3Raw = NULL;

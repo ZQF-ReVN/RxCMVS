@@ -22,7 +22,7 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{ec945747-5e9d-4dbd-80ae-7744256bae22}</ProjectGuid>
-    <RootNamespace>CmvsTools</RootNamespace>
+    <RootNamespace>CMVSTools</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -129,20 +129,20 @@
   <ItemGroup>
     <ClCompile Include="CMV6Editor.cpp" />
     <ClCompile Include="CMV6Hook.cpp" />
-    <ClCompile Include="CmvsExtract.cpp" />
-    <ClCompile Include="CmvsFileDump.cpp" />
-    <ClCompile Include="CmvsFileHook.cpp" />
-    <ClCompile Include="CmvsFilePixelArray.cpp" />
+    <ClCompile Include="CMVSExtract.cpp" />
+    <ClCompile Include="CMVSFileDump.cpp" />
+    <ClCompile Include="CMVSFileHook.cpp" />
+    <ClCompile Include="CMVSFilePixelArray.cpp" />
     <ClCompile Include="MGVEditor.cpp" />
     <ClCompile Include="PS3Editor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CMV6Editor.h" />
     <ClInclude Include="CMV6Hook.h" />
-    <ClInclude Include="CmvsExtract.h" />
-    <ClInclude Include="CmvsFileDump.h" />
-    <ClInclude Include="CmvsFileHook.h" />
-    <ClInclude Include="CmvsFilePixelArray.h" />
+    <ClInclude Include="CMVSExtract.h" />
+    <ClInclude Include="CMVSFileDump.h" />
+    <ClInclude Include="CMVSFileHook.h" />
+    <ClInclude Include="CMVSFilePixelArray.h" />
     <ClInclude Include="MGVEditor.h" />
     <ClInclude Include="PS3Editor.h" />
   </ItemGroup>
