@@ -1,0 +1,25 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/Debug
+/src/MGVEditor/Debug
+/lib/CMVSTools/Debug
+/lib/Rxx/Debug
+/src/CMV6Editor/Debug
+/src/CMV6Hook/Debug
+/src/CMVSExtract/Debug
+/src/CMVSFileDump/Debug
+/src/CMVSFileHook/Debug
+/src/PS3TextEditor/Debug
+/lib/CMVSTools/Release
+/lib/Rxx/Release
+/Release
+/src/CMV6Editor/Release
+/src/CMV6Hook/Release
+/src/CMVSExtract/Release
+/src/CMVSFileDump/Release
+/src/CMVSFileHook/Release
+/src/MGVEditor/Release
+/src/PS3TextEditor/Release
