@@ -1,6 +1,8 @@
-﻿#include "../../lib/CmvsTools/MGVEditor.h"
+﻿#include <iostream>
 
-using namespace CMVSTools::MGVFile;
+#include "../../lib/CMVSTools/src/MGV/MGV_Editor.h"
+
+using namespace CMVS::MGV;
 
 
 void PackMGV()
@@ -51,18 +53,18 @@ int wmain(int argc, wchar_t* argv[])
 			mgv.Replace(wpVideo);
 		};
 
-		auto create = [](const wchar_t* wpMGV, const wchar_t* wpVideo, const wchar_t* wpAudio)
-		{
-			MGVEditor mgv(wpMGV);
-			mgv.Create(wpVideo, wpAudio);
-		};
+		//auto create = [](const wchar_t* wpMGV, const wchar_t* wpVideo, const wchar_t* wpAudio)
+		//{
+		//	MGVEditor mgv(wpMGV);
+		//	mgv.Create(wpVideo, wpAudio);
+		//};
 
 		switch (argc)
 		{
 		case 1: { show_info(); } break;
 		case 2: { extract(argv[1]); } break;
 		case 3: { replace(argv[1], argv[2]); } break;
-		case 4: { create(argv[1], argv[2], argv[3]); } break;
+		//case 4: { create(argv[1], argv[2], argv[3]); } break;
 		}
 
 	}
