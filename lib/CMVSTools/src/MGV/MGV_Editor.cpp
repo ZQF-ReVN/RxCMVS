@@ -1,43 +1,43 @@
 ﻿#include "MGV_Editor.h"
-#include "../../../Rut/RxStream.h"
+#include "../../../Rut/RxFS.h"
+#include "../../../Rut/RxMem.h"
+
+using namespace Rut;
 
 
 namespace CMVS::MGV
 {
-	using namespace Rut;
-
-
 	MGVEditor::MGVEditor(const std::wstring_view wsMGV) : m_Header({}), m_wsMGV(wsMGV)
 	{
-		RxStream::Binary{ m_wsMGV, RIO::RIO_IN } >> m_Header;
+		RxFS::Binary{ m_wsMGV, Rut::RIO::RIO_IN } >> m_Header;
 	}
 
 	void MGVEditor::Extract()
 	{
-		RxStream::AutoMem tmp;
+		RxMem::Auto tmp;
 		uint32_t index_size = m_Header.uiFrameIndexCount * 4;
 
 		// Restore File Pointer
-		RxStream::Binary ifs_mgv{ m_wsMGV, RIO::RIO_IN };
+		RxFS::Binary ifs_mgv{ m_wsMGV, Rut::RIO::RIO_IN };
 		ifs_mgv.SetPos(sizeof(m_Header));
 
 		// Unpack Audio
 		uint8_t* buf_ptr = tmp.SetSize(m_Header.uiAudioSize);
 		ifs_mgv.MovePos(index_size);
 		ifs_mgv.Read(buf_ptr, m_Header.uiAudioSize);
-		RxStream::SaveFileViaPath((m_wsMGV + L".ogg").c_str(), buf_ptr, m_Header.uiAudioSize);
+		RxFS::SaveFileViaPath((m_wsMGV + L".ogg").c_str(), buf_ptr, m_Header.uiAudioSize);
 
 		// Unpack Video
 		buf_ptr = tmp.SetSize(m_Header.uiVideoSize);
 		ifs_mgv.Read(buf_ptr, m_Header.uiVideoSize);
-		RxStream::SaveFileViaPath((m_wsMGV + L".ogv").c_str(), buf_ptr, m_Header.uiVideoSize);
+		RxFS::SaveFileViaPath((m_wsMGV + L".ogv").c_str(), buf_ptr, m_Header.uiVideoSize);
 	}
 
 	void MGVEditor::Replace(const std::wstring_view wsVideo)
 	{
-		RxStream::AutoMem tmp;
-		RxStream::Binary ifs_mgv{ m_wsMGV, RIO::RIO_IN};
-		RxStream::Binary ofs_mgv{ m_wsMGV + L".new", RIO::RIO_OUT};
+		RxMem::Auto tmp;
+		RxFS::Binary ifs_mgv{ m_wsMGV, Rut::RIO::RIO_IN};
+		RxFS::Binary ofs_mgv{ m_wsMGV + L".new", Rut::RIO::RIO_OUT};
 
 		// Write Header
 		m_Header.uiVideoSize = (uint32_t)RxPath::FileSize(wsVideo);
@@ -59,7 +59,7 @@ namespace CMVS::MGV
 		//Write Video
 		uint32_t video_size = m_Header.uiVideoSize;
 		uint8_t* video_ptr = tmp.SetSize(video_size);
-		RxStream::Binary{ wsVideo, RIO::RIO_IN }.Read(video_ptr, video_size);
+		RxFS::Binary{ wsVideo, Rut::RIO::RIO_IN }.Read(video_ptr, video_size);
 		ofs_mgv.Write(video_ptr, video_size);
 	}
 }

@@ -358,7 +358,7 @@ namespace Rut::RxJson
 				case L'\f': ch = L'f'; break;
 				case L'\"': ch = L'"'; break;
 				case L'\\': ch = L'\\'; break;
-				default: 
+				default:
 				{
 					wsText.append(1, ch);
 					continue;

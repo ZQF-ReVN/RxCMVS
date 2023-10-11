@@ -4,9 +4,9 @@
 
 namespace CMVS::PS3
 {
-    void Coder::Decode(std::wstring_view wsPath, Rut::RxStream::AutoMem& rfBuffer)
+    void Coder::Decode(std::wstring_view wsPath, Rut::RxMem::Auto& rfBuffer)
     {
-        Rut::RxStream::AutoMem tmp_ps3(wsPath);
+        Rut::RxMem::Auto tmp_ps3(wsPath);
         uint8_t* enc_file_ptr = tmp_ps3.GetPtr();
         size_t enc_file_size = tmp_ps3.GetSize();
         PS3_HDR* enc_hdr_ptr = (PS3_HDR*)enc_file_ptr;
@@ -24,9 +24,9 @@ namespace CMVS::PS3
         memcpy(dec_file_ptr, enc_file_ptr, enc_hdr_ptr->uiHeaderSize);
     }
 
-    void Coder::Encode(std::wstring_view wsPath, Rut::RxStream::AutoMem& rfBuffer)
+    void Coder::Encode(std::wstring_view wsPath, Rut::RxMem::Auto& rfBuffer)
     {
-        Rut::RxStream::AutoMem tmp_ps3(wsPath);
+        Rut::RxMem::Auto tmp_ps3(wsPath);
         uint8_t* dec_file_ptr = tmp_ps3.GetPtr();
         size_t dec_file_size = tmp_ps3.GetSize();
 

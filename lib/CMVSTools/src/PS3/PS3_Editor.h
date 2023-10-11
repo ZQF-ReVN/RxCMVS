@@ -18,7 +18,7 @@ namespace CMVS::PS3
 		};
 
 	public:
-		Rut::RxStream::AutoMem m_amPS3;
+		Rut::RxMem::Auto m_amPS3;
 		std::wstring m_wsPath;
 		std::vector<Text_Entry> m_vecTextIndex;
 

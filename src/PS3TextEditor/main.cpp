@@ -1,4 +1,7 @@
-﻿#include "../../lib/CMVSTools/PS3.h"
+﻿#include "../../lib/Rut/RxConsole.h"
+#include "../../lib/CMVSTools/PS3.h"
+
+using namespace Rut;
 
 
 int wmain(int argc, wchar_t* argv[])
@@ -19,7 +22,7 @@ int wmain(int argc, wchar_t* argv[])
 			CMVS::PS3::Editor editor;
 			editor.Init(ps3_path);
 			editor.Extract(out_path, code_page);
-			Rut::RxStream::PutConsoleFormat(L"Success: %s", ps3_path);
+			RxConsole::PutFormat(L"Success: %s", ps3_path);
 		}
 		break;
 
@@ -37,30 +40,30 @@ int wmain(int argc, wchar_t* argv[])
 			editor.Init(ps3_path);
 			if (editor.Insert(json_path, out_path, code_page))
 			{
-				Rut::RxStream::PutConsoleFormat(L"Success: %s", ps3_path);
+				RxConsole::PutFormat(L"Success: %s", ps3_path);
 			}
 			else
 			{
-				Rut::RxStream::PutConsoleFormat(L"\n\tFailure: %s\n", ps3_path);
+				RxConsole::PutFormat(L"\n\tFailure: %s\n", ps3_path);
 			}
 		}
 		break;
 
 		default:
 		{
-			Rut::RxStream::PutConsole(L"\n");
-			Rut::RxStream::PutConsole(L"\tExtract: PS3TextEditor.exe [ps3 path] [json path] [extract codepage]\n");
-			Rut::RxStream::PutConsole(L"\tInsert: PS3TextEditor.exe [ps3 path] [json path] [new ps3 path] [insert codepage]\n\n");
-			Rut::RxStream::PutConsole(L"\tPS3TextEditor sn1010.ps3 sn1010.ps3.json 936\n");
-			Rut::RxStream::PutConsole(L"\tPS3TextEditor sn1010.ps3 sn1010.ps3.json sn1010.ps3.new 936\n");
+			RxConsole::Put(L"\n");
+			RxConsole::Put(L"\tExtract: PS3TextEditor.exe [ps3 path] [json path] [extract codepage]\n");
+			RxConsole::Put(L"\tInsert: PS3TextEditor.exe [ps3 path] [json path] [new ps3 path] [insert codepage]\n\n");
+			RxConsole::Put(L"\tPS3TextEditor sn1010.ps3 sn1010.ps3.json 936\n");
+			RxConsole::Put(L"\tPS3TextEditor sn1010.ps3 sn1010.ps3.json sn1010.ps3.new 936\n");
 		}
 		}
 	}
 	catch (const std::runtime_error& err)
 	{
-		Rut::RxStream::PutConsole("\nException:\n\t");
-		Rut::RxStream::PutConsole(err.what());
-		Rut::RxStream::PutConsole("\n");
+		RxConsole::Put("\nException:\n\t");
+		RxConsole::Put(err.what());
+		RxConsole::Put("\n");
 	}
 	
 }

@@ -1,5 +1,5 @@
 ﻿#include "Parser.h"
-#include "../../Rut/RxStream.h"
+#include "../../Rut/RxFS.h"
 
 
 namespace Rut::RxJson
@@ -237,7 +237,7 @@ namespace Rut::RxJson
 
 	void Parser::Open(std::wstring_view wsJson)
 	{
-		RxStream::Text{ wsJson,RIO::RIO_IN, RFM::RFM_UTF8 }.ReadRawText(m_wsJson);
+		RxFS::Text{ wsJson,RIO::RIO_IN, RFM::RFM_UTF8 }.ReadRawText(m_wsJson);
 		m_iteChar = m_wsJson.begin();
 	}
 
@@ -249,9 +249,8 @@ namespace Rut::RxJson
 
 	void Parser::Save(Value& rfJVaue, std::wstring_view wsFileName)
 	{
-		RxStream::Text ofs = { wsFileName, RIO::RIO_OUT, RFM::RFM_UTF8 };
 		std::wstring text;
 		rfJVaue.Dump(text);
-		ofs << text;
+		RxFS::Text{ wsFileName, RIO::RIO_OUT, RFM::RFM_UTF8 }.WriteLine(text);
 	}
 }

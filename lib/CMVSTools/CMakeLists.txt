@@ -12,8 +12,7 @@ link_libraries("${THIRD_DIR}/libwebp/lib/libwebp.lib")
 
 # Set Source File Path
 list(APPEND SRC_FILE 
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/CMV/CMV_Editor.cpp" 
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/CMV/CMV6_Hook.cpp" 
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/FileHook/FileHook.cpp" 
     "${CMAKE_CURRENT_SOURCE_DIR}/src/MGV/MGV_Editor.cpp" 
     "${CMAKE_CURRENT_SOURCE_DIR}/src/PS3/PS3_Coder.cpp" 
     "${CMAKE_CURRENT_SOURCE_DIR}/src/PS3/PS3_Editor.cpp" )

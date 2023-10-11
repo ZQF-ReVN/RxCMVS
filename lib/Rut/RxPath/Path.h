@@ -75,9 +75,6 @@ namespace Rut::RxPath
 	std::wstring CurrentDirW();
 }
 
-
-#ifdef WIN32
-
 namespace Rut::RxPath
 {
 	size_t ModulePath(char* cpBuf, void* pBase = nullptr);
@@ -90,5 +87,3 @@ namespace Rut::RxPath
 	std::string ModuleNameA(void* pBase = nullptr);
 	std::wstring ModuleNameW(void* pBase = nullptr);
 }
-
-#endif // WIN32

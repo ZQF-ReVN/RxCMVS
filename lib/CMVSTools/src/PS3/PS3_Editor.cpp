@@ -1,13 +1,13 @@
 #include "PS3_Editor.h"
-#include "../../../RxJson/RxJson.h"
+#include "../../../Rut/RxFS.h"
 #include "../../../Rut/RxCvt.h"
+#include "../../../RxJson/RxJson.h"
+
+using namespace Rut;
 
 
 namespace CMVS::PS3
 {
-	using namespace Rut;
-
-
 	void Editor::Init(std::wstring_view wsPath, bool isDecode)
 	{
 		m_wsPath = wsPath;
@@ -54,7 +54,7 @@ namespace CMVS::PS3
 
 
 		// Write Append Data
-		RxStream::AutoMem append_text_data;
+		RxMem::Auto append_text_data;
 		append_text_data.SetSize(append_text_size);
 		uint8_t* append_text_ptr = append_text_data.GetPtr();
 		for (auto& entry : m_vecTextIndex)
@@ -107,7 +107,7 @@ namespace CMVS::PS3
 		std::wstring text;
 		json_root.Dump(text);
 
-		RxStream::Text{ wsPath, Rut::RIO::RIO_OUT, Rut::RFM::RFM_UTF8 }.WriteLine(text);
+		RxFS::Text{ wsPath, Rut::RIO::RIO_OUT, Rut::RFM::RFM_UTF8 }.WriteLine(text);
 	}
 
 

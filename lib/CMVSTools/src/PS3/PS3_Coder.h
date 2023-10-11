@@ -1,5 +1,5 @@
 #pragma once
-#include "../../../Rut/RxStream.h"
+#include "../../../Rut/RxMem.h"
 
 
 namespace CMVS::PS3
@@ -7,8 +7,8 @@ namespace CMVS::PS3
     class Coder
     {
     public:
-        static void Decode(std::wstring_view wsPath, Rut::RxStream::AutoMem& rfDecode);
-        static void Encode(std::wstring_view wsPath, Rut::RxStream::AutoMem& rfEncode);
+        static void Decode(std::wstring_view wsPath, Rut::RxMem::Auto& rfDecode);
+        static void Encode(std::wstring_view wsPath, Rut::RxMem::Auto& rfEncode);
 
     private:
         static void KeyDecData(uint8_t* pData, size_t uiDataSize, uint32_t uiKey);
