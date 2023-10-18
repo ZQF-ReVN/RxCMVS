@@ -1,4 +1,6 @@
-﻿#include "../../lib/Rut/RxConsole.h"
+﻿#include <stdexcept>
+
+#include "../../lib/Rut/RxConsole.h"
 #include "../../lib/CMVSTools/PS3.h"
 
 using namespace Rut;

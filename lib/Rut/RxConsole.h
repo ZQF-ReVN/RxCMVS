@@ -1,4 +1,4 @@
 ﻿#pragma once
 
-#include "RxConsole/Put.h"
-#include "RxConsole/Alloc.h"
+#include "Core/RxConsole/Put.h"
+#include "Core/RxConsole/Alloc.h"

@@ -1,5 +1,5 @@
 ﻿#include "Value.h"
-#include "../../Rut/RxCvt.h"
+#include "../../Rut/RxStr.h"
 
 
 namespace Rut::RxINI
@@ -76,7 +76,7 @@ namespace Rut::RxINI
 
 	Value::operator const std::string() const
 	{
-		return RxCvt::ToMBCS(m_wsValue, 0);
+		return RxStr::ToMBCS(m_wsValue, 0);
 	}
 
 	Value::operator const std::wstring() const

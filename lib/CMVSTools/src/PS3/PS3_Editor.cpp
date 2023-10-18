@@ -1,6 +1,6 @@
 #include "PS3_Editor.h"
-#include "../../../Rut/RxFS.h"
-#include "../../../Rut/RxCvt.h"
+#include "../../../Rut/RxFile.h"
+#include "../../../Rut/RxStr.h"
 #include "../../../RxJson/RxJson.h"
 
 using namespace Rut;
@@ -39,7 +39,7 @@ namespace CMVS::PS3
 		{
 			// Read Text
 			Text_Entry& entry = m_vecTextIndex[ite];
-			entry.msText = RxCvt::ToMBCS(jarr_scn[ite][L"Text_Tra"], nCodePage);
+			entry.msText = RxStr::ToMBCS(jarr_scn[ite][L"Text_Tra"], nCodePage);
 
 			if (entry.msText.empty()) { throw std::runtime_error("CMVS::PS3::Editor::Insert Error! Text Empty"); }
 
@@ -81,7 +81,7 @@ namespace CMVS::PS3
 		auto fn_ToHexStr = [](uint32_t uiValue) -> std::wstring
 			{
 				wchar_t buf[25] = { 0 };
-				wsprintf(buf, L"0x%08X", uiValue);
+				RxStr::Sprintf(buf, 25, L"0x%08X", uiValue);
 				return buf;
 			};
 
@@ -93,7 +93,7 @@ namespace CMVS::PS3
 		for (auto& entry : m_vecTextIndex)
 		{
 			std::wstring text;
-			RxCvt::ToWCS(entry.msText, text, nCodePage);
+			RxStr::ToWCS(entry.msText, text, nCodePage);
 
 			RxJson::JObject jobj_info;
 			jobj_info[L"Text_Raw"] = text;
@@ -104,10 +104,7 @@ namespace CMVS::PS3
 			jarr_scn.push_back(jobj_info);
 		}
 
-		std::wstring text;
-		json_root.Dump(text);
-
-		RxFS::Text{ wsPath, Rut::RIO::RIO_OUT, Rut::RFM::RFM_UTF8 }.WriteLine(text);
+		RxJson::Parser::Save(json_root, wsPath);
 	}
 
 

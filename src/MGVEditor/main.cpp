@@ -1,6 +1,6 @@
 ﻿#include <iostream>
 
-#include "../../lib/CMVSTools/src/MGV/MGV_Editor.h"
+#include "../../lib/CMVSTools/MGV.h"
 
 using namespace CMVS::MGV;
 

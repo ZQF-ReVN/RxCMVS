@@ -1,9 +1,8 @@
 ﻿#include "Put.h"
-#include "../RxCvt.h"
+#include "../../RxStr.h"
+#include "../../Platform/Platform.h"
 
 #include <string>
-#include <stdio.h>
-#include <Windows.h>
 
 
 namespace Rut::RxConsole
@@ -18,7 +17,7 @@ namespace Rut::RxConsole
 
 	bool Put(const char* cpStr, uint32_t nChar)
 	{
-		return WriteConsoleA(GetStdHandle(STD_OUTPUT_HANDLE), cpStr, nChar, NULL, NULL);
+		return Platform::PutConsole(cpStr, nChar);
 	}
 
 	bool Put(std::string_view msStr)
@@ -33,7 +32,7 @@ namespace Rut::RxConsole
 
 	bool Put(const wchar_t* wpStr, uint32_t nChar)
 	{
-		return WriteConsoleW(GetStdHandle(STD_OUTPUT_HANDLE), wpStr, nChar, NULL, NULL);
+		return Platform::PutConsole(wpStr, nChar);
 	}
 
 	bool Put(std::wstring_view wsStr)
@@ -44,7 +43,7 @@ namespace Rut::RxConsole
 	bool PutMBCS(const char* cpStr, uint32_t uiCodePage)
 	{
 		std::wstring out_str;
-		int32_t cch = RxCvt::ToWCS(cpStr, out_str, uiCodePage);
+		size_t cch = RxStr::ToWCS(cpStr, out_str, uiCodePage);
 		return Put(out_str.c_str(), cch);
 	}
 
@@ -59,11 +58,10 @@ namespace Rut::RxConsole
 
 		va_list args = nullptr;
 		va_start(args, cpFormat);
-		int32_t cch = vsprintf_s(buffer, sg_uiBufferCount, cpFormat, args);
-		if (cch <= 0) { return false; }
+		size_t cch = Platform::Sprintf_V(buffer, sg_uiBufferCount, cpFormat, args);
 		va_end(args);
 
-		return Put(buffer, cch);
+		return (cch <= 0) ? (false) : (Put(buffer, cch));
 	}
 
 	bool PutFormat(const wchar_t* cpFormat, ...)
@@ -72,10 +70,9 @@ namespace Rut::RxConsole
 
 		va_list args = nullptr;
 		va_start(args, cpFormat);
-		int32_t cch = vswprintf_s(buffer, sg_uiBufferCount, cpFormat, args);
-		if (cch <= 0) { return false; }
+		int32_t cch = Platform::Sprintf_V(buffer, sg_uiBufferCount, cpFormat, args);
 		va_end(args);
 
-		return Put(buffer, cch);
+		return (cch <= 0) ? (false) : (Put(buffer, cch));
 	}
 }

@@ -1,4 +1,5 @@
 ﻿#include "Auto.h"
+#include "../../RxFile.h"
 
 
 namespace Rut::RxMem
@@ -16,6 +17,26 @@ namespace Rut::RxMem
 	Auto::Auto(Auto&& buffer)noexcept :Auto()
 	{ 
 		this->Move(buffer);
+	}
+
+	Auto::Auto(std::string_view msPath) : Auto() 
+	{ 
+		this->LoadFile(msPath);
+	}
+
+	Auto::Auto(std::wstring_view wsPath) : Auto() 
+	{
+		this->LoadFile(wsPath);
+	}
+
+	Auto::Auto(std::string_view msPath, size_t szFile) : Auto() 
+	{ 
+		this->LoadFile(msPath, szFile);
+	}
+
+	Auto::Auto(std::wstring_view wsPath, size_t szFile) : Auto() 
+	{ 
+		this->LoadFile(wsPath, szFile);
 	}
 
 	Auto::~Auto()
@@ -86,6 +107,32 @@ namespace Rut::RxMem
 	{
 		this->~Auto();
 		return this->Copy(rfAutoMem);
+	}
+
+	void Auto::SaveData(std::string_view msPath)
+	{
+		RxFile::SaveFileViaPath(msPath, m_pMemData, m_uiMemSize);
+	}
+
+	void Auto::SaveData(std::wstring_view wsPath)
+	{
+		RxFile::SaveFileViaPath(wsPath, m_pMemData, m_uiMemSize);
+	}
+
+	uint8_t* Auto::LoadFile(std::string_view msPath, size_t nSize)
+	{
+		RxFile::Binary ifs{ msPath, RIO_READ };
+		if (nSize == AutoMem_AutoSize) { nSize = ifs.GetSize(); }
+		ifs.Read(SetSize(nSize), nSize);
+		return m_pMemData;
+	}
+
+	uint8_t* Auto::LoadFile(std::wstring_view wsPath, size_t nSize)
+	{
+		RxFile::Binary ifs{ wsPath, RIO_READ };
+		if (nSize == AutoMem_AutoSize) { nSize = ifs.GetSize(); }
+		ifs.Read(SetSize(nSize), nSize);
+		return m_pMemData;
 	}
 
 	uint8_t* Auto::GetPtr()

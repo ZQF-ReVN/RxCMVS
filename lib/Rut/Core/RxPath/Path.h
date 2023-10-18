@@ -39,51 +39,30 @@ namespace Rut::RxPath
 	std::string FormatSlash(std::string msPath, char cSlash);
 	std::wstring FormatSlash(std::wstring wsPath, wchar_t wcSlash);
 
-	bool Exist(const char* cpPath);
-	bool Exist(const wchar_t* wpPath);
 	bool Exist(std::string_view msPath);
 	bool Exist(std::wstring_view wsPath);
 
-	bool DirExist(const char* cpPath);
-	bool DirExist(const wchar_t* wpPath);
 	bool DirExist(std::string_view msPath);
 	bool DirExist(std::wstring_view wsPath);
 
-	bool FileExist(const char* cpPath);
-	bool FileExist(const wchar_t* wpPath);
 	bool FileExist(std::string_view msPath);
 	bool FileExist(std::wstring_view wsPath);
 
-	bool MakeDir(const char* cpPath);
-	bool MakeDir(const wchar_t* wpPath);
 	bool MakeDir(std::string_view msPath);
 	bool MakeDir(std::wstring_view wsPath);
 
-	bool MakeDirViaPath(const char* cpPath);
-	bool MakeDirViaPath(const wchar_t* cpPath);
 	bool MakeDirViaPath(std::string_view msPath);
 	bool MakeDirViaPath(std::wstring_view wsPath);
 
-	std::uintmax_t FileSize(const char* cpPath);
-	std::uintmax_t FileSize(const wchar_t* wpPath);
 	std::uintmax_t FileSize(std::string_view msPath);
 	std::uintmax_t FileSize(std::wstring_view wsPath);
 
-	size_t CurrentDir(char* pPath);
-	size_t CurrentDir(wchar_t* pPath);
-	std::string  CurrentDirA();
-	std::wstring CurrentDirW();
-}
+	std::string  ModuleDirA();
+	std::wstring ModuleDirW();
 
-namespace Rut::RxPath
-{
-	size_t ModulePath(char* cpBuf, void* pBase = nullptr);
-	size_t ModulePath(wchar_t* wpBuf, void* pBase = nullptr);
 	std::string  ModulePathA(void* pBase = nullptr);
 	std::wstring ModulePathW(void* pBase = nullptr);
 
-	size_t ModuleName(char* cpBuf, void* pBase = nullptr);
-	size_t ModuleName(wchar_t* wpBuf, void* pBase = nullptr);
 	std::string ModuleNameA(void* pBase = nullptr);
 	std::wstring ModuleNameW(void* pBase = nullptr);
 }

@@ -1,101 +1,79 @@
 ﻿#include "Text.h"
-#include "../RxCvt/Cvt.h"
+#include "../../RxStr.h"
 
 
-namespace Rut::RxFS
+namespace Rut::RxFile
 {
+	Text::Text() : m_rxFormat(RFM_ANSI)
+	{
+
+	}
+
+	Text::Text(std::string_view msPath, size_t nMode, size_t nFormat) : m_rxFormat(nFormat)
+	{
+		this->Create(msPath, nMode);
+		this->EnsureBom(nMode);
+	}
+
+	Text::Text(std::wstring_view wsPath, size_t nMode, size_t nFormat) : m_rxFormat(nFormat)
+	{
+		this->Create(wsPath, nMode);
+		this->EnsureBom(nMode);
+	}
+
 	void Text::WriteBOM()
 	{
 		switch (m_rxFormat)
 		{
-		case RFM::RFM_UTF8:
-			Write((char*)"\xEF\xBB\xBF", 3);
-			break;
-		case RFM::RFM_UTF16:
-			Write((void*)"\xFF\xFE", 2);
-			break;
+		case RFM_UTF8: Write((void*)"\xEF\xBB\xBF", 3); break;
+		case RFM_UTF16: Write((void*)"\xFF\xFE", 2); break;
 		}
 	}
 
 	void Text::CheckBOM()
 	{
-		uint32_t bom = 0; this->Read(&bom, sizeof(bom));
+		uint32_t bom = 0, bom_size = 0;
+		this->Read(&bom, sizeof(bom));
 
 		switch (m_rxFormat)
 		{
-		case RFM::RFM_UTF8:
+		case RFM_UTF8: { if ((bom & 0x00FFFFFFU) == 0x00BFBBEFU) { bom_size = 3; }}break;
+		case RFM_UTF16: { if ((bom & 0x0000FFFFU) == 0x0000FEFF) { bom_size = 2; }}break;
+		}
+
+		this->SetPos(bom_size, RIO_BEGIN);
+	}
+
+	void Text::EnsureBom(size_t nMode)
+	{
+		if (this->GetSize())
 		{
-			if ((bom & 0x00FFFFFFU) == 0x00BFBBEFU) { this->MovePos(-1); return; } // Skip BOM
+			if (nMode & RIO_IN) { this->CheckBOM(); }
 		}
-		break;
-
-		case RFM::RFM_UTF16:
+		else
 		{
-			if ((bom & 0x0000FFFFU) == 0x0000FEFF) { this->MovePos(-2); return; } // Skip BOM
+			if (nMode & RIO_OUT) { this->WriteBOM(); }
 		}
-		break;
-		}
-
-		this->MovePos(-4); // Not BOM Back Pointer
-	}
-
-	void Text::EnsureBOM(RIO emAccess)
-	{
-		switch (emAccess)
-		{
-		case RIO::RIO_IN:
-			CheckBOM();
-			break;
-		case RIO::RIO_OUT:
-			WriteBOM();
-			break;
-		case RIO::RIO_IN_OUT:
-			CheckBOM();
-			break;
-		}
-	}
-
-
-	size_t Text::WriteLine(const char* cpStr)
-	{
-		size_t char_count = strlen(cpStr);
-		return WriteLine((char*)cpStr, char_count);
-	}
-
-	size_t Text::WriteLine(const wchar_t* cpStr)
-	{
-		size_t wchar_len = wcslen(cpStr);
-		return WriteLine(cpStr, wchar_len);
-	}
-
-	size_t Text::WriteLine(std::string_view msStr)
-	{
-		return WriteLine(msStr.data(), msStr.size());
 	}
 
 	size_t Text::WriteLine(std::wstring_view wsStr)
 	{
-		return WriteLine(wsStr.data(), wsStr.size());
-	}
-
-	size_t Text::WriteLine(const wchar_t* cpStr, size_t nChar)
-	{
 		switch (m_rxFormat)
 		{
-		case RFM::RFM_ANSI:
-		case RFM::RFM_UTF8:
+		case RFM_ANSI:
+		case RFM_UTF8:
 		{
 			std::string mbcs;
-			uint32_t code_page = CP_ACP;
-			if (m_rxFormat == RFM_UTF8) { code_page = CP_UTF8; }
-			RxCvt::ToMBCS(cpStr, mbcs, code_page);
+			uint32_t code_page = 0;
+			if (m_rxFormat == RFM_UTF8) { code_page = 65001; }
+			RxStr::ToMBCS(wsStr, mbcs, code_page);
 			return Write(mbcs.data(), mbcs.size());
 		}
 		break;
 
-		case RFM::RFM_UTF16:
+		case RFM_UTF16:
 		{
-			return Write((wchar_t*)cpStr, nChar * 2);
+			return Write((wchar_t*)wsStr.data(), wsStr.size() * sizeof(wchar_t));
 		}
 		break;
 		}
@@ -103,30 +81,30 @@ namespace Rut::RxFS
 		return 0;
 	}
 
-	size_t Text::WriteLine(const char* cpStr, size_t nChar)
+	size_t Text::WriteLine(std::string_view msStr)
 	{
 		switch (m_rxFormat)
 		{
-		case RFM::RFM_ANSI:
+		case RFM_ANSI:
 		{
-			return Write((char*)cpStr, nChar);
+			return Write((char*)msStr.data(), msStr.size());
 		}
 		break;
 
-		case RFM::RFM_UTF8:
+		case RFM_UTF8:
 		{
 			std::string u8str;
 			std::wstring u16str;
-			RxCvt::ToWCS(cpStr, u16str, CP_ACP);
-			RxCvt::ToMBCS(u16str, u8str, CP_UTF8);
+			RxStr::ToWCS(msStr, u16str, 0);
+			RxStr::ToMBCS(u16str, u8str, 65001);
 			return Write(u8str.data(), u8str.size());
 		}
 		break;
 
-		case RFM::RFM_UTF16:
+		case RFM_UTF16:
 		{
 			std::wstring wide;
-			RxCvt::ToWCS(cpStr, wide, CP_ACP);
+			RxStr::ToWCS(msStr, wide, 0);
 			return Write(wide.data(), (wide.size() * 2));
 		}
 		break;
@@ -189,10 +167,7 @@ namespace Rut::RxFS
 		}
 
 		char* str_end = (char*)(text.end()._Ptr);
-		if (line_beg < str_end)
-		{
-			fnPerline(line_beg, str_end);
-		}
+		if (line_beg < str_end) { fnPerline(line_beg, str_end); }
 	}
 
 	void Text::ReadAllLine(std::function<bool(wchar_t*, wchar_t*)> fnPerline)
@@ -211,46 +186,43 @@ namespace Rut::RxFS
 		}
 
 		wchar_t* str_end = (wchar_t*)(text.end()._Ptr);
-		if (line_beg < str_end)
-		{
-			fnPerline(line_beg, str_end);
-		}
+		if (line_beg < str_end) { fnPerline(line_beg, str_end); }
 	}
 
 
 	void Text::ReadRawText(std::string& msText)
 	{
-		size_t bom = this->GetPos();
-		size_t size = this->GetSize() - bom;
+		size_t bom_size = this->GetPos();
+		size_t raw_size = this->GetSize() - bom_size;
 
 		switch (m_rxFormat)
 		{
 		case RFM_ANSI:
 		{
-			msText.resize(size);
-			this->Read(msText.data(), size);
+			msText.resize(raw_size);
+			this->Read(msText.data(), raw_size);
 		}
 		break;
 		case RFM_UTF8:
 		{
-			char* buf = new char[size + 1];
-			this->Read(buf, size);
-			buf[size] = '\0';
+			char* buf = new char[raw_size + 1];
+			this->Read(buf, raw_size);
+			buf[raw_size] = '\0';
 
 			std::wstring wstr;
-			RxCvt::ToWCS({ buf, size }, wstr, CP_UTF8);
-			RxCvt::ToMBCS(wstr, msText, CP_UTF8);
+			RxStr::ToWCS({ buf, raw_size }, wstr, 65001);
+			RxStr::ToMBCS(wstr, msText, 65001);
 			delete[] buf;
 		}
 		break;
 		case RFM_UTF16:
 		{
-			size_t cch = size / sizeof(wchar_t);
+			size_t cch = raw_size / sizeof(wchar_t);
 			wchar_t* buf = new wchar_t[cch + 1];
-			this->Read(buf, size);
+			this->Read(buf, raw_size);
 			buf[cch] = '\0';
 
-			RxCvt::ToMBCS({ buf, cch }, msText, CP_ACP);
+			RxStr::ToMBCS({ buf, cch }, msText, 0);
 			delete[] buf;
 		}
 		break;
@@ -259,28 +231,28 @@ namespace Rut::RxFS
 
 	void Text::ReadRawText(std::wstring& wsText)
 	{
-		size_t bom = this->GetPos();
-		size_t size = this->GetSize() - bom;
+		size_t bom_size = this->GetPos();
+		size_t raw_size = this->GetSize() - bom_size;
 
 		switch (m_rxFormat)
 		{
 		case RFM_ANSI:
 		case RFM_UTF8:
 		{
-			char* buf = new char[size + 1];
-			this->Read(buf, size);
-			buf[size] = '\0';
+			char* buf = new char[raw_size + 1];
+			this->Read(buf, raw_size);
+			buf[raw_size] = '\0';
 
-			uint32_t code_page = CP_ACP;
-			if (m_rxFormat == RFM_UTF8) { code_page = CP_UTF8; }
-			RxCvt::ToWCS({ buf, size }, wsText, code_page);
+			uint32_t code_page = 0;
+			if (m_rxFormat == RFM_UTF8) { code_page = 65001; }
+			RxStr::ToWCS({ buf, raw_size }, wsText, code_page);
 			delete[] buf;
 		}
 		break;
 		case RFM_UTF16:
 		{
-			wsText.resize(size / sizeof(wchar_t));
-			this->Read(wsText.data(), size);
+			wsText.resize(raw_size / sizeof(wchar_t));
+			this->Read(wsText.data(), raw_size);
 		}
 		break;
 		}
@@ -304,7 +276,7 @@ namespace Rut::RxFS
 
 	void Text::Rewind()
 	{
-		this->SetPos(0);
+		this->SetPos(0, RIO_BEGIN);
 	}
 
 }

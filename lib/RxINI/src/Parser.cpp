@@ -1,6 +1,6 @@
 ﻿#include "Parser.h"
 #include "../../Rut/RxStr.h"
-#include "../../Rut/RxFS.h"
+#include "../../Rut/RxFile.h"
 
 #include <sstream>
 
@@ -20,7 +20,7 @@ namespace Rut::RxINI
 	void Parser::Parse(const std::wstring& wsINI)
 	{
 		std::vector<std::wstring> text_line;
-		RxFS::Text wifs_ini = { wsINI, RIO_IN, RFM_UTF8 };
+		RxFile::Text wifs_ini = { wsINI, RIO_IN, RFM_UTF8 };
 		wifs_ini.ReadAllLine(text_line);
 
 		std::size_t pos = -1;
@@ -55,9 +55,9 @@ namespace Rut::RxINI
 
 	void Parser::Save(const std::wstring& wsFile)
 	{
-		RxFS::Text wofs_ini{ wsFile, RIO_OUT, RFM_UTF8 };
+		RxFile::Text wofs_ini{ wsFile, RIO_OUT, RFM_UTF8 };
 		std::wstring dump = Dump();
-		wofs_ini.WriteLine(dump.data(), dump.size());
+		wofs_ini.WriteLine(dump);
 	}
 
 	std::wstring Parser::Dump()

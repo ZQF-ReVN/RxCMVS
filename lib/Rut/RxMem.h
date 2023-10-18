@@ -1,3 +1,3 @@
 ﻿#pragma once
 
-#include "RxMem/Auto.h"
+#include "Core/RxMem/Auto.h"

@@ -1,3 +1,3 @@
 #pragma once
 
-#include "RxStr/Trim.h"
+#include "Core/RxStr/RxStr.h"

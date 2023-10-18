@@ -12,7 +12,7 @@ VOID StartHook(HMODULE hDllBase)
 {
 	try
 	{
-		RxINI::Parser ini(RxPath::NotSuffix(RxPath::ModuleNameW(hDllBase)) + L".ini");
+		RxINI::Parser ini(RxPath::NotSuffix(RxPath::ModulePathW(hDllBase)) + L".ini");
 
 		std::wstring seleted_game_name = ini.Get(L"CMVS_File_Hook", L"GameSelected");
 

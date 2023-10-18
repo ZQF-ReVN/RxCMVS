@@ -27,6 +27,6 @@ namespace Rut::RxJson
 
 		void Open(std::wstring_view wsJson);
 		bool Read(Value& rfJValue);
-		void Save(Value& rfJVaue, std::wstring_view wsFileName);
+		static void Save(Value& rfJVaue, std::wstring_view wsFileName);
 	};
 }
