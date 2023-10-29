@@ -1,27 +1,62 @@
 ﻿#include "Parser.h"
 #include "../../Rut/RxFile.h"
 
+#include <assert.h>
+
 
 namespace Rut::RxJson
 {
 	Parser::Parser()
 	{
-
+		m_wpJson = nullptr;
+		m_nJsonCCH = 0;
+		m_nReadCCH = 0;
 	}
+
+	Parser::~Parser()
+	{
+		if (m_wpJson)
+		{
+			delete[] m_wpJson;
+		}
+	}
+
+
+	void Parser::AddReadCCH(size_t nCount)
+	{
+		this->m_nReadCCH += nCount;
+	}
+
+	wchar_t Parser::GetCurChar()
+	{
+		return m_wpJson[m_nReadCCH];
+	}
+
+	wchar_t* Parser::GetCurPtr()
+	{
+		return m_wpJson + m_nReadCCH;
+	}
+
+	size_t Parser::GeReadCCH()
+	{
+		return m_nReadCCH;
+	}
+
+	size_t Parser::GetJsonCCH()
+	{
+		return this->m_nJsonCCH;
+	}
+
 
 	wchar_t Parser::SkipWhite()
 	{
 		while (true)
 		{
-			wchar_t tmp_char = m_iteChar[0];
+			wchar_t tmp_char = this->GetCurChar();
 			switch (tmp_char)
 			{
-			case L' ':
-			case L'\t':
-			case L'\n':
-			case L'\r':
-				m_iteChar++;
-				continue;
+			case L'\t': case L'\n':case L'\r':
+			case L' ': this->AddReadCCH(); continue;
 			}
 			return tmp_char;
 		}
@@ -29,90 +64,80 @@ namespace Rut::RxJson
 
 	wchar_t Parser::GetToken()
 	{
-		wchar_t tmp_char = SkipWhite();
+		wchar_t tmp_char = this->SkipWhite();
 
 		switch (tmp_char)
 		{
 		case L'{':case L'}':
 		case L'[':case L']':
-		case L'"':case L':':case L',':
+		case L'"':case L':':
 		case L'n':case L't':case L'f':
-		case L'0':case L'1':case L'2':case L'3':
-		case L'4':case L'5':case L'6':case L'7':
-		case L'8':case L'9':case L'-':return tmp_char;
+		case L'0':case L'1':case L'2':
+		case L'3':case L'4':case L'5':
+		case L'6':case L'7':case L'8':
+		case L'9':case L'-':return tmp_char;
+		case L',':this->AddReadCCH(); return this->GetToken();
+		default: throw std::runtime_error("Not Find Token");
 		}
-
-		throw std::runtime_error("Not Find Token");
 	}
 
 
 	void Parser::ParseArray(Value& rfJValue)
 	{
-		m_iteChar++;
+		assert(this->GetCurChar() == L'[');
 
-		while (true)
+		this->AddReadCCH();
+
+		while (this->GetToken() != L']')
 		{
-			switch (GetToken())
-			{
-			case L',': // end of element
-			{
-				m_iteChar++;
-			}
-			break;
-
-			case L']': // end of array
-			{
-				m_iteChar++;
-				rfJValue.SureArray();
-				return;
-			}
-			break;
-
-			default: // parse value
-			{
-				Value value;
-				ParseValue(value);
-				rfJValue.Append(std::move(value));
-			}
-			}
+			Value value;
+			this->ParseValue(value);
+			rfJValue.Append(std::move(value));
 		}
+
+		this->AddReadCCH();
+
+		rfJValue.SureArray();
+		return;
 	}
 
 	void Parser::ParseObject(Value& rfJValue)
 	{
-		m_iteChar++;
+		assert(this->GetCurChar() == L'{');
 
-		std::wstring key;
+		this->AddReadCCH();
+
+		std::wstring_view key;
 		while (true)
 		{
-			switch (GetToken())
+			switch (this->GetToken())
 			{
-			case L'"': // check if key
+			case L'"': // parse key
 			{
-				m_iteChar++;
-				ParseKey(key);
+				this->AddReadCCH();
+
+				wchar_t* beg = this->GetCurPtr();
+				wchar_t* end = ::wcschr(beg, L'"');
+				key = { beg, end };
+
+				this->AddReadCCH((end - beg) + 1);
 			}
 			break;
 
 			case L':': // check key : value
 			{
-				m_iteChar++;
-				SkipWhite();
-				Value value;
-				ParseValue(value);
-				rfJValue.AddKey(key, std::move(value));
-			}
-			break;
+				this->AddReadCCH();
+				this->SkipWhite();
 
-			case L',': // check end of key / value
-			{
-				m_iteChar++;
+				Value value;
+				this->ParseValue(value);
+				rfJValue.AddKey(key, std::move(value));
 			}
 			break;
 
 			case L'}': // end of object
 			{
-				m_iteChar++;
+				this->AddReadCCH();
 				rfJValue.SureObject();
 				return;
 			}
@@ -126,8 +151,10 @@ namespace Rut::RxJson
 	void Parser::ParseNumber(Value& rfJValue)
 	{
 		wchar_t* end = nullptr;
-		double num_org = wcstod(m_iteChar._Ptr, &end);
-		m_iteChar._Ptr = end;
+		wchar_t* beg = this->GetCurPtr();
+		double num_org = ::wcstod(beg, &end);
+
+		this->AddReadCCH(end - beg);
 
 		int num_int = (int)(num_org);
 		double num_loss = (double)(num_int);
@@ -135,42 +162,43 @@ namespace Rut::RxJson
 		num_org == num_loss ? (rfJValue = (int)num_int) : (rfJValue = num_org);
 	}
 
-	static uint8_t Char2Num(wchar_t cChar)
-	{
-		if ((uint16_t)cChar >= 0x41) // A-Z
-		{
-			return (uint8_t)(cChar - 0x37);
-		}
-		else // 0-9
-		{
-			return (uint8_t)(cChar - 0x30);
-		}
-	}
-
-	static uint16_t MakeUnicode(const wchar_t* wpStr)
-	{
-		uint8_t hex_0 = Char2Num(wpStr[0]);
-		uint8_t hex_1 = Char2Num(wpStr[1]);
-		uint8_t hex_2 = Char2Num(wpStr[2]);
-		uint8_t hex_3 = Char2Num(wpStr[3]);
-
-		return (hex_0 << 12) | (hex_1 << 8) | (hex_2 << 4) | (hex_3 << 0);
-	}
-
 	void Parser::ParseString(Value& rfJValue)
 	{
-		m_iteChar++;
+		auto fn_make_unicode = [](const wchar_t* wpStr) -> uint32_t
+			{
+				auto fn_char2num = [](wchar_t cChar) -> uint8_t
+					{
+						if ((uint16_t)cChar >= 0x41) // A-Z
+						{
+							return (uint8_t)(cChar - 0x37);
+						}
+						else // 0-9
+						{
+							return (uint8_t)(cChar - 0x30);
+						}
+					};
 
-		wchar_t ch = 0;
+				uint8_t hex_0 = fn_char2num(wpStr[0]);
+				uint8_t hex_1 = fn_char2num(wpStr[1]);
+				uint8_t hex_2 = fn_char2num(wpStr[2]);
+				uint8_t hex_3 = fn_char2num(wpStr[3]);
+
+				return (hex_0 << 12) | (hex_1 << 8) | (hex_2 << 4) | (hex_3 << 0);
+			};
+
+		assert(this->GetCurChar() == '"');
+
+		this->AddReadCCH();
+
 		std::wstring text;
 		while (true)
 		{
-			ch = m_iteChar[0];
+			wchar_t ch = this->GetCurChar();
 
 			if (ch == L'\\') // control characters
 			{
-				m_iteChar++;
-				wchar_t ctrl_char = m_iteChar[0];
+				this->AddReadCCH();
+				wchar_t ctrl_char = this->GetCurChar();
 
 				switch (ctrl_char)
 				{
@@ -183,9 +211,9 @@ namespace Rut::RxJson
 				case L't': ctrl_char = L'\t'; break;
 				case L'u':
 				{
-					m_iteChar++;
-					ctrl_char = (wchar_t)MakeUnicode(m_iteChar._Ptr);
-					m_iteChar += 3;
+					this->AddReadCCH();
+					ctrl_char = (wchar_t)fn_make_unicode(this->GetCurPtr());
+					this->AddReadCCH(3);
 				}
 				break;
 
@@ -196,55 +224,78 @@ namespace Rut::RxJson
 			}
 			else if (ch == L'"') // end
 			{
-				m_iteChar++; // skip " char
+				this->AddReadCCH(); // skip " char
 				break;
 			}
 
 			text.append(1, ch);
-			m_iteChar++; // netx char
+			this->AddReadCCH(); // netx char
 		}
 
 		Value value(std::move(text));
 		rfJValue = std::move(value);
 	}
 
+	void Parser::ParseTrue(Value& rfJValue)
+	{
+		assert(this->GetCurChar() == L't');
+
+		this->AddReadCCH(4);
+		rfJValue = true;
+	}
+
+	void Parser::ParseFalse(Value& rfJValue)
+	{
+		assert(this->GetCurChar() == L'f');
+
+		this->AddReadCCH(5);
+		rfJValue = false;
+	}
+
+	void Parser::ParseNull(Value& rfJValue)
+	{
+		assert(this->GetCurChar() == L'n');
+
+		this->AddReadCCH(4);
+		rfJValue = Value();
+	}
+
 	void Parser::ParseValue(Value& rfJValue)
 	{
-		switch (m_iteChar[0])
+		switch (this->GetCurChar())
 		{
 		case L'{': ParseObject(rfJValue); break; // object
-		case L'[': ParseArray(rfJValue); break; // array
-		case L't': { m_iteChar += 4; rfJValue = true; } break; // true
-		case L'f': { m_iteChar += 5; rfJValue = false; }break; // false
-		case L'n': { m_iteChar += 4; rfJValue = Value(); }break; // null
+		case L'[': ParseArray(rfJValue);  break; // array
+		case L't': ParseTrue(rfJValue);   break; // true
+		case L'f': ParseFalse(rfJValue);  break; // false
+		case L'n': ParseNull(rfJValue);   break; // null
 		case L'"': ParseString(rfJValue); break; // string
 		case L'0':case L'1':case L'2':case L'3':
 		case L'4':case L'5':case L'6':case L'7':
 		case L'8':case L'9':
 		case L'-': ParseNumber(rfJValue); break; // Number
-		default: throw std::runtime_error("ParseValue Error!"); // Error!
+		default: throw std::runtime_error("Json Parse Value Error!");
 		}
-	}
-
-	void Parser::ParseKey(std::wstring& wsKey)
-	{
-		std::wstring::iterator beg = m_iteChar;
-		std::wstring::iterator end = std::find(beg, m_wsJson.end(), L'"');
-		wsKey = { beg, end };
-		m_iteChar = end + 1;
 	}
 
 
 	void Parser::Open(std::wstring_view wsJson)
 	{
-		RxFile::Text{ wsJson, RIO_READ, RFM_UTF8 }.ReadRawText(m_wsJson);
-		m_iteChar = m_wsJson.begin();
+		std::wstring json;
+		RxFile::Text{ wsJson, RIO_READ, RFM_UTF8 }.ReadRawText(json);
+
+		this->m_nJsonCCH = json.size();
+		this->m_wpJson = new wchar_t[m_nJsonCCH + 1];
+		wcsncpy_s(this->m_wpJson, m_nJsonCCH + 1, json.data(), this->m_nJsonCCH);
+		this->m_wpJson[this->m_nJsonCCH] = L'\0';
 	}
 
 	bool Parser::Read(Value& rfJValue)
 	{
-		(GetToken() == L'{') ? (this->ParseObject(rfJValue)) : (throw std::runtime_error("Not Find Object"));
-		return (m_iteChar == m_wsJson.end()) ? (true) : (false);
+		this->ParseValue(rfJValue);
+
+		this->SkipWhite();
+		return (this->GeReadCCH() >= this->GetJsonCCH()) ? (true) : (false);
 	}
 
 	void Parser::Save(Value& rfJVaue, std::wstring_view wsFileName)

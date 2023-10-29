@@ -16,7 +16,7 @@ int wmain(int argc, wchar_t* argv[])
 		{
 			size_t code_page = 932;
 			wchar_t* end = nullptr;
-			code_page = wcstol(argv[3], &end, 10);
+			code_page = ::wcstol(argv[3], &end, 10);
 
 			std::wstring_view ps3_path = argv[1];
 			std::wstring_view out_path = argv[2];
@@ -32,7 +32,7 @@ int wmain(int argc, wchar_t* argv[])
 		{
 			size_t code_page = 936;
 			wchar_t* end = nullptr;
-			code_page = wcstol(argv[3], &end, 10);
+			code_page = ::wcstol(argv[4], &end, 10);
 
 			std::wstring_view ps3_path = argv[1];
 			std::wstring_view json_path = argv[2];

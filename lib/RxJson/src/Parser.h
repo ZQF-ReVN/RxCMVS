@@ -9,22 +9,35 @@ namespace Rut::RxJson
 	class Parser
 	{
 	private:
-		std::wstring m_wsJson;
-		std::wstring::iterator m_iteChar;
+		wchar_t* m_wpJson;
+		size_t m_nJsonCCH;
+		size_t m_nReadCCH;
 
 	public:
 		Parser();
+		~Parser();
 
+	private:
 		wchar_t SkipWhite();
 		wchar_t GetToken();
+
+		void AddReadCCH(size_t nCount = 1);
+		wchar_t GetCurChar();
+		wchar_t* GetCurPtr();
+		size_t GeReadCCH();
+		size_t GetJsonCCH();
 
 		void ParseArray(Value& rfJValue);
 		void ParseObject(Value& rfJValue);
 		void ParseNumber(Value& rfJValue);
 		void ParseString(Value& rfJValue);
-		void ParseValue(Value& rfJValue);
-		void ParseKey(std::wstring& wsKey);
+		void ParseTrue(Value& rfJValue);
+		void ParseFalse(Value& rfJValue);
+		void ParseNull(Value& rfJValue);
 
+		void ParseValue(Value& rfJValue);
+
+	public:
 		void Open(std::wstring_view wsJson);
 		bool Read(Value& rfJValue);
 		static void Save(Value& rfJVaue, std::wstring_view wsFileName);

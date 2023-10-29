@@ -206,24 +206,24 @@ namespace Rut::RxJson
 	void Value::AddKey(std::wstring_view wsKey)
 	{
 		SureObject();
-		(*this->m_Value.pObj)[wsKey.data()];
+		(*this->m_Value.pObj)[std::move(std::wstring(wsKey))];
 	}
 
 	void Value::AddKey(std::wstring_view wsKey, const Value& rfJValue)
 	{
 		SureObject();
-		(*this->m_Value.pObj)[wsKey.data()] = rfJValue;
+		(*this->m_Value.pObj)[std::move(std::wstring(wsKey))] = rfJValue;
 	}
 
 	void Value::AddKey(std::wstring_view wsKey, Value&& rfJValue)
 	{
 		SureObject();
-		(*this->m_Value.pObj)[wsKey.data()] = std::move(rfJValue);
+		(*this->m_Value.pObj)[std::move(std::wstring(wsKey))] = std::move(rfJValue);
 	}
 
 	bool Value::HasKey(std::wstring_view wsKey)
 	{
-		auto ite = m_Value.pObj->find(wsKey.data());
+		auto ite = m_Value.pObj->find(std::wstring(wsKey));
 		return ite == m_Value.pObj->end() ? false : true;
 	}
 
