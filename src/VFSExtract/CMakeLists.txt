@@ -1,5 +1,5 @@
 ﻿# Value Define
-set(PROJECT_NAME VFSHook)
+set(PROJECT_NAME VFSExtract)
 
 # Cpp Standard
 set(CMAKE_CXX_STANDARD 20)

@@ -4,21 +4,7 @@
 
 namespace CMVS
 {
-	struct Pack_Coder_VTable
-	{
-		uint32_t* fnUn0;
-		uint32_t* fnUn1;
-		uint32_t* fnUn2;
-		uint32_t* fnUn3;
-		uint32_t* fnReadFile;
-		uint32_t* fnUn4;
-		uint32_t* fnUn5;
-	};
-
-	struct Pack_Coder
-	{
-		Pack_Coder_VTable* pVtable;
-	};
+	struct Pack_Coder;
 
 	struct VFS_Entry
 	{
@@ -26,9 +12,16 @@ namespace CMVS
 		Pack_Coder* pCoder;
 	};
 
-	struct VFS_Index
+	struct VFS_Comm_Index
 	{
 		VFS_Entry Entry[4];
+	};
+
+	struct VFS_Image_Index
+	{
+		uint8_t aUn0[4200];
+		VFS_Entry aEntries[10];
+		uint8_t aUn1[2052];
 	};
 
 	struct Rect_Size
@@ -59,7 +52,7 @@ namespace CMVS
 		uint32_t aUn3[126];
 		Rect_Size WndSize;
 		uint32_t aBase_Val[343];
-		VFS_Index* Entry[8];
+		VFS_Comm_Index* aVFSIndexPtr[8];
 		uint32_t aUn4[1742];
 		char aPath_0[176];
 		uint32_t aMainFrame_Val_0[20];
@@ -119,10 +112,10 @@ namespace CMVS
 	};
 
 	//-MGVFile
-    // -MGVHeader
-    // -IndexCount * 4
-    // -Audio
-    // -Video
+	// -MGVHeader
+	// -IndexCount * 4
+	// -Audio
+	// -Video
 	struct MGV_HDR
 	{
 		uint8_t  aSignature[4];
@@ -162,4 +155,31 @@ namespace CMVS
 	typedef BOOL(__thiscall* Fn_ImageReader)(uint32_t* This, Image* pCImage, char* cpPrefixPath, char* cpImageName, uint32_t pUn0);
 
 	typedef BOOL(__thiscall* Fn_ImageDecoder)(uint32_t* This, Image* pCImage, HLOCAL pData, uint32_t nDataSize, char* cpImageName, uint32_t pUn0);
+
+	typedef HLOCAL(__thiscall* Fn_PackReadFile)(Pack_Coder* pCoder, VFS_Entry* pEntry, const char* cpFileName, uint32_t* pFileSize_Ret, uint32_t uiUn0, uint32_t uiUn1);
+
+	typedef BOOL(__thiscall* Fn_RegCommPath)(VFS_Comm_Index* This, uint32_t nIndex, const char* cpPath, uint32_t a4, uint32_t a5, uint32_t a6, uint32_t a7, uint32_t a8, uint32_t a9);
+
+	typedef BOOL(__thiscall* Fn_RegVideoPath)(VFS_Comm_Index* This, uint32_t nIndex, const char* cpPath, uint32_t a4, uint32_t a5, uint32_t a6, uint32_t a7, uint32_t a8, uint32_t a9);
+
+	typedef BOOL(__thiscall* Fn_RegImagePath)(VFS_Image_Index* This, uint32_t nIndex, const char* cpPath, uint32_t a4, uint32_t a5, uint32_t a6, uint32_t a7, uint32_t a8, uint32_t a9);
+
+	typedef BOOL(__thiscall* Fn_RegUnPath)(VFS_Comm_Index* This, uint32_t nIndex, const char* cpPath, uint32_t a4, uint32_t a5, uint32_t a6, uint32_t a7, uint32_t a8, uint32_t a9);
+
+
+	struct Pack_Coder_VTable
+	{
+		uint32_t* fnUn0;
+		uint32_t* fnUn1;
+		uint32_t* fnUn2;
+		uint32_t* fnUn3;
+		Fn_PackReadFile fnReadFile;
+		uint32_t* fnUn4;
+		uint32_t* fnUn5;
+	};
+
+	struct Pack_Coder
+	{
+		Pack_Coder_VTable* pVtable;
+	};
 }
