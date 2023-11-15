@@ -1,6 +1,7 @@
-﻿#include <iostream>
+﻿#include <stdexcept>
 
-#include "../../lib/CMVSTools/MGV.h"
+#include "../../lib/CMVS/MGV.h"
+#include "../../lib/Rut/RxConsole.h"
 
 using namespace CMVS::MGV;
 
@@ -9,38 +10,36 @@ int wmain(int argc, wchar_t* argv[])
 {
 	try
 	{
-		auto show_info = []()
-		{
-			std::cout
-				<< "MGV Editor\n"
-				<< "Extract Video/Audio: MGVEditor.exe op.mgv\n"
-				<< "Replace Video      : MGVEditor.exe op.mgv op.ogv\n"
-				<< std::endl;
-		};
-
-		auto extract = [](const wchar_t* wpMGV)
-		{
-			MGVEditor mgv(wpMGV);
-			mgv.Extract();
-		};
-
-		auto replace = [](const wchar_t* wpMGV, const wchar_t* wpVideo)
-		{
-			MGVEditor mgv(wpMGV);
-			mgv.Replace(wpVideo);
-		};
-
 		switch (argc)
 		{
-		case 1: { show_info(); } break;
-		case 2: { extract(argv[1]); } break;
-		case 3: { replace(argv[1], argv[2]); } break;
+		case 2: 
+		{
+			std::wstring_view mgv_path = argv[1];
+			Editor(mgv_path).Extract();
+		}
+		break;
+
+		case 3: 
+		{
+			std::wstring_view mgv_path = argv[1];
+			std::wstring_view video_path = argv[2];
+			Editor(mgv_path).Replace(video_path);
+		}
+		break;
+
+		default:
+		{
+			Rut::RxConsole::Put("MGV Editor\n");
+			Rut::RxConsole::Put("Extract Video/Audio: MGVEditor.exe op.mgv\n""Extract Video/Audio: MGVEditor.exe op.mgv\n");
+			Rut::RxConsole::Put("Replace Video: MGVEditor.exe op.mgv op.ogv\n\n");
+		}
+		break;
 		}
 
 	}
 	catch (const std::runtime_error& err)
 	{
-		std::cerr << err.what() << std::endl;
+		Rut::RxConsole::PutFormat("\n\truntime_error:%s\n\n", err.what());
 	}
 }
 

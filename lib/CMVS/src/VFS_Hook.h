@@ -2,18 +2,14 @@
 #include <cstdint>
 
 
-namespace CMVS::FileHook
+namespace CMVS::VFS
 {
 	void SetHookFolder(const char* cpFolder);
+	void SetFnReadFullData(uint32_t fnReadFullData);
+	void SetFnImageDecoder(uint32_t fnImageDecoder);
 
-	void SetPS3Hook_210_(uint32_t fnLoadScript, uint32_t asDecScript_0, uint32_t asDecScript_1);
-	void SetPB3Hook_210_(uint32_t fnLoadImage);
-
-	void SetPS3Hook_342_(uint32_t fnLoadScript, uint32_t asDecScript_0, uint32_t asDecScript_1);
-	void SetPB3Hook_342_(uint32_t fnLoadImage);
-
-	void SetPS3Hook_380_(uint32_t fnLoadScript, uint32_t asDecScript_0, uint32_t asDecScript_1);
-	void SetPB3Hook_380_(uint32_t fnLoadImage);
+	void HookPS3_V380(uint32_t fnLoadScript);
+	void HookPB3_V380(uint32_t fnLoadImage);
 }
 
 

@@ -1,7 +1,7 @@
 #include "PS3_Editor.h"
-#include "../../../Rut/RxFile.h"
-#include "../../../Rut/RxStr.h"
-#include "../../../RxJson/RxJson.h"
+#include "../../Rut/RxFile.h"
+#include "../../Rut/RxStr.h"
+#include "../../RxJson/RxJson.h"
 
 using namespace Rut;
 
@@ -150,14 +150,14 @@ namespace CMVS::PS3
 		}
 	}
 
-	uint8_t* Editor::GetPtr()
+	uint8_t* Editor::GetPS3Ptr()
 	{
 		return m_amPS3.GetPtr();
 	}
 
 	PS3_HDR* Editor::GetHdrPtr()
 	{
-		return (PS3_HDR*)this->GetPtr();
+		return (PS3_HDR*)this->GetPS3Ptr();
 	}
 
 	uint32_t Editor::GetHdrSize()
@@ -177,12 +177,12 @@ namespace CMVS::PS3
 
 	uint8_t* Editor::GetCodeSegPtr()
 	{
-		return this->GetPtr() + this->GetHdrSize();
+		return this->GetPS3Ptr() + this->GetHdrSize();
 	}
 
 	uint8_t* Editor::GetTextSegPtr()
 	{
-		return this->GetPtr() + this->GetHdrSize() + this->GetCodeSegSize();
+		return this->GetPS3Ptr() + this->GetHdrSize() + this->GetCodeSegSize();
 	}
 
 	uint32_t Editor::GeTextCount()

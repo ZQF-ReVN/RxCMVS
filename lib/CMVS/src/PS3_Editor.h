@@ -1,8 +1,8 @@
 ﻿#pragma once
 #include <vector>
 
+#include "CMVS_Types.h"
 #include "PS3_Coder.h"
-#include "PS3_Struct.h"
 
 
 namespace CMVS::PS3
@@ -32,7 +32,7 @@ namespace CMVS::PS3
 		bool Filter(std::string_view msText);
 
 	private:
-		uint8_t* GetPtr();
+		uint8_t* GetPS3Ptr();
 		PS3_HDR* GetHdrPtr();
 		uint32_t GetHdrSize();
 		uint32_t GetCodeSegSize();

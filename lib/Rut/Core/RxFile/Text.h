@@ -47,6 +47,9 @@ namespace Rut::RxFile
 		void ReadToSStream(std::wstringstream& rfSStream);
 		void ReadToSStream(std::stringstream& rfSStream);
 
+		void Flush();
+		void Close();
+
 		void Rewind();
 	};
 }

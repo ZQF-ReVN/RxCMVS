@@ -1,19 +1,19 @@
 ﻿#include "MGV_Editor.h"
-#include "../../../Rut/RxMem.h"
-#include "../../../Rut/RxPath.h"
-#include "../../../Rut/RxFile.h"
+#include "../../Rut/RxMem.h"
+#include "../../Rut/RxPath.h"
+#include "../../Rut/RxFile.h"
 
 using namespace Rut;
 
 
 namespace CMVS::MGV
 {
-	MGVEditor::MGVEditor(const std::wstring_view wsMGV) : m_Header({}), m_wsMGV(wsMGV)
+	Editor::Editor(const std::wstring_view wsMGV) : m_Header({}), m_wsMGV(wsMGV)
 	{
 		RxFile::Binary{ m_wsMGV, RIO_READ } >> m_Header;
 	}
 
-	void MGVEditor::Extract()
+	void Editor::Extract()
 	{
 		RxMem::Auto tmp;
 		uint32_t index_size = m_Header.uiFrameIndexCount * 4;
@@ -34,7 +34,7 @@ namespace CMVS::MGV
 		RxFile::SaveFileViaPath((m_wsMGV + L".ogv").c_str(), buf_ptr, m_Header.uiVideoSize);
 	}
 
-	void MGVEditor::Replace(const std::wstring_view wsVideo)
+	void Editor::Replace(const std::wstring_view wsVideo)
 	{
 		RxMem::Auto tmp;
 		RxFile::Binary ifs_mgv{ m_wsMGV, RIO_READ};

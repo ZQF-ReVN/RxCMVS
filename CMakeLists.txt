@@ -22,7 +22,7 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_LIST_DIR}/.out/exe)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_LIST_DIR}/.out/lib)
 
 # Library
-     add_subdirectory("lib/CMVSTools")
+     add_subdirectory("lib/CMVS")
      add_subdirectory("lib/Rut")
      add_subdirectory("lib/RxHook")
      add_subdirectory("lib/RxJson")
@@ -31,4 +31,4 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_LIST_DIR}/.out/lib)
 # Project
     add_subdirectory("src/MGVEditor")
     add_subdirectory("src/PS3TextEditor")
-    add_subdirectory("src/CMVSFileHook")
+    add_subdirectory("src/VFSHook")

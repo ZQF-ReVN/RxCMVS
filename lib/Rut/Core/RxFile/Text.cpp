@@ -48,11 +48,11 @@ namespace Rut::RxFile
 	{
 		if (this->GetSize())
 		{
-			if (nMode & RIO_IN) { this->CheckBOM(); }
+			if (nMode & RIO_DATA_IN) { this->CheckBOM(); }
 		}
 		else
 		{
-			if (nMode & RIO_OUT) { this->WriteBOM(); }
+			if (nMode & RIO_DATA_OUT) { this->WriteBOM(); }
 		}
 	}
 
@@ -274,9 +274,18 @@ namespace Rut::RxFile
 	}
 
 
+	void Text::Flush()
+	{
+		this->Binary::Flush();
+	}
+
+	void Text::Close()
+	{
+		this->Binary::Close();
+	}
+
 	void Text::Rewind()
 	{
 		this->SetPos(0, RIO_BEGIN);
 	}
-
 }

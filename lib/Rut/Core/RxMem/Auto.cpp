@@ -4,7 +4,7 @@
 
 namespace Rut::RxMem
 {
-	Auto::Auto() : m_pMemData(nullptr), m_uiMemSize(0), m_uiMaxSize(0)
+	Auto::Auto() : m_uiMemSize(0), m_uiMaxSize(0)
 	{
 
 	}
@@ -41,26 +41,23 @@ namespace Rut::RxMem
 
 	Auto::~Auto()
 	{
-		if (m_pMemData != nullptr) { delete[] m_pMemData; }
 		m_uiMemSize = 0;
 		m_uiMaxSize = 0;
-		m_pMemData = nullptr;
 	}
 
 	Auto& Auto::Copy(const Auto& buffer)
 	{
-		if (buffer.m_pMemData != nullptr)
+		if (buffer.m_upMemData != nullptr)
 		{
 			this->m_uiMaxSize = buffer.m_uiMaxSize;
 			this->m_uiMemSize = buffer.m_uiMemSize;
-			this->m_pMemData = new uint8_t[buffer.m_uiMemSize];
-			memcpy(m_pMemData, buffer.m_pMemData, m_uiMemSize);
+			this->m_upMemData = std::make_unique_for_overwrite<uint8_t[]>(buffer.m_uiMemSize);
+			memcpy(m_upMemData.get(), buffer.m_upMemData.get(), m_uiMemSize);
 		}
 		else
 		{
 			this->m_uiMaxSize = 0;
 			this->m_uiMemSize = 0;
-			this->m_pMemData = nullptr;
 		}
 
 		return *this;
@@ -68,11 +65,10 @@ namespace Rut::RxMem
 
 	Auto& Auto::Move(Auto& buffer)
 	{
-		this->m_pMemData = buffer.m_pMemData;
+		this->m_upMemData = std::move(buffer.m_upMemData);
+
 		this->m_uiMemSize = buffer.m_uiMemSize;
 		this->m_uiMaxSize = buffer.m_uiMaxSize;
-
-		buffer.m_pMemData = nullptr;
 		buffer.m_uiMemSize = 0;
 		buffer.m_uiMaxSize = 0;
 
@@ -111,12 +107,12 @@ namespace Rut::RxMem
 
 	void Auto::SaveData(std::string_view msPath)
 	{
-		RxFile::SaveFileViaPath(msPath, m_pMemData, m_uiMemSize);
+		RxFile::SaveFileViaPath(msPath, m_upMemData.get(), m_uiMemSize);
 	}
 
 	void Auto::SaveData(std::wstring_view wsPath)
 	{
-		RxFile::SaveFileViaPath(wsPath, m_pMemData, m_uiMemSize);
+		RxFile::SaveFileViaPath(wsPath, m_upMemData.get(), m_uiMemSize);
 	}
 
 	uint8_t* Auto::LoadFile(std::string_view msPath, size_t nSize)
@@ -124,7 +120,7 @@ namespace Rut::RxMem
 		RxFile::Binary ifs{ msPath, RIO_READ };
 		if (nSize == AutoMem_AutoSize) { nSize = ifs.GetSize(); }
 		ifs.Read(SetSize(nSize), nSize);
-		return m_pMemData;
+		return m_upMemData.get();
 	}
 
 	uint8_t* Auto::LoadFile(std::wstring_view wsPath, size_t nSize)
@@ -132,12 +128,12 @@ namespace Rut::RxMem
 		RxFile::Binary ifs{ wsPath, RIO_READ };
 		if (nSize == AutoMem_AutoSize) { nSize = ifs.GetSize(); }
 		ifs.Read(SetSize(nSize), nSize);
-		return m_pMemData;
+		return m_upMemData.get();
 	}
 
 	uint8_t* Auto::GetPtr()
 	{
-		return m_pMemData;
+		return m_upMemData.get();
 	}
 
 	size_t Auto::GetSize()
@@ -149,16 +145,18 @@ namespace Rut::RxMem
 	{
 		if (this->m_uiMemSize == 0)
 		{
-			this->m_pMemData = new uint8_t[uiNewSize];
+			this->m_upMemData = std::make_unique_for_overwrite<uint8_t[]>(uiNewSize);
 			this->m_uiMemSize = uiNewSize;
 			this->m_uiMaxSize = uiNewSize;
 		}
 		else if (uiNewSize > this->m_uiMaxSize)
 		{
-			uint8_t* new_mem = new uint8_t[uiNewSize];
-			if (isCopy) { memcpy(new_mem, this->m_pMemData, this->m_uiMemSize); }
-			delete[] this->m_pMemData;
-			this->m_pMemData = new_mem;
+			std::unique_ptr<uint8_t[]> tmp = std::make_unique_for_overwrite<uint8_t[]>(uiNewSize);
+
+			if (isCopy) { memcpy(tmp.get(), this->m_upMemData.get(), this->m_uiMemSize); }
+			m_upMemData.release();
+
+			this->m_upMemData = std::move(tmp);
 			this->m_uiMemSize = uiNewSize;
 			this->m_uiMaxSize = uiNewSize;
 		}

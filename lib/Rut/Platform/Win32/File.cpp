@@ -38,16 +38,16 @@ namespace Rut::Platform
 	*/
 	static void GetFlag(size_t nMode, PDWORD pAccess, PDWORD pAttributes)
 	{
-		constexpr uint8_t RIO_IN = 0x01;
-		constexpr uint8_t RIO_OUT = 0x02;
+		constexpr uint8_t RIO_DATA_IN = 0x01;
+		constexpr uint8_t RIO_DATA_OUT = 0x02;
 		constexpr uint8_t RIO_CREATE_ALWAYS = 0x04;
 		constexpr uint8_t RIO_CREATE_NEW = 0x08;
 		constexpr uint8_t RIO_OPEN_ALWAYS = 0x10;
 		constexpr uint8_t RIO_OPEN_EXISTING = 0x20;
 
 		DWORD flag_access = 0;
-		if (nMode & RIO_IN) { flag_access |= GENERIC_READ; }
-		if (nMode & RIO_OUT) { flag_access |= GENERIC_WRITE; }
+		if (nMode & RIO_DATA_IN) { flag_access |= GENERIC_READ; }
+		if (nMode & RIO_DATA_OUT) { flag_access |= GENERIC_WRITE; }
 		*pAccess = flag_access;
 
 

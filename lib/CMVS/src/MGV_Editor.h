@@ -1,19 +1,19 @@
 ﻿#pragma once
 #include <string>
 
-#include "MGV_Struct.h"
+#include "CMVS_Types.h"
 
 
 namespace CMVS::MGV
 {
-	class MGVEditor
+	class Editor
 	{
 	public:
-		MGVHeader m_Header;
+		MGV_HDR m_Header;
 		std::wstring m_wsMGV;
 
 	public:
-		MGVEditor(const std::wstring_view wsMGV);
+		Editor(const std::wstring_view wsMGV);
 
 		void Extract();
 		void Replace(const std::wstring_view wsVideo);

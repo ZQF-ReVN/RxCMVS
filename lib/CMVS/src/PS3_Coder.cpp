@@ -1,5 +1,5 @@
 #include "PS3_Coder.h"
-#include "PS3_Struct.h"
+#include "CMVS_Types.h"
 
 
 namespace CMVS::PS3

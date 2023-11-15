@@ -1,7 +1,8 @@
 ﻿#include <stdexcept>
 
 #include "../../lib/Rut/RxConsole.h"
-#include "../../lib/CMVSTools/PS3.h"
+
+#include "../../lib/CMVS/PS3.h"
 
 using namespace Rut;
 
@@ -63,9 +64,7 @@ int wmain(int argc, wchar_t* argv[])
 	}
 	catch (const std::runtime_error& err)
 	{
-		RxConsole::Put("\nException:\n\t");
-		RxConsole::Put(err.what());
-		RxConsole::Put("\n");
+		RxConsole::PutFormat("\n\truntime_error:%s\n\n", err.what());
 	}
 	
 }

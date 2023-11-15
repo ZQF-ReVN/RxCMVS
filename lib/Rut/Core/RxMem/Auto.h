@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <string>
+#include <memory>
 
 
 namespace Rut::RxMem
@@ -9,9 +10,9 @@ namespace Rut::RxMem
 	class Auto
 	{
 	private:
-		uint8_t* m_pMemData;
 		size_t m_uiMemSize;
 		size_t m_uiMaxSize;
+		std::unique_ptr<uint8_t[]> m_upMemData;
 
 	public:
 		Auto();
@@ -32,9 +33,6 @@ namespace Rut::RxMem
 		Auto& operator=(const Auto& rfAutoMem);
 
 	public:
-		template <typename T_PTR> operator T_PTR* () { return (T_PTR*)m_pMemData; }
-		template <typename T_TYPE> operator T_TYPE () { return (T_TYPE)m_uiMemSize; }
-
 		void SaveData(std::string_view msPath);
 		void SaveData(std::wstring_view wsPath);
 		uint8_t* LoadFile(std::string_view msPath, size_t nSize = AutoMem_AutoSize);
