@@ -19,7 +19,7 @@ namespace CMVS::VFS
 	static std::set<VFS_Entry*> sg_stEntryPtr;
 
 
-	BOOL __fastcall RegCommPath_Hook(VFS_Comm_Index* This,uint32_t uiEDX, uint32_t nIndex, const char* cpPath, uint32_t a4, uint32_t a5, uint32_t a6, uint32_t a7, uint32_t a8, uint32_t a9)
+	static BOOL __fastcall RegCommPath_Hook(VFS_Comm_Index* This,uint32_t uiEDX, uint32_t nIndex, const char* cpPath, uint32_t a4, uint32_t a5, uint32_t a6, uint32_t a7, uint32_t a8, uint32_t a9)
 	{
 		for (size_t ite = 0; ite < 4; ite++)
 		{
@@ -28,7 +28,7 @@ namespace CMVS::VFS
 		return sg_fnRegCommPath(This, nIndex, cpPath, a4, a5, a6, a7, a8, a9);
 	}
 
-	BOOL __fastcall RegImagePath_Hook(VFS_Image_Index* This, uint32_t uiEDX, uint32_t nIndex, const char* cpPath, uint32_t a4, uint32_t a5, uint32_t a6, uint32_t a7, uint32_t a8, uint32_t a9)
+	static BOOL __fastcall RegImagePath_Hook(VFS_Image_Index* This, uint32_t uiEDX, uint32_t nIndex, const char* cpPath, uint32_t a4, uint32_t a5, uint32_t a6, uint32_t a7, uint32_t a8, uint32_t a9)
 	{
 		for (size_t ite = 0; ite < 10; ite++)
 		{
@@ -37,7 +37,7 @@ namespace CMVS::VFS
 		return sg_fnRegImagePath(This, nIndex, cpPath, a4, a5, a6, a7, a8, a9);
 	}
 
-	BOOL __fastcall RegVideoPath_Hook(VFS_Comm_Index* This, uint32_t uiEDX, uint32_t nIndex, const char* cpPath, uint32_t a4, uint32_t a5, uint32_t a6, uint32_t a7, uint32_t a8, uint32_t a9)
+	static BOOL __fastcall RegVideoPath_Hook(VFS_Comm_Index* This, uint32_t uiEDX, uint32_t nIndex, const char* cpPath, uint32_t a4, uint32_t a5, uint32_t a6, uint32_t a7, uint32_t a8, uint32_t a9)
 	{
 		for (size_t ite = 0; ite < 4; ite++)
 		{
@@ -48,7 +48,7 @@ namespace CMVS::VFS
 
 
 
-	VFS_Entry* FindEntry(std::string_view msPackName)
+	static VFS_Entry* FindEntry(std::string_view msPackName)
 	{
 		for (VFS_Entry* entry_ptr : sg_stEntryPtr)
 		{
@@ -63,7 +63,7 @@ namespace CMVS::VFS
 		return nullptr;
 	}
 
-	void PrintEntries()
+	static void PrintEntries()
 	{
 		for (VFS_Entry* entry_ptr : sg_stEntryPtr)
 		{
@@ -74,7 +74,7 @@ namespace CMVS::VFS
 		}
 	}
 
-	void ExtractFile(std::string_view msPackName, std::string_view msFileName)
+	static void ExtractFile(std::string_view msPackName, std::string_view msFileName)
 	{
 		VFS_Entry* entry_ptr = FindEntry(msPackName);
 
@@ -95,7 +95,7 @@ namespace CMVS::VFS
 		}
 	}
 
-	void __stdcall ExtractThread()
+	static void __stdcall ExtractThread()
 	{
 		Rut::RxConsole::Alloc(L"CMVS_VFS_Extract", true, false);
 
