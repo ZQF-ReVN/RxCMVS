@@ -81,7 +81,7 @@ namespace CMVS::VFS
 		if (entry_ptr)
 		{
 			uint32_t file_size = 0;
-			HLOCAL h_heap = (entry_ptr->pCoder->pVtable->fnReadFile)(entry_ptr->pCoder, entry_ptr, msFileName.data(), &file_size, 0, 0);
+			HLOCAL h_heap = entry_ptr->pCoder->pVtable->fnReadFile(entry_ptr->pCoder, entry_ptr, msFileName.data(), &file_size, 0, 0);
 			if (h_heap && file_size)
 			{
 				Rut::RxFile::SaveFileViaPath(msFileName, h_heap, file_size);
@@ -127,7 +127,9 @@ namespace CMVS::VFS
 	}
 
 
-
+	// *******************
+    // *   EXPORT FUNC   *
+    // *******************
 	void Extract(uint32_t fnRegCommPath, uint32_t fnRegImagePath, uint32_t fnRegVideoPath)
 	{
 		sg_fnRegCommPath = (Fn_RegCommPath)fnRegCommPath;
