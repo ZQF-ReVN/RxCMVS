@@ -21,6 +21,10 @@ namespace Rut::RxStr
 
 	std::wstring Trim(std::wstring wsLine, const wchar_t* wFilterChar = L" \r\n\t");
 
+
+	std::string NumToStr(size_t nValue, size_t nRation = 10);
+	std::wstring NumToWStr(size_t nValue, size_t nRation = 10);
+
 	class FormatLine
 	{
 	private:

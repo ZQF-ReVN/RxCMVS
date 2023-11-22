@@ -31,11 +31,4 @@ namespace Rut::Platform
 	{
 		return (size_t)::CreateThread(nullptr, 0, (LPTHREAD_START_ROUTINE)fnThread, nullptr, 0, nullptr);
 	}
-
-
-	size_t MemCpy(void* pDes, const void* pSrc, size_t nBytes)
-	{
-		::memcpy(pDes, pSrc, nBytes);
-		return nBytes;
-	}
 }

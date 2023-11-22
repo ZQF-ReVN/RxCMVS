@@ -6,9 +6,12 @@
 #include <functional>
 
 
-constexpr size_t RFM_ANSI = 0x0;
-constexpr size_t RFM_UTF8 = 0x1;
-constexpr size_t RFM_UTF16 = 0x2;
+namespace Rut
+{
+	constexpr size_t RFM_ANSI = 0x0;
+	constexpr size_t RFM_UTF8 = 0x1;
+	constexpr size_t RFM_UTF16 = 0x2;
+}
 
 
 namespace Rut::RxFile

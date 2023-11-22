@@ -43,9 +43,9 @@ namespace CMVS::VFS
 	}
 
 
-	// *******************
-	// *   EXPORT FUNC   *
-	// *******************
+    // *******************
+    // *   EXPORT FUNC   *
+    // *******************
 	void SetHookFolder(const char* cpFolder)
 	{
 		lstrcpyA(sg_aHookFolder, cpFolder);

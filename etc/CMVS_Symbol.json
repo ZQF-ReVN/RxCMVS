@@ -1,0 +1,992 @@
+{
+    "game_title": "クナド国記",
+    "game_version": "1.0",
+    "game_engine": "CMVS",
+    "export_time": "2023-11-21 16:41:27.016977",
+    "func_list": [
+        {
+            "name": "CMVS::401000::Ctor",
+            "addr": "0x401000"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ1::Ctor",
+            "addr": "0x40d430"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ1::Dector",
+            "addr": "0x40d4a0"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ1::ReadRes",
+            "addr": "0x40d520"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ1::GetIndex",
+            "addr": "0x40d630"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ1::Decode",
+            "addr": "0x40d780"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ2::Ctor",
+            "addr": "0x40d7d0"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ2::Dector",
+            "addr": "0x40d850"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ2::ReadRes",
+            "addr": "0x40d8b0"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ2::GetIndex",
+            "addr": "0x40da60"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ2::Decode_R0",
+            "addr": "0x40dc50"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ2::Decode_R1",
+            "addr": "0x40dd60"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ6::Ctor",
+            "addr": "0x40de30"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ6::Dector",
+            "addr": "0x40de90"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ6::40DEF0",
+            "addr": "0x40def0"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ6::ReadRes",
+            "addr": "0x40df30"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ6::GetIndex",
+            "addr": "0x40e1f0"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ6::ReadIndex",
+            "addr": "0x40e230"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ6::40E710",
+            "addr": "0x40e710"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ6::40E810",
+            "addr": "0x40e810"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ6_B::Ctor",
+            "addr": "0x40e830"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ6_B::Dector",
+            "addr": "0x40e890"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ6_B::40E8F0",
+            "addr": "0x40e8f0"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ6_B::ReadFile",
+            "addr": "0x40e970"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ6_B::ReadRes",
+            "addr": "0x40e990"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ6_B::GetIndex",
+            "addr": "0x40ec50"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ6_B::ReadIndex",
+            "addr": "0x40ec90"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ6_B::DecodeRes",
+            "addr": "0x40f170"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ7::Ctor",
+            "addr": "0x40f320"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ7::Dector",
+            "addr": "0x40f380"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ7::40F3E0",
+            "addr": "0x40f3e0"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ7::ReadRes",
+            "addr": "0x40f460"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ7::ReadRes_1",
+            "addr": "0x40f720"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ7::GetIndex",
+            "addr": "0x40f980"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ7::ReadIndex",
+            "addr": "0x40f9c0"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ7::DecodeRes",
+            "addr": "0x40ff40"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ7::4100F0",
+            "addr": "0x4100f0"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ7_B::Ctor",
+            "addr": "0x410110"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ7_B::Dector",
+            "addr": "0x410170"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ7_B::4101D0",
+            "addr": "0x4101d0"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ7_B::410310",
+            "addr": "0x410310"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ7_B::ReadFile",
+            "addr": "0x410350"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ7_B::GetIndex",
+            "addr": "0x410610"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ7_B::ReadIndex",
+            "addr": "0x410650"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ7_B::410C00",
+            "addr": "0x410c00"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ7_B::410C30",
+            "addr": "0x410c30"
+        },
+        {
+            "name": "CMVS::GetHeigh_S",
+            "addr": "0x411b80"
+        },
+        {
+            "name": "CMVS::EnumSMonitor::Proc",
+            "addr": "0x411c20"
+        },
+        {
+            "name": "CMVS::EnumSMonitor",
+            "addr": "0x411fe0"
+        },
+        {
+            "name": "CMVS::Video::MGV::Dctor",
+            "addr": "0x4123e0"
+        },
+        {
+            "name": "CMVS::Video::MGV::Loader",
+            "addr": "0x412570"
+        },
+        {
+            "name": "CMVS::Video::MGV::Decoder",
+            "addr": "0x416900"
+        },
+        {
+            "name": "CMVS::Video::MGV::Dctor_0",
+            "addr": "0x416b70"
+        },
+        {
+            "name": "CMVS::Video::MGV::DecFrame_1",
+            "addr": "0x416ec0"
+        },
+        {
+            "name": "CMVS::Video::MGV::DecFrame_0",
+            "addr": "0x416f70"
+        },
+        {
+            "name": "CMVS::Video::MGV::New_Play_Thread",
+            "addr": "0x417020"
+        },
+        {
+            "name": "CMVS::Video::MGV::Player_Thread",
+            "addr": "0x417090"
+        },
+        {
+            "name": "CMVS::Set::Instance",
+            "addr": "0x418140"
+        },
+        {
+            "name": "CMVS::Set::EngineDir",
+            "addr": "0x418150"
+        },
+        {
+            "name": "CMVS::FindFile",
+            "addr": "0x419680"
+        },
+        {
+            "name": "CMVS::GetFileSize",
+            "addr": "0x4196e0"
+        },
+        {
+            "name": "CMVS::ReadData",
+            "addr": "0x419740"
+        },
+        {
+            "name": "CMVS::ReadAllData",
+            "addr": "0x4198f0"
+        },
+        {
+            "name": "CMVS::GetPackVersion",
+            "addr": "0x4199d0"
+        },
+        {
+            "name": "CMVS::HPET::GetFlag",
+            "addr": "0x4199e0"
+        },
+        {
+            "name": "CMVS::GetHWND",
+            "addr": "0x419ac0"
+        },
+        {
+            "name": "CMVS::GetFontSJISFlag",
+            "addr": "0x419ad0"
+        },
+        {
+            "name": "CMVS::Str::ToInt",
+            "addr": "0x419ae0"
+        },
+        {
+            "name": "CMVS::Str::ToFloat",
+            "addr": "0x419bc0"
+        },
+        {
+            "name": "CMVS::GetFontName",
+            "addr": "0x419c70"
+        },
+        {
+            "name": "CMVS::EnumFont",
+            "addr": "0x419c90"
+        },
+        {
+            "name": "CMVS::Timer::Update",
+            "addr": "0x419d20"
+        },
+        {
+            "name": "CMVS::GetHeigh",
+            "addr": "0x419d60"
+        },
+        {
+            "name": "CMVS::GetWidth",
+            "addr": "0x419d70"
+        },
+        {
+            "name": "CMVS::GetSysTime",
+            "addr": "0x419e00"
+        },
+        {
+            "name": "CMVS::SaveSomething",
+            "addr": "0x419e40"
+        },
+        {
+            "name": "CMVS::InitTimer",
+            "addr": "0x419ee0"
+        },
+        {
+            "name": "CMVS::Timer::419F20",
+            "addr": "0x419f20"
+        },
+        {
+            "name": "CMVS::Timer::419F70",
+            "addr": "0x419f70"
+        },
+        {
+            "name": "CMVS::Timer::419FC0",
+            "addr": "0x419fc0"
+        },
+        {
+            "name": "CMVS::SetPackVersion",
+            "addr": "0x41a030"
+        },
+        {
+            "name": "CMVS::HPET::Init",
+            "addr": "0x41a040"
+        },
+        {
+            "name": "CMVS::SaveHWND",
+            "addr": "0x41a060"
+        },
+        {
+            "name": "CMVS::SetDefFontName",
+            "addr": "0x41a070"
+        },
+        {
+            "name": "CMVS::Win32::SetRect",
+            "addr": "0x41a090"
+        },
+        {
+            "name": "CMVS::FontSJIS",
+            "addr": "0x41a0b0"
+        },
+        {
+            "name": "CMVS::Str::IsSjis",
+            "addr": "0x41a0c0"
+        },
+        {
+            "name": "CMVS::Str::HasChar",
+            "addr": "0x41a0f0"
+        },
+        {
+            "name": "CMVS::Str::Cmp",
+            "addr": "0x41a140"
+        },
+        {
+            "name": "CMVS::Str::Cmp2",
+            "addr": "0x41a1b0"
+        },
+        {
+            "name": "CMVS::Str::CtrlChar",
+            "addr": "0x41a220"
+        },
+        {
+            "name": "CMVS::Str::FindChar",
+            "addr": "0x41a330"
+        },
+        {
+            "name": "CMVS::Str::SplitToNumber",
+            "addr": "0x41a3d0"
+        },
+        {
+            "name": "CMVS::EnumFontProc",
+            "addr": "0x41a510"
+        },
+        {
+            "name": "CMVS::Timer::Now",
+            "addr": "0x41a540"
+        },
+        {
+            "name": "CMVS::OBJDesBuffer2",
+            "addr": "0x41a640"
+        },
+        {
+            "name": "CMVS::OBJDesBuffer",
+            "addr": "0x41a6a0"
+        },
+        {
+            "name": "CMVS::Des",
+            "addr": "0x41a6f0"
+        },
+        {
+            "name": "CMVS::Base_0::Ctor",
+            "addr": "0x41aa60"
+        },
+        {
+            "name": "CMVS::Set::KeyConfigFilePath",
+            "addr": "0x41ab80"
+        },
+        {
+            "name": "CMVS::Win32::WndProc",
+            "addr": "0x41aba0"
+        },
+        {
+            "name": "CMVS::Win32::RegClass",
+            "addr": "0x41ad40"
+        },
+        {
+            "name": "CMVS::Win32::CreateWindow",
+            "addr": "0x41adf0"
+        },
+        {
+            "name": "CMVS::Win32::SetTitle",
+            "addr": "0x41aee0"
+        },
+        {
+            "name": "CMVS::CreateMutexOBJ",
+            "addr": "0x41af50"
+        },
+        {
+            "name": "CMVS::CreateMutex",
+            "addr": "0x41afa0"
+        },
+        {
+            "name": "CMVS::MainFrame::Ctor",
+            "addr": "0x41b160"
+        },
+        {
+            "name": "CMVS::MainFrame::Dector",
+            "addr": "0x41b1d0"
+        },
+        {
+            "name": "CMVS::RunVM",
+            "addr": "0x41b1e0"
+        },
+        {
+            "name": "CMVS::InitConfig",
+            "addr": "0x41b520"
+        },
+        {
+            "name": "CMVS::InitEngine",
+            "addr": "0x41d510"
+        },
+        {
+            "name": "CMVS::Base::Ctor",
+            "addr": "0x424850"
+        },
+        {
+            "name": "CMVS::OBJDes2",
+            "addr": "0x4250a0"
+        },
+        {
+            "name": "CMVS::MainFrameWnd::Ctor",
+            "addr": "0x426430"
+        },
+        {
+            "name": "CMVS::InitRect",
+            "addr": "0x426a10"
+        },
+        {
+            "name": "CMVS::GetAppPath",
+            "addr": "0x426fa0"
+        },
+        {
+            "name": "CMVS::Win32::TranslateAccelerator",
+            "addr": "0x426fc0"
+        },
+        {
+            "name": "CMVS::Win32::Command",
+            "addr": "0x426fe0"
+        },
+        {
+            "name": "CMVS::OBJDes3",
+            "addr": "0x427590"
+        },
+        {
+            "name": "CMVS::Win32::Init",
+            "addr": "0x428750"
+        },
+        {
+            "name": "CMVS::Win32::Command_",
+            "addr": "0x428850"
+        },
+        {
+            "name": "CMVS::GetWidth_S",
+            "addr": "0x428ff0"
+        },
+        {
+            "name": "CMVS::SetScreenRect",
+            "addr": "0x42ad70"
+        },
+        {
+            "name": "CMVS::GetSize",
+            "addr": "0x432c30"
+        },
+        {
+            "name": "CMVS::Video::GetScreenHeigh",
+            "addr": "0x432c50"
+        },
+        {
+            "name": "CMVS::GeSIZE",
+            "addr": "0x432c60"
+        },
+        {
+            "name": "CMVS::Video::GetScreenWidth",
+            "addr": "0x432c90"
+        },
+        {
+            "name": "CMVS::RegUnPath",
+            "addr": "0x432ed0"
+        },
+        {
+            "name": "CMVS::VM::DrawBackLog_Sub",
+            "addr": "0x439080"
+        },
+        {
+            "name": "CMVS::Texture::Ctor",
+            "addr": "0x43b080"
+        },
+        {
+            "name": "CMVS::Image::Decoder",
+            "addr": "0x43f380"
+        },
+        {
+            "name": "CMVS::Image::Decode::BMP",
+            "addr": "0x43f4b0"
+        },
+        {
+            "name": "CMVS::Image::Decode::MSK",
+            "addr": "0x43f5b0"
+        },
+        {
+            "name": "CMVS::Image::Decode::PB2",
+            "addr": "0x43f630"
+        },
+        {
+            "name": "CMVS::Image::Decode::PB3",
+            "addr": "0x43f7c0"
+        },
+        {
+            "name": "CMVS::Image::Decode::PNG",
+            "addr": "0x43fae0"
+        },
+        {
+            "name": "CMVS::Image::Reader",
+            "addr": "0x43fdf0"
+        },
+        {
+            "name": "CMVS::RegImagePath",
+            "addr": "0x4401c0"
+        },
+        {
+            "name": "CMVS::Image::ClearCache",
+            "addr": "0x440720"
+        },
+        {
+            "name": "CMVS::Image::GetCacheData",
+            "addr": "0x440920"
+        },
+        {
+            "name": "CMVS::Video::CMV::Dector",
+            "addr": "0x440a50"
+        },
+        {
+            "name": "CMVS::Video::CMV::Loader",
+            "addr": "0x440ca0"
+        },
+        {
+            "name": "CMVS::Video::Reader::V3",
+            "addr": "0x441320"
+        },
+        {
+            "name": "CMVS::Video::Reader::V1",
+            "addr": "0x4414b0"
+        },
+        {
+            "name": "CMVS::RegVideoPath",
+            "addr": "0x4415f0"
+        },
+        {
+            "name": "CMVS::ImageVideo::Ctor",
+            "addr": "0x441910"
+        },
+        {
+            "name": "CMVS::ImageVideo::Dector",
+            "addr": "0x441990"
+        },
+        {
+            "name": "CMVS::Video::CMV::DecFrame",
+            "addr": "0x441b20"
+        },
+        {
+            "name": "CMVS::ImageVideo::Loader",
+            "addr": "0x442c60"
+        },
+        {
+            "name": "CMVS::Video::CMV::Reader_Flow",
+            "addr": "0x442ef0"
+        },
+        {
+            "name": "CMVS::Video::CMV::New_Play_Thread",
+            "addr": "0x4437c0"
+        },
+        {
+            "name": "CMVS::Video::CMV::Player_Thread",
+            "addr": "0x443820"
+        },
+        {
+            "name": "CMVS::443910::Ctor",
+            "addr": "0x443910"
+        },
+        {
+            "name": "CMVS::4439F0::Dector",
+            "addr": "0x4439f0"
+        },
+        {
+            "name": "CMVS::Image::Loader",
+            "addr": "0x4467a0"
+        },
+        {
+            "name": "CMVS::VM::CreateFont",
+            "addr": "0x461940"
+        },
+        {
+            "name": "CMVS::Draw::Char",
+            "addr": "0x461b80"
+        },
+        {
+            "name": "CMVS::VM::DrawTextBox_Sub",
+            "addr": "0x463890"
+        },
+        {
+            "name": "CMVS::VM::DrawTextBox_Fixed_Sub",
+            "addr": "0x464a60"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ3::Ctor",
+            "addr": "0x469530"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ3::Dector",
+            "addr": "0x4695b0"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ3::ReadRes",
+            "addr": "0x469610"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ3::GetIndex",
+            "addr": "0x4697b0"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ3::Decode_R0",
+            "addr": "0x469970"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ3::Decode_R1",
+            "addr": "0x4699b0"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ3::469A80",
+            "addr": "0x469a80"
+        },
+        {
+            "name": "CMVS::Str::ToLowerCase",
+            "addr": "0x469aa0"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5::Ctor",
+            "addr": "0x469af0"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5::Dector",
+            "addr": "0x469b50"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5::Decode_R0",
+            "addr": "0x469bb0"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5::ReadRes",
+            "addr": "0x469bf0"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5::ReadRes_1",
+            "addr": "0x469e40"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5::GetIndex",
+            "addr": "0x46a020"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5::ReadIndex",
+            "addr": "0x46a060"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5::Decode_R1",
+            "addr": "0x46a520"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5::Decode_R2",
+            "addr": "0x46a6a0"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_B::Ctor",
+            "addr": "0x46a780"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_B::Dector",
+            "addr": "0x46a7e0"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_B::GetIndex",
+            "addr": "0x46a840"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_B::ReadIndex",
+            "addr": "0x46a880"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_B::Decode_R0",
+            "addr": "0x46ad50"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_B::Decode_R1",
+            "addr": "0x46ad90"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_C::Ctor",
+            "addr": "0x46ae90"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_C::Dector",
+            "addr": "0x46aef0"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_C::ReadRes",
+            "addr": "0x46af50"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_C::GetIndex",
+            "addr": "0x46b200"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_C::ReadIndex",
+            "addr": "0x46b240"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_C::Decode_R0",
+            "addr": "0x46b710"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_D::Ctor",
+            "addr": "0x46b8c0"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_D::Dector",
+            "addr": "0x46b920"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_D::Decode_R0",
+            "addr": "0x46b980"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_D::ReadRes",
+            "addr": "0x46ba00"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_D::GetIndex",
+            "addr": "0x46bc60"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_D::ReadIndex",
+            "addr": "0x46bca0"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_X::Ctor",
+            "addr": "0x46c170"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_X::Dector",
+            "addr": "0x46c1d0"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_X::Decode_R0",
+            "addr": "0x46c230"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_X::ReadRes",
+            "addr": "0x46c2b0"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_X::GetIndex",
+            "addr": "0x46c560"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_X::ReadIndex",
+            "addr": "0x46c5a0"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_X::Decode_R1",
+            "addr": "0x46ca70"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_X::Decode_R2",
+            "addr": "0x46cc20"
+        },
+        {
+            "name": "CMVS::PackCoder::CPZ5_X::46CD20",
+            "addr": "0x46cd20"
+        },
+        {
+            "name": "CMVS::PackCoder::Base::SetVtable_Ctor",
+            "addr": "0x46cd40"
+        },
+        {
+            "name": "CMVS::PackCoder::Base::SetVtable_Dector",
+            "addr": "0x46cd50"
+        },
+        {
+            "name": "CMVS::PackCoder::Base_Dector",
+            "addr": "0x46cd60"
+        },
+        {
+            "name": "CMVS::Script::Reader",
+            "addr": "0x46ce10"
+        },
+        {
+            "name": "CMVS::RegCommPath",
+            "addr": "0x46cf90"
+        },
+        {
+            "name": "CMVS::MainScriptCtrl::Ctor",
+            "addr": "0x46d2b0"
+        },
+        {
+            "name": "CMVS::ParseOpcode",
+            "addr": "0x46db80"
+        },
+        {
+            "name": "CMVS::Decompress",
+            "addr": "0x470450"
+        },
+        {
+            "name": "CMVS::Compress",
+            "addr": "0x470560"
+        },
+        {
+            "name": "CMVS::ScriptCommand::Ctor",
+            "addr": "0x470b70"
+        },
+        {
+            "name": "CMVS::VM::GetStr",
+            "addr": "0x470de0"
+        },
+        {
+            "name": "CMVS::VM::Adjust",
+            "addr": "0x471380"
+        },
+        {
+            "name": "CMVS::ParseOpcode_Sub",
+            "addr": "0x472fa0"
+        },
+        {
+            "name": "CMVS::SaveData",
+            "addr": "0x477560"
+        },
+        {
+            "name": "CMVS::Script::Loader",
+            "addr": "0x478240"
+        },
+        {
+            "name": "CMVS::VM::RegImgPath_Un0",
+            "addr": "0x47b680"
+        },
+        {
+            "name": "CMVS::VM::RegImgPath",
+            "addr": "0x47b700"
+        },
+        {
+            "name": "CMVS::VM::RegImgPath_Un1",
+            "addr": "0x47b7b0"
+        },
+        {
+            "name": "CMVS::VM::RegVideoPath",
+            "addr": "0x47b830"
+        },
+        {
+            "name": "CMVS::VM::RegVideoPath_Un0",
+            "addr": "0x47b8e0"
+        },
+        {
+            "name": "CMVS::VM::RegCommPath_Un0",
+            "addr": "0x47b960"
+        },
+        {
+            "name": "CMVS::VM::RegBgmPath",
+            "addr": "0x47ba10"
+        },
+        {
+            "name": "CMVS::VM::RegxxPath_Un1",
+            "addr": "0x47ba90"
+        },
+        {
+            "name": "CMVS::VM::RegXXPath_Un0",
+            "addr": "0x47bb40"
+        },
+        {
+            "name": "CMVS::VM::RegScriptPath",
+            "addr": "0x47bc10"
+        },
+        {
+            "name": "CMVS::VM::RegCommPath_Un1",
+            "addr": "0x47bcc0"
+        },
+        {
+            "name": "CMVS::VM::GetAppPath",
+            "addr": "0x47bd40"
+        },
+        {
+            "name": "CMVS::VM::RegVoicePath",
+            "addr": "0x47bd80"
+        },
+        {
+            "name": "CMVS::VM::RegCommPath_Un2",
+            "addr": "0x47be30"
+        },
+        {
+            "name": "CMVS::VM::RegSePath",
+            "addr": "0x47beb0"
+        },
+        {
+            "name": "CMVS::VM::RegCommPath_Un3",
+            "addr": "0x47bf60"
+        },
+        {
+            "name": "CMVS::VM::CImage_Play",
+            "addr": "0x47c630"
+        },
+        {
+            "name": "CMVS::VM::StrToInt",
+            "addr": "0x47d560"
+        },
+        {
+            "name": "CMVS::VM::LoadScript",
+            "addr": "0x485fb0"
+        },
+        {
+            "name": "CMVS::VM::DrawBackLog",
+            "addr": "0x488530"
+        },
+        {
+            "name": "CMVS::VM::DrawTextBox",
+            "addr": "0x488e70"
+        },
+        {
+            "name": "CMVS::VM::MGV_Play",
+            "addr": "0x489240"
+        },
+        {
+            "name": "CMVS::VM::CMV_Play",
+            "addr": "0x489430"
+        },
+        {
+            "name": "CMVS::Audio::Reader",
+            "addr": "0x48adb0"
+        },
+        {
+            "name": "CMVS::Audio::Loader_",
+            "addr": "0x48afc0"
+        },
+        {
+            "name": "CMVS::Audio::Loader",
+            "addr": "0x48bc00"
+        },
+        {
+            "name": "CMVS::CFontEnumFontProc",
+            "addr": "0x492120"
+        },
+        {
+            "name": "CMVS::CFontEnumFont",
+            "addr": "0x492210"
+        }
+    ]
+}

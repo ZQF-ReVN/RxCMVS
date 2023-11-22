@@ -1,5 +1,6 @@
 ﻿#include "Hook.h"
 #include "Mem.h"
+#include "ErrorMsg.h"
 
 #include <Windows.h>
 #include <detours.h>
@@ -7,99 +8,90 @@
 
 namespace Rut::RxHook
 {
-	void SetHookCode_Jmp(std::uintptr_t uiRawAddress, std::uintptr_t uiNewAddress, std::size_t szHookCode)
+	void SetHookCode_Jmp(void* pRawAddress, void* pNewAddress, size_t szHookCode)
 	{
-		uint8_t code[0x5] = { 0xE9, 0x00, 0x00, 0x00, 0x00 };
-		*(uint32_t*)(code + 1) = uiNewAddress - uiRawAddress - sizeof(code);
-		SysMemWrite((LPVOID)uiRawAddress, &code, sizeof(code));
+		SysMemAccess(pRawAddress, szHookCode, PAGE_EXECUTE_READWRITE, nullptr, L"SetHookCode_Jmp Failed!", true);
 
-		size_t fil_size = szHookCode - 5;
-		if (fil_size) { SysMemFill((void*)(uiRawAddress + 5), 0x90, fil_size); }
+		uint8_t asm_code[0x5] = { 0xE9, 0x00, 0x00, 0x00, 0x00 };
+		size_t* addr_ptr = (size_t*)(asm_code + 1);
+		*addr_ptr = (size_t)pNewAddress - (size_t)pRawAddress - sizeof(asm_code);
+		memcpy(pRawAddress, asm_code, sizeof(asm_code));
+
+		(szHookCode > 0x5) ? (void)memset((uint8_t*)pRawAddress + 0x5, 0x90, szHookCode - 0x5) : (void)nullptr;
 	}
 
-	void SetHookCode_Call(std::uintptr_t uiRawAddress, std::uintptr_t uiNewAddress, std::size_t szHookCode)
+	void SetHookCode_Call(void* pRawAddress, void* pNewAddress, size_t szHookCode)
 	{
-		uint8_t code[0x5] = { 0xE8, 0x00, 0x00, 0x00, 0x00 };
-		*(uint32_t*)(code + 1) = uiNewAddress - uiRawAddress - sizeof(code);
-		SysMemWrite((LPVOID)uiRawAddress, &code, sizeof(code));
+		SysMemAccess(pRawAddress, szHookCode, PAGE_EXECUTE_READWRITE, nullptr, L"SetHookCode_Call Failed!", true);
 
-		size_t fil_size = szHookCode - 5;
-		if (fil_size) { SysMemFill((void*)(uiRawAddress + 5), 0x90, fil_size); }
+		uint8_t asm_code[0x5] = { 0xE8, 0x00, 0x00, 0x00, 0x00 };
+		size_t* addr_ptr = (size_t*)(asm_code + 1);
+		*addr_ptr = (size_t)pNewAddress - (size_t)pRawAddress - sizeof(asm_code);
+		memcpy(pRawAddress, asm_code, sizeof(asm_code));
+
+		(szHookCode > 0x5) ? (void)memset((uint8_t*)pRawAddress + 0x5, 0x90, szHookCode - 0x5) : void();
 	}
 
-	bool SetHook(uint32_t uiRawAddr, uint32_t uiTarAddr, uint32_t szRawSize)
+	void SetHook(void* uiRawAddr, void* uiTarAddr, size_t szRawSize)
 	{
-		DWORD old = 0;
-		DWORD rva = 0;
-		BYTE rawJmp[] = { 0xE9,0x00,0x00,0x00,0x00 };
-		BYTE retJmp[] = { 0xE9,0x00,0x00,0x00,0x00 };
-		BYTE tarCal[] = { 0xE8,0x00,0x00,0x00,0x00 };
+		size_t rva = 0;
+		uint8_t raw_jmp_asm[] = { 0xE9,0x00,0x00,0x00,0x00 };
+		uint8_t ret_jmp_asm[] = { 0xE9,0x00,0x00,0x00,0x00 };
+		uint8_t tar_cal_asm[] = { 0xE8,0x00,0x00,0x00,0x00 };
 
-		SysMemAccess((LPVOID)uiRawAddr, 0x1000, PAGE_EXECUTE_READWRITE);
-		PBYTE alloc = (PBYTE)VirtualAlloc(NULL, 0x1000, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
-		if (alloc)
-		{
-			//Copy the Code for the original address to alloc address
-			memcpy(alloc, (PVOID)uiRawAddr, szRawSize);
+		SysMemAccess(uiRawAddr, 0x1000, PAGE_EXECUTE_READWRITE, nullptr, L"SetHook Failed!", true);
 
-			//Write Jmp Code
-			rva = (DWORD)alloc - uiRawAddr - sizeof(rawJmp);
-			memcpy(&rawJmp[1], &rva, sizeof(DWORD));
-			memcpy((PBYTE)uiRawAddr, rawJmp, sizeof(rawJmp));
+		uint8_t* code_buffer = (uint8_t*)SysMemAlloc(NULL, 0x1000, MEM_COMMIT, PAGE_EXECUTE_READWRITE, L"SetHook Failed!!", true);
 
-			//Write Call TarFunc Code
-			rva = uiTarAddr - (DWORD)(&alloc[szRawSize]) - sizeof(tarCal);
-			memcpy(&tarCal[1], &rva, sizeof(DWORD));
-			memcpy(&alloc[szRawSize], tarCal, sizeof(tarCal));
+		//Copy the Code for the original address to alloc address
+		memcpy(code_buffer, uiRawAddr, szRawSize);
 
-			//Write Ret Code
-			rva = (uiRawAddr + szRawSize) - (DWORD)(&alloc[szRawSize + sizeof(tarCal)]) - sizeof(retJmp);
-			memcpy(&retJmp[1], &rva, sizeof(DWORD));
-			memcpy(&alloc[szRawSize + sizeof(tarCal)], retJmp, sizeof(retJmp));
+		//Write Jmp Code
+		rva = (size_t)code_buffer - (size_t)uiRawAddr - sizeof(raw_jmp_asm);
+		memcpy(raw_jmp_asm + 1, &rva, sizeof(size_t));
+		memcpy(uiRawAddr, raw_jmp_asm, sizeof(raw_jmp_asm));
 
-			return TRUE;
-		}
-		else
-		{
-			MessageBoxW(NULL, L"SetHook Failed!!", NULL, NULL);
-			return FALSE;
-		}
+		//Write Call TarFunc Code
+		rva = (size_t)uiTarAddr - (size_t)(code_buffer + szRawSize) - sizeof(tar_cal_asm);
+		memcpy(tar_cal_asm + 1, &rva, sizeof(size_t));
+		memcpy(code_buffer + szRawSize, tar_cal_asm, sizeof(tar_cal_asm));
+
+		//Write Ret Code
+		rva = ((size_t)uiRawAddr + szRawSize) - (size_t)(code_buffer + szRawSize + sizeof(tar_cal_asm)) - sizeof(ret_jmp_asm);
+		memcpy(ret_jmp_asm + 1, &rva, sizeof(size_t));
+		memcpy(code_buffer + szRawSize + sizeof(tar_cal_asm), ret_jmp_asm, sizeof(ret_jmp_asm));
 	}
 
-	bool DetourAttachFunc(void* ppRawFunc, void* pNewFunc)
+	void DetourAttachFunc(void* ppRawFunc, void* pNewFunc)
 	{
-		DetourRestoreAfterWith();
-		DetourTransactionBegin();
-		DetourUpdateThread(GetCurrentThread());
+		::DetourRestoreAfterWith();
+		::DetourTransactionBegin();
+		::DetourUpdateThread(GetCurrentThread());
 
-		LONG erroAttach = DetourAttach((PVOID*)ppRawFunc, pNewFunc);
-		LONG erroCommit = DetourTransactionCommit();
+		LONG erroAttach = ::DetourAttach((PVOID*)ppRawFunc, pNewFunc);
+		LONG erroCommit = ::DetourTransactionCommit();
 
-		if (erroAttach == NO_ERROR && erroCommit == NO_ERROR) return false;
+		if (erroAttach == NO_ERROR && erroCommit == NO_ERROR) return;
 
-		MessageBoxW(NULL, L"DetourAttachFunc Failed!!", NULL, NULL);
-
-		return true;
+		SysErrorMsgBox(L"DetourAttachFunc Failed!!", true);
 	}
 
-	bool DetourDetachFunc(void* ppRawFunc, void* pNewFunc)
+	void DetourDetachFunc(void* ppRawFunc, void* pNewFunc)
 	{
-		DetourRestoreAfterWith();
-		DetourTransactionBegin();
-		DetourUpdateThread(GetCurrentThread());
+		::DetourRestoreAfterWith();
+		::DetourTransactionBegin();
+		::DetourUpdateThread(GetCurrentThread());
 
-		LONG erroDetach = DetourDetach((PVOID*)ppRawFunc, pNewFunc);
-		LONG erroCommit = DetourTransactionCommit();
+		LONG erroDetach = ::DetourDetach((PVOID*)ppRawFunc, pNewFunc);
+		LONG erroCommit = ::DetourTransactionCommit();
 
-		if (erroDetach == NO_ERROR && erroCommit == NO_ERROR) return false;
+		if (erroDetach == NO_ERROR && erroCommit == NO_ERROR) return;
 
-		MessageBoxW(NULL, L"DetourDetachFunc Failed!!", NULL, NULL);
-
-		return true;
+		SysErrorMsgBox(L"DetourDetachFunc Failed!!", true);
 	}
 
-	bool CreateProcessWithDlls(std::wstring_view wsAppName, uint32_t uiFlags, uint32_t nDlls, const char** rlpDlls, LPSTARTUPINFOW lpStartupInfo, LPPROCESS_INFORMATION lpProcessInformation)
+	bool CreateProcessWithDlls(const wchar_t* wpAppName, uint32_t uiFlags, uint32_t nDlls, const char** rlpDlls, LPSTARTUPINFOW lpStartupInfo, LPPROCESS_INFORMATION lpProcessInformation)
 	{
-		return DetourCreateProcessWithDllsW(wsAppName.data(), NULL, NULL, NULL, FALSE, uiFlags, NULL, NULL, lpStartupInfo, lpProcessInformation, nDlls, rlpDlls, NULL);
+		return ::DetourCreateProcessWithDllsW(wpAppName, NULL, NULL, NULL, FALSE, uiFlags, NULL, NULL, lpStartupInfo, lpProcessInformation, nDlls, rlpDlls, NULL);
 	}
 }

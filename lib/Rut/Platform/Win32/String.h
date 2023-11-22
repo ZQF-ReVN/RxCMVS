@@ -17,4 +17,8 @@ namespace Rut::Platform
 
 	size_t StrToWStr(const char* cpStr, size_t msStrBytes, wchar_t* wpStr, size_t wsStrChars, size_t nCodePage);
 	size_t WStrToStr(const wchar_t* wpStr, size_t wsStrChars, char* cpStr, size_t msStrBytes, size_t nCodePage, bool* isError, const char* cpDefault);
+
+	bool NumToStr(char* cpBuffer, size_t nBufferSize, size_t nValue, size_t nRation);
+	bool NumToStr(wchar_t* wpBuffer, size_t nBufferSize, size_t nValue, size_t nRation);
+
 }

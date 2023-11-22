@@ -112,6 +112,21 @@ namespace Rut::RxStr
 	}
 
 
+	std::string NumToStr(size_t nValue, size_t nRation)
+	{
+		char tmp[64];
+		return Platform::NumToStr(tmp, 64, nValue, nRation) ? tmp : "";
+	}
+
+	std::wstring NumToWStr(size_t nValue, size_t nRation)
+	{
+		wchar_t tmp[64];
+		return Platform::NumToStr(tmp, 64, nValue, nRation) ? tmp : L"";
+	}
+
+
+
+
 	FormatLine::FormatLine(std::wstring wsInsert, std::vector<const wchar_t*> vecBreakChar)
 	{
 		m_wsInsert = wsInsert;

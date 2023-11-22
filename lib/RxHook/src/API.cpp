@@ -18,11 +18,11 @@ namespace Rut::RxHook
 		return sg_fnCreateFontA(cHeight, cWidth, cEscapement, cOrientation, cWeight, bItalic, bUnderline, bStrikeOut, iCharSet, iOutPrecision, iClipPrecision, iQuality, iPitchAndFamily, pszFaceName);
 	}
 
-	bool HookCreateFontA(const uint32_t uiCharSet, const char* cpFontName)
+	void HookCreateFontA(const uint32_t uiCharSet, const char* cpFontName)
 	{
 		sg_dwCharSetA = uiCharSet;
 		sg_lpFontNameA = cpFontName;
-		return DetourAttachFunc(&sg_fnCreateFontA, CreateFontA_Hook);
+		DetourAttachFunc(&sg_fnCreateFontA, CreateFontA_Hook);
 	}
 	//*********END Hook CreateFontA*********
 
@@ -38,11 +38,11 @@ namespace Rut::RxHook
 		return sg_fnCreateFontW(cHeight, cWidth, cEscapement, cOrientation, cWeight, bItalic, bUnderline, bStrikeOut, iCharSet, iOutPrecision, iClipPrecision, iQuality, iPitchAndFamily, pszFaceName);
 	}
 
-	bool HookCreateFontW(const uint32_t uiCharSet, const wchar_t* cpFontName)
+	void HookCreateFontW(const uint32_t uiCharSet, const wchar_t* cpFontName)
 	{
 		sg_dwCharSetW = uiCharSet;
 		sg_lpFontNameW = cpFontName;
-		return DetourAttachFunc(&sg_fnCreateFontW, CreateFontW_Hook);
+		DetourAttachFunc(&sg_fnCreateFontW, CreateFontW_Hook);
 	}
 	//*********END Hook CreateFontW*********
 
@@ -58,11 +58,11 @@ namespace Rut::RxHook
 		return sg_fnCreateFontIndirectA(lplf);
 	}
 
-	bool HookCreateFontIndirectA(const uint32_t uiCharSet, const char* cpFontName)
+	void HookCreateFontIndirectA(const uint32_t uiCharSet, const char* cpFontName)
 	{
 		sg_dwCharSetIndirectA = uiCharSet;
 		sg_lpFontNameIndirectA = cpFontName;
-		return DetourAttachFunc(&sg_fnCreateFontIndirectA, CreateFontIndirectA_Hook);
+		DetourAttachFunc(&sg_fnCreateFontIndirectA, CreateFontIndirectA_Hook);
 	}
 	//*********END Hook CreateFontIndirectA*********
 
@@ -78,11 +78,11 @@ namespace Rut::RxHook
 		return sg_fnCreateFontIndirectW(lplf);
 	}
 
-	bool HookCreateFontIndirectW(const uint32_t uiCharSet, const wchar_t* cpFontName)
+	void HookCreateFontIndirectW(const uint32_t uiCharSet, const wchar_t* cpFontName)
 	{
 		sg_dwCharSetIndirectW = uiCharSet;
 		sg_lpFontNameIndirectW = cpFontName;
-		return DetourAttachFunc(&sg_fnCreateFontIndirectW, CreateFontIndirectW_Hook);
+		DetourAttachFunc(&sg_fnCreateFontIndirectW, CreateFontIndirectW_Hook);
 	}
 	//*********END Hook CreateFontIndirectW*********
 
@@ -102,11 +102,11 @@ namespace Rut::RxHook
 		return sg_fnCreateWindowExA(dwExStyle, lpClassName, lpWindowName, dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
 	}
 
-	bool HookTitleExA(const char* cpRawTitle, const char* cpPatchTitle)
+	void HookTitleExA(const char* cpRawTitle, const char* cpPatchTitle)
 	{
 		sg_lpNewTitle = cpPatchTitle;
 		sg_lpRawTitle = cpRawTitle;
-		return DetourAttachFunc(&sg_fnCreateWindowExA, CreateWindowExA_Hook);
+		DetourAttachFunc(&sg_fnCreateWindowExA, CreateWindowExA_Hook);
 	}
 	//*********END Hook CreateWindowExA*********
 }

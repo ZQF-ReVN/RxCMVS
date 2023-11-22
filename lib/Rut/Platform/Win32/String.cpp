@@ -55,4 +55,17 @@ namespace Rut::Platform
 		if (isError) { *isError = not_all_cvt; }
 		return cch;
 	}
+
+
+	bool NumToStr(char* cpBuffer, size_t nBufferSize, size_t nValue, size_t nRation)
+	{
+		errno_t err = ::_itoa_s(nValue, cpBuffer, nBufferSize, nRation);
+		return err == 0 ? true : false;
+	}
+
+	bool NumToStr(wchar_t* wpBuffer, size_t nBufferSize, size_t nValue, size_t nRation)
+	{
+		errno_t err = ::_itow_s(nValue, wpBuffer, nBufferSize, nRation);
+		return err == 0 ? true : false;
+	}
 }
