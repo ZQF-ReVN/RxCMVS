@@ -51,25 +51,20 @@ namespace CMVS::VFS
 		lstrcpyA(sg_aHookFolder, cpFolder);
 	}
 
-	void SetFnReadFullData(uint32_t fnReadFullData)
+	void HookPS3_V380(uint32_t fnReadFullData, uint32_t fnScriptReader)
 	{
 		sg_fnReadFullData = (Fn_ReadFullData)fnReadFullData;
-	}
-
-	void SetFnImageDecoder(uint32_t fnImageDecoder)
-	{
-		sg_fnImageDecoder = (Fn_ImageDecoder)fnImageDecoder;
-	}
-
-	void HookPS3_V380(uint32_t fnScriptReader)
-	{
 		sg_fnScriptReader = (Fn_ScriptReader)fnScriptReader;
+
 		Rut::RxHook::DetourAttachFunc(&sg_fnScriptReader, ScriptReader_Hook);
 	}
 
-	void HookPB3_V380(uint32_t fnImageReader)
+	void HookPB3_V380(uint32_t fnReadFullData, uint32_t fnImageReader, uint32_t fnImageDecoder)
 	{
 		sg_fnImageReader = (Fn_ImageReader)fnImageReader;
+		sg_fnImageDecoder = (Fn_ImageDecoder)fnImageDecoder;
+		sg_fnReadFullData = (Fn_ReadFullData)fnReadFullData;
+
 		Rut::RxHook::DetourAttachFunc(&sg_fnImageReader, ImageReader_Hook);
 	}
 }

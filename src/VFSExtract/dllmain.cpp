@@ -4,7 +4,7 @@
 
 static void StartHook(HMODULE hDllBase)
 {
-	CMVS::VFS::Extract(0x0046CF90,0x004401C0,0x004415F0);
+	CMVS::VFS::Extract(0x0046CF90, 0x004401C0, 0x004415F0);
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)

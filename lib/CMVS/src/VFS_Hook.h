@@ -5,11 +5,8 @@
 namespace CMVS::VFS
 {
 	void SetHookFolder(const char* cpFolder);
-	void SetFnReadFullData(uint32_t fnReadFullData);
-	void SetFnImageDecoder(uint32_t fnImageDecoder);
-
-	void HookPS3_V380(uint32_t fnLoadScript);
-	void HookPB3_V380(uint32_t fnLoadImage);
+	void HookPS3_V380(uint32_t fnReadFullData, uint32_t fnScriptReader);
+	void HookPB3_V380(uint32_t fnReadFullData, uint32_t fnImageReader, uint32_t fnImageDecoder);
 }
 
 
