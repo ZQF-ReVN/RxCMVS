@@ -47,7 +47,7 @@ namespace CMVS::PS3
 			if (entry.msText.empty()) { throw std::runtime_error("CMVS::PS3::Editor::Insert Error! Text Empty"); }
 
 			// Cal New Text Rva
-			entry.uiRvaValRva = text_seg_len + append_text_size;
+			entry.uiRvaValRva = (uint32_t)(text_seg_len + append_text_size);
 			append_text_size += entry.msText.size() + 1;
 
 			// Write New Text Rva
@@ -70,8 +70,8 @@ namespace CMVS::PS3
 
 		// Set Header Data
 		PS3_HDR* hdr_ptr = this->GetHdrPtr();
-		hdr_ptr->uiDataDecompressSize += append_text_size;
-		hdr_ptr->uiTextBlockSize += append_text_size;
+		hdr_ptr->uiDataDecompressSize += (uint32_t)append_text_size;
+		hdr_ptr->uiTextBlockSize += (uint32_t)append_text_size;
 
 		// Save Data
 		this->m_amPS3.SaveData(wsSavePath);
@@ -117,7 +117,7 @@ namespace CMVS::PS3
 			if (memcmp(push_str_opcode_beg, (code_seg_ptr + ite), sizeof(push_str_opcode_beg))) { continue; }
 			if (memcmp(push_str_opcode_end, (code_seg_ptr + ite + sizeof(push_str_opcode_beg) + 4), sizeof(push_str_opcode_end))) { continue; }
 
-			entry.uiRvaPtrRva = ite + sizeof(push_str_opcode_beg);
+			entry.uiRvaPtrRva = (uint32_t)(ite + sizeof(push_str_opcode_beg));
 			entry.uiRvaValRva = *(uint32_t*)(code_seg_ptr + entry.uiRvaPtrRva);
 
 			// Filter String
