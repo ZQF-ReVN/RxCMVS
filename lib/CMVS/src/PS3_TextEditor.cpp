@@ -4,13 +4,18 @@
 #include "../../Rut/RxStr.h"
 #include "../../Rut/RxJson.h"
 
-#include <format>
-
 using namespace Rut;
 
 
 namespace CMVS::PS3
 {
+	static std::wstring NumToStr(const wchar_t* wpFormat, size_t nValue)
+	{
+		wchar_t buf[0x10];
+		size_t len = (size_t)swprintf_s(buf, 0x10, wpFormat, nValue);
+		return { buf, len };
+	}
+
 	void TextEditor::Init(std::wstring_view wsPath)
 	{
 		m_wsPath = wsPath;
@@ -42,7 +47,7 @@ namespace CMVS::PS3
 		{
 			// Read Text
 			Text_Entry& entry = m_vecTextIndex[ite];
-			entry.msText = RxStr::ToMBCS(jarr_scn[ite][L"Text_Tra"], nCodePage);
+			entry.msText = RxStr::ToMBCS(jarr_scn[ite][L"tra"].ToStrView(), nCodePage);
 
 			if (entry.msText.empty()) { throw std::runtime_error("CMVS::PS3::Editor::Insert Error! Text Empty"); }
 
@@ -92,10 +97,14 @@ namespace CMVS::PS3
 			RxStr::ToWCS(entry.msText, text, nCodePage);
 
 			RxJson::JObject jobj_info;
-			jobj_info[L"Text_Raw"] = text;
-			jobj_info[L"Text_Tra"] = text;
-			jobj_info[L"FOA_Ptr"] = std::format(L"{:#08x}", hdr_len + entry.uiRvaPtrRva);
-			jobj_info[L"FOA_Rva"] = std::format(L"{:#08x}", hdr_len + code_len + entry.uiRvaValRva);
+			jobj_info[L"raw"] = text;
+			jobj_info[L"tra"] = text;
+
+			if(false)
+			{
+				jobj_info[L"FOA_Ptr"] = NumToStr(L"0x%08x", hdr_len + entry.uiRvaPtrRva);
+				jobj_info[L"FOA_Rva"] = NumToStr(L"0x%08x", hdr_len + code_len + entry.uiRvaValRva);
+			}
 
 			jarr_scn.push_back(jobj_info);
 		}
