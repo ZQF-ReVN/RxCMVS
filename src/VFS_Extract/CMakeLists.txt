@@ -4,10 +4,10 @@ if (NOT CMAKE_SIZEOF_VOID_P EQUAL 4)
 endif()
 
 # Value Define
-set(PROJECT_NAME VFSHook)
+set(PROJECT_NAME VFS_Extract)
 
 # Cpp Standard
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Add Library

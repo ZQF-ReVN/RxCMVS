@@ -3,35 +3,30 @@
 #include "../../lib/CMVS/MGV.h"
 #include "../../lib/Rut/RxConsole.h"
 
-using namespace CMVS::MGV;
 
-
-int wmain(int argc, wchar_t* argv[])
+static void UserMain(int argc, char* argv[])
 {
 	try
 	{
 		switch (argc)
 		{
-		case 2: 
+		case 2:
 		{
-			std::wstring_view mgv_path = argv[1];
-			Editor::Extract(mgv_path);
+			CMVS::MGV::Editor::Extract(argv[1]);
 		}
 		break;
 
-		case 3: 
+		case 3:
 		{
-			std::wstring_view mgv_path = argv[1];
-			std::wstring_view video_path = argv[2];
-			Editor::Replace(mgv_path, video_path);
+			CMVS::MGV::Editor::Replace(argv[1], argv[2]);
 		}
 		break;
 
 		default:
 		{
 			Rut::RxConsole::Put("MGV Editor\n");
-			Rut::RxConsole::Put("Extract Video/Audio: MGVEditor.exe op.mgv\n""Extract Video/Audio: MGVEditor.exe op.mgv\n");
-			Rut::RxConsole::Put("Replace Video: MGVEditor.exe op.mgv op.ogv\n\n");
+			Rut::RxConsole::Put("Extract Video/Audio: MGV_Editor.exe op.mgv\n");
+			Rut::RxConsole::Put("Replace Video: MGV_Editor.exe op.mgv op.ogv\n\n");
 		}
 		break;
 		}
@@ -43,7 +38,7 @@ int wmain(int argc, wchar_t* argv[])
 	}
 }
 
-void PackMGV()
+static void DebugMain()
 {
 	//MGVPack mgv(L"1.mgv");
 	//MGVHeader header = { 0 };
@@ -63,4 +58,10 @@ void PackMGV()
 
 	//mgv.InitMGVInfo(&header);
 	//mgv.MakePack(L"op.mgv.ogg", L"op.mgv.ogv");
+}
+
+
+int main(int argc, char* argv[])
+{
+	::UserMain(argc, argv);
 }

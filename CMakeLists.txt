@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 3.12)
 
 # Project Name
-project(RiaLibrary)
+project(CMVS_Tools)
 
 # Tool Chain
 set(CMAKE_TOOLCHAIN_FILE "toolchain.cmake")
@@ -28,7 +28,8 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_LIST_DIR}/.out/lib)
      add_subdirectory("lib/RxHook")
 
 # Project
-    add_subdirectory("src/MGVEditor")
-    add_subdirectory("src/PS3TextEditor")
-    add_subdirectory("src/VFSHook")
-    add_subdirectory("src/VFSExtract")
+    add_subdirectory("src/MGV_Editor")
+    add_subdirectory("src/PS3_TextEditor")
+    add_subdirectory("src/PS3_Cryptor")
+    add_subdirectory("src/VFS_Hook")
+    add_subdirectory("src/VFS_Extract")

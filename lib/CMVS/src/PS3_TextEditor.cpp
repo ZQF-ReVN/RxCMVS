@@ -1,4 +1,4 @@
-#include "PS3_Editor.h"
+#include "PS3_TextEditor.h"
 
 #include "../../Rut/RxFile.h"
 #include "../../Rut/RxStr.h"
@@ -11,14 +11,14 @@ using namespace Rut;
 
 namespace CMVS::PS3
 {
-	void Editor::Init(std::wstring_view wsPath, bool isDecode)
+	void TextEditor::Init(std::wstring_view wsPath)
 	{
 		m_wsPath = wsPath;
-		isDecode ? ((void)Coder::Decode(wsPath, m_amPS3)) : ((void)m_amPS3.LoadFile(wsPath));
-		ReadEntry();
+		m_amPS3.LoadFile(wsPath);
+		this->ReadEntry();
 	}
 
-	bool Editor::Insert(std::wstring_view wsJsonPath, std::wstring_view wsSavePath, size_t nCodePage)
+	bool TextEditor::Import(std::wstring_view wsJsonPath, std::wstring_view wsSavePath, size_t nCodePage)
 	{
 		// Check
 		if (this->m_vecTextIndex.empty()) { return false; }
@@ -79,13 +79,13 @@ namespace CMVS::PS3
 		return true;
 	}
 
-	void Editor::Extract(std::wstring_view wsPath, size_t nCodePage)
+	void TextEditor::Export(std::wstring_view wsPath, size_t nCodePage)
 	{
 		size_t hdr_len = this->GetHdrSize();
 		size_t code_len = this->GetCodeSegSize();
 
 		RxJson::JValue json_root;
-		RxJson::JArray& jarr_scn = json_root[L"Scenario"];
+		RxJson::JArray& jarr_scn = json_root[L"Scenario"].ToAry();
 		for (auto& entry : m_vecTextIndex)
 		{
 			std::wstring text;
@@ -100,11 +100,11 @@ namespace CMVS::PS3
 			jarr_scn.push_back(jobj_info);
 		}
 
-		RxJson::Parser::Save(json_root, wsPath);
+		RxJson::Parser::Save(json_root, wsPath, true);
 	}
 
 
-	void Editor::ReadEntry()
+	void TextEditor::ReadEntry()
 	{
 		constexpr uint8_t push_str_opcode_beg[4] = { 0x01, 0x02, 0x20, 0x01 };
 		constexpr uint8_t push_str_opcode_end[4] = { 0x0F, 0x02, 0x30, 0x04 };
@@ -129,7 +129,7 @@ namespace CMVS::PS3
 		}
 	}
 
-	bool Editor::Filter(std::string_view msText)
+	bool TextEditor::Filter(std::string_view msText)
 	{
 		if (msText.empty() ||
 			msText.find(".ogg") != std::string::npos || msText.find(".wav") != std::string::npos ||
@@ -146,42 +146,42 @@ namespace CMVS::PS3
 		}
 	}
 
-	uint8_t* Editor::GetPS3Ptr()
+	uint8_t* TextEditor::GetPS3Ptr() const
 	{
 		return m_amPS3.GetPtr();
 	}
 
-	PS3_HDR* Editor::GetHdrPtr()
+	PS3_HDR* TextEditor::GetHdrPtr()
 	{
 		return (PS3_HDR*)this->GetPS3Ptr();
 	}
 
-	uint32_t Editor::GetHdrSize()
+	uint32_t TextEditor::GetHdrSize()
 	{
 		return this->GetHdrPtr()->uiHeaderSize;
 	}
 
-	uint32_t Editor::GetCodeSegSize()
+	uint32_t TextEditor::GetCodeSegSize()
 	{
 		return this->GetHdrPtr()->uiCodeBlockSize + (4 * this->GeTextCount()) + this->GetHdrPtr()->uiUnBlockSize;
 	}
 
-	uint32_t Editor::GeTextSegSize()
+	uint32_t TextEditor::GeTextSegSize()
 	{
 		return this->GetHdrPtr()->uiTextBlockSize;
 	}
 
-	uint8_t* Editor::GetCodeSegPtr()
+	uint8_t* TextEditor::GetCodeSegPtr()
 	{
 		return this->GetPS3Ptr() + this->GetHdrSize();
 	}
 
-	uint8_t* Editor::GetTextSegPtr()
+	uint8_t* TextEditor::GetTextSegPtr()
 	{
 		return this->GetPS3Ptr() + this->GetHdrSize() + this->GetCodeSegSize();
 	}
 
-	uint32_t Editor::GeTextCount()
+	uint32_t TextEditor::GeTextCount()
 	{
 		return this->GetHdrPtr()->uiTextCount;
 	}

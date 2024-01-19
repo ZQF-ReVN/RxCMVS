@@ -4,7 +4,7 @@
 
 namespace CMVS::PS3
 {
-    class Coder
+    class Cryptor
     {
     public:
         static void Decode(std::wstring_view wsPath, Rut::RxMem::Auto& rfDecode);

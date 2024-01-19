@@ -1,10 +1,10 @@
-#include "PS3_Coder.h"
+#include "PS3_Cryptor.h"
 #include "CMVS_Types.h"
 
 
 namespace CMVS::PS3
 {
-    void Coder::Decode(std::wstring_view wsPath, Rut::RxMem::Auto& rfBuffer)
+    void Cryptor::Decode(std::wstring_view wsPath, Rut::RxMem::Auto& rfBuffer)
     {
         Rut::RxMem::Auto tmp_ps3(wsPath);
         uint8_t* enc_file_ptr = tmp_ps3.GetPtr();
@@ -24,7 +24,7 @@ namespace CMVS::PS3
         memcpy(dec_file_ptr, enc_file_ptr, enc_hdr_ptr->uiHeaderSize);
     }
 
-    void Coder::Encode(std::wstring_view wsPath, Rut::RxMem::Auto& rfBuffer)
+    void Cryptor::Encode(std::wstring_view wsPath, Rut::RxMem::Auto& rfBuffer)
     {
         Rut::RxMem::Auto tmp_ps3(wsPath);
         uint8_t* dec_file_ptr = tmp_ps3.GetPtr();
@@ -57,7 +57,7 @@ namespace CMVS::PS3
         return (ucValue << ucShift) | (ucValue >> (8 - ucShift));
     }
 
-    void Coder::KeyDecData(uint8_t* pData, size_t uiDataSize, uint32_t uiKey)
+    void Cryptor::KeyDecData(uint8_t* pData, size_t uiDataSize, uint32_t uiKey)
     {
         if (uiDataSize == 0) { return; }
 
@@ -74,7 +74,7 @@ namespace CMVS::PS3
         }
     }
 
-    void Coder::KeyEncData(uint8_t* pData, size_t uiDataSize, uint32_t uiKey)
+    void Cryptor::KeyEncData(uint8_t* pData, size_t uiDataSize, uint32_t uiKey)
     {
         if (uiDataSize == 0) { return; }
 
@@ -91,7 +91,7 @@ namespace CMVS::PS3
         }
     }
 
-    void Coder::LZSS_Decode(uint8_t* pEnc, size_t nEncSize, uint8_t* pDec)
+    void Cryptor::LZSS_Decode(uint8_t* pEnc, size_t nEncSize, uint8_t* pDec)
     {
         constexpr size_t slider_size = 0x800;
         constexpr size_t slider_max_index = 0x7FF;
@@ -149,7 +149,7 @@ namespace CMVS::PS3
         }
     }
 
-    size_t Coder::LZSS_Encode_Fake(uint8_t* pRaw, size_t nRawSize, uint8_t* pEnc)
+    size_t Cryptor::LZSS_Encode_Fake(uint8_t* pRaw, size_t nRawSize, uint8_t* pEnc)
     {
         uint8_t* pEnc_Back = pEnc;
         size_t align = nRawSize % 8;
