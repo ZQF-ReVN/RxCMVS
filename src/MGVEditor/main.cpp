@@ -15,7 +15,7 @@ int wmain(int argc, wchar_t* argv[])
 		case 2: 
 		{
 			std::wstring_view mgv_path = argv[1];
-			Editor(mgv_path).Extract();
+			Editor::Extract(mgv_path);
 		}
 		break;
 
@@ -23,7 +23,7 @@ int wmain(int argc, wchar_t* argv[])
 		{
 			std::wstring_view mgv_path = argv[1];
 			std::wstring_view video_path = argv[2];
-			Editor(mgv_path).Replace(video_path);
+			Editor::Replace(mgv_path, video_path);
 		}
 		break;
 

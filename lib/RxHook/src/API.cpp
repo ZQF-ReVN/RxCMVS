@@ -2,6 +2,7 @@
 #include "Hook.h"
 #include "API_DEF.h"
 
+#include <memory>
 #include <Windows.h>
 
 
@@ -11,7 +12,7 @@ namespace Rut::RxHook
 	static DWORD sg_dwCharSetA = 0;
 	static LPCSTR sg_lpFontNameA = nullptr;
 	static Fn_CreateFontA sg_fnCreateFontA = CreateFontA;
-	HFONT WINAPI CreateFontA_Hook(INT cHeight, INT cWidth, INT cEscapement, INT cOrientation, INT cWeight, DWORD bItalic, DWORD bUnderline, DWORD bStrikeOut, DWORD iCharSet, DWORD iOutPrecision, DWORD iClipPrecision, DWORD iQuality, DWORD iPitchAndFamily, LPCSTR pszFaceName)
+	static HFONT WINAPI CreateFontA_Hook(INT cHeight, INT cWidth, INT cEscapement, INT cOrientation, INT cWeight, DWORD bItalic, DWORD bUnderline, DWORD bStrikeOut, DWORD iCharSet, DWORD iOutPrecision, DWORD iClipPrecision, DWORD iQuality, DWORD iPitchAndFamily, LPCSTR pszFaceName)
 	{
 		iCharSet = sg_dwCharSetA;
 		pszFaceName = sg_lpFontNameA;
@@ -22,7 +23,7 @@ namespace Rut::RxHook
 	{
 		sg_dwCharSetA = uiCharSet;
 		sg_lpFontNameA = cpFontName;
-		DetourAttachFunc(&sg_fnCreateFontA, CreateFontA_Hook);
+		Detours::AttrachDirectly(&sg_fnCreateFontA, CreateFontA_Hook);
 	}
 	//*********END Hook CreateFontA*********
 
@@ -42,7 +43,7 @@ namespace Rut::RxHook
 	{
 		sg_dwCharSetW = uiCharSet;
 		sg_lpFontNameW = cpFontName;
-		DetourAttachFunc(&sg_fnCreateFontW, CreateFontW_Hook);
+		Detours::AttrachDirectly(&sg_fnCreateFontW, CreateFontW_Hook);
 	}
 	//*********END Hook CreateFontW*********
 
@@ -62,7 +63,7 @@ namespace Rut::RxHook
 	{
 		sg_dwCharSetIndirectA = uiCharSet;
 		sg_lpFontNameIndirectA = cpFontName;
-		DetourAttachFunc(&sg_fnCreateFontIndirectA, CreateFontIndirectA_Hook);
+		Detours::AttrachDirectly(&sg_fnCreateFontIndirectA, CreateFontIndirectA_Hook);
 	}
 	//*********END Hook CreateFontIndirectA*********
 
@@ -82,7 +83,7 @@ namespace Rut::RxHook
 	{
 		sg_dwCharSetIndirectW = uiCharSet;
 		sg_lpFontNameIndirectW = cpFontName;
-		DetourAttachFunc(&sg_fnCreateFontIndirectW, CreateFontIndirectW_Hook);
+		Detours::AttrachDirectly(&sg_fnCreateFontIndirectW, CreateFontIndirectW_Hook);
 	}
 	//*********END Hook CreateFontIndirectW*********
 
@@ -96,7 +97,7 @@ namespace Rut::RxHook
 		if (!::lstrcmpA(lpWindowName, sg_lpRawTitle))
 		{
 			lpWindowName = sg_lpNewTitle;
-			DetourDetachFunc(&sg_fnCreateWindowExA, &CreateWindowExA_Hook);
+			Detours::AttrachDirectly(&sg_fnCreateWindowExA, &CreateWindowExA_Hook);
 		}
 
 		return sg_fnCreateWindowExA(dwExStyle, lpClassName, lpWindowName, dwStyle, X, Y, nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam);
@@ -106,7 +107,7 @@ namespace Rut::RxHook
 	{
 		sg_lpNewTitle = cpPatchTitle;
 		sg_lpRawTitle = cpRawTitle;
-		DetourAttachFunc(&sg_fnCreateWindowExA, CreateWindowExA_Hook);
+		Detours::AttrachDirectly(&sg_fnCreateWindowExA, CreateWindowExA_Hook);
 	}
 	//*********END Hook CreateWindowExA*********
 }

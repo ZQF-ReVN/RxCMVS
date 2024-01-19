@@ -1,6 +1,6 @@
 ﻿#include "MGV_Editor.h"
+#include "CMVS_Types.h"
 #include "../../Rut/RxMem.h"
-#include "../../Rut/RxPath.h"
 #include "../../Rut/RxFile.h"
 
 using namespace Rut;
@@ -8,60 +8,49 @@ using namespace Rut;
 
 namespace CMVS::MGV
 {
-	Editor::Editor(const std::wstring_view wsMGV) : m_Header({}), m_wsMGV(wsMGV)
+	void Editor::Extract(const std::filesystem::path& phMGV)
 	{
-		RxFile::Binary{ m_wsMGV, RIO_READ } >> m_Header;
+		RxFile::Binary ifs_mgv{ phMGV, RIO_READ };
+
+		MGV_HDR hdr = ifs_mgv.Get<MGV_HDR>();
+
+		uint32_t index_size = hdr.uiFrameIndexCount * 4;
+		ifs_mgv.SetPos(sizeof(hdr) + index_size);
+
+		RxMem::Auto buffer;
+
+		buffer.ReadData(ifs_mgv, hdr.uiAudioSize);
+		buffer.SaveData(phMGV.stem().replace_extension(L".ogg"));
+
+		buffer.ReadData(ifs_mgv, hdr.uiVideoSize);
+		buffer.SaveData(phMGV.stem().replace_extension(L".ogv"));
 	}
 
-	void Editor::Extract()
+	void Editor::Replace(const std::filesystem::path& phMGV, const std::filesystem::path& phVideo)
 	{
-		RxMem::Auto tmp;
-		uint32_t index_size = m_Header.uiFrameIndexCount * 4;
+		RxFile::Binary ifs_mgv{ phMGV, RIO_READ };
+		RxFile::Binary ofs_mgv{ phMGV.wstring() + L".new", RIO_WRITE };
 
-		// Restore File Pointer
-		RxFile::Binary ifs_mgv{ m_wsMGV, RIO_READ };
-		ifs_mgv.SetPos(sizeof(m_Header), RIO_BEGIN);
-
-		// Unpack Audio
-		uint8_t* buf_ptr = tmp.SetSize(m_Header.uiAudioSize);
-		ifs_mgv.SetPos(index_size, RIO_CURRENT);
-		ifs_mgv.Read(buf_ptr, m_Header.uiAudioSize);
-		RxFile::SaveFileViaPath((m_wsMGV + L".ogg").c_str(), buf_ptr, m_Header.uiAudioSize);
-
-		// Unpack Video
-		buf_ptr = tmp.SetSize(m_Header.uiVideoSize);
-		ifs_mgv.Read(buf_ptr, m_Header.uiVideoSize);
-		RxFile::SaveFileViaPath((m_wsMGV + L".ogv").c_str(), buf_ptr, m_Header.uiVideoSize);
-	}
-
-	void Editor::Replace(const std::wstring_view wsVideo)
-	{
-		RxMem::Auto tmp;
-		RxFile::Binary ifs_mgv{ m_wsMGV, RIO_READ};
-		RxFile::Binary ofs_mgv{ m_wsMGV + L".new", RIO_WRITE };
+		MGV_HDR hdr = ifs_mgv.Get<MGV_HDR>();
 
 		// Write Header
-		m_Header.uiVideoSize = (uint32_t)RxPath::FileSize(wsVideo);
-		ofs_mgv.Write(&m_Header, sizeof(m_Header));
+		hdr.uiVideoSize = (uint32_t)std::filesystem::file_size(phVideo);
+		ofs_mgv.Write(&hdr, sizeof(hdr));
+
+		RxMem::Auto buffer;
 
 		//Write Index
-		uint32_t index_size = m_Header.uiFrameIndexCount * 4;
-		uint8_t* index_ptr = tmp.SetSize(index_size);
-		ifs_mgv.SetPos(sizeof(this->m_Header), RIO_CURRENT);
-		ifs_mgv.Read(index_ptr, index_size);
-		ofs_mgv.Write(index_ptr, index_size);
+		uint32_t index_size = hdr.uiFrameIndexCount * 4;
+		buffer.ReadData(ifs_mgv, index_size);
+		ofs_mgv.Write(buffer.GetPtr(), buffer.GetSize());
 
 		//Write Audio
-		uint32_t audio_size = m_Header.uiAudioSize;
-		uint8_t* audio_ptr = tmp.SetSize(audio_size);
-		ifs_mgv.Read(audio_ptr, audio_size);
-		ofs_mgv.Write(audio_ptr, audio_size);
+		buffer.ReadData(ifs_mgv, hdr.uiAudioSize);
+		ofs_mgv.Write(buffer.GetPtr(), buffer.GetSize());
 
 		//Write Video
-		uint32_t video_size = m_Header.uiVideoSize;
-		uint8_t* video_ptr = tmp.SetSize(video_size);
-		RxFile::Binary{ wsVideo, RIO_READ }.Read(video_ptr, video_size);
-		ofs_mgv.Write(video_ptr, video_size);
+		buffer.LoadFile(phVideo);
+		ofs_mgv.Write(buffer.GetPtr(), buffer.GetSize());
 	}
 }
 

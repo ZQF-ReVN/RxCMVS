@@ -56,7 +56,7 @@ namespace CMVS::VFS
 		sg_fnReadFullData = (Fn_ReadFullData)fnReadFullData;
 		sg_fnScriptReader = (Fn_ScriptReader)fnScriptReader;
 
-		Rut::RxHook::DetourAttachFunc(&sg_fnScriptReader, ScriptReader_Hook);
+		Rut::RxHook::Detours::AttrachDirectly(&sg_fnScriptReader, ScriptReader_Hook);
 	}
 
 	void HookPB3_V380(uint32_t fnReadFullData, uint32_t fnImageReader, uint32_t fnImageDecoder)
@@ -65,6 +65,6 @@ namespace CMVS::VFS
 		sg_fnImageDecoder = (Fn_ImageDecoder)fnImageDecoder;
 		sg_fnReadFullData = (Fn_ReadFullData)fnReadFullData;
 
-		Rut::RxHook::DetourAttachFunc(&sg_fnImageReader, ImageReader_Hook);
+		Rut::RxHook::Detours::AttrachDirectly(&sg_fnImageReader, ImageReader_Hook);
 	}
 }

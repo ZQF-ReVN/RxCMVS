@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include <string>
-
-#include "CMVS_Types.h"
+#include <filesystem>
 
 
 namespace CMVS::MGV
@@ -9,14 +8,8 @@ namespace CMVS::MGV
 	class Editor
 	{
 	public:
-		MGV_HDR m_Header;
-		std::wstring m_wsMGV;
-
-	public:
-		Editor(const std::wstring_view wsMGV);
-
-		void Extract();
-		void Replace(const std::wstring_view wsVideo);
+		static void Extract(const std::filesystem::path& phMGV);
+		static void Replace(const std::filesystem::path& phMGV, const std::filesystem::path& phVideo);
 	};
 }
 

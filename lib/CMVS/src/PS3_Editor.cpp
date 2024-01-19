@@ -1,7 +1,10 @@
 #include "PS3_Editor.h"
+
 #include "../../Rut/RxFile.h"
 #include "../../Rut/RxStr.h"
-#include "../../RxJson/RxJson.h"
+#include "../../Rut/RxJson.h"
+
+#include <format>
 
 using namespace Rut;
 
@@ -21,7 +24,7 @@ namespace CMVS::PS3
 		if (this->m_vecTextIndex.empty()) { return false; }
 
 		// Read Json
-		RxJson::Value json;
+		RxJson::JValue json;
 		RxJson::Parser parser;
 		parser.Open(wsJsonPath);
 		parser.Read(json);
@@ -78,17 +81,10 @@ namespace CMVS::PS3
 
 	void Editor::Extract(std::wstring_view wsPath, size_t nCodePage)
 	{
-		auto fn_ToHexStr = [](uint32_t uiValue) -> std::wstring
-			{
-				wchar_t buf[25] = { 0 };
-				RxStr::Sprintf(buf, 25, L"0x%08X", uiValue);
-				return buf;
-			};
-
 		size_t hdr_len = this->GetHdrSize();
 		size_t code_len = this->GetCodeSegSize();
 
-		RxJson::Value json_root;
+		RxJson::JValue json_root;
 		RxJson::JArray& jarr_scn = json_root[L"Scenario"];
 		for (auto& entry : m_vecTextIndex)
 		{
@@ -98,8 +94,8 @@ namespace CMVS::PS3
 			RxJson::JObject jobj_info;
 			jobj_info[L"Text_Raw"] = text;
 			jobj_info[L"Text_Tra"] = text;
-			jobj_info[L"FOA_Ptr"] = fn_ToHexStr(hdr_len + entry.uiRvaPtrRva);
-			jobj_info[L"FOA_Rva"] = fn_ToHexStr(hdr_len + code_len + entry.uiRvaValRva);
+			jobj_info[L"FOA_Ptr"] = std::format(L"{:#08x}", hdr_len + entry.uiRvaPtrRva);
+			jobj_info[L"FOA_Rva"] = std::format(L"{:#08x}", hdr_len + code_len + entry.uiRvaValRva);
 
 			jarr_scn.push_back(jobj_info);
 		}

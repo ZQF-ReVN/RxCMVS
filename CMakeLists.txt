@@ -9,7 +9,8 @@ set(CMAKE_TOOLCHAIN_FILE "toolchain.cmake")
 
 # MSVC Setting
 if(MSVC)
-    add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/source-charset:utf-8>")
+    add_compile_options("$<$<CONFIG:Release>:/source-charset:utf-8>;$<$<CONFIG:Release>:/GL>;$<$<CONFIG:Release>:/Gy>;$<$<CONFIG:Release>:/GS>;$<$<CONFIG:Release>:/Zc:inline>;$<$<CONFIG:Release>:/Zc:forScope>")
+    add_link_options("$<$<CONFIG:Release>:/LTCG:INCREMENTAL>;$<$<CONFIG:Release>:/OPT:REF>")
     add_definitions(-DUNICODE -D_UNICODE)
 endif()
 
@@ -25,8 +26,6 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_LIST_DIR}/.out/lib)
      add_subdirectory("lib/CMVS")
      add_subdirectory("lib/Rut")
      add_subdirectory("lib/RxHook")
-     add_subdirectory("lib/RxJson")
-     add_subdirectory("lib/RxINI")
 
 # Project
     add_subdirectory("src/MGVEditor")

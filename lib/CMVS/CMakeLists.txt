@@ -6,9 +6,9 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Add Library
-link_libraries(Rut RxHook RxJson)
+link_libraries(Rut RxHook)
 include_directories("${THIRD_DIR}/")
-link_libraries("${THIRD_DIR}/libwebp/lib/libwebp.lib")
+link_libraries("${THIRD_DIR}/libwebp/lib.X86/libwebp.lib")
 
 # Set Source File Path
 list(APPEND SRC_FILE 

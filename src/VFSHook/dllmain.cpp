@@ -3,7 +3,7 @@
 
 #include "../../lib/CMVS/VFS.h"
 #include "../../lib/Rut/RxPath.h"
-#include "../../lib/RxINI/RxINI.h"
+#include "../../lib/Rut/RxINI.h"
 #include "../../lib/RxHook/RxHook.h"
 
 using namespace Rut;
@@ -67,7 +67,7 @@ static void StartHook(HMODULE hDllBase)
 {
 	try
 	{
-		RxINI::Parser ini(RxPath::NotSuffix(RxPath::ModulePathW(hDllBase)) + L".ini");
+		RxINI::Parser ini(RxPath::RemoveSuffix(RxPath::ModulePathW(hDllBase)) + L".ini");
 		HookFont(ini);
 		HookFile(ini);
 	}

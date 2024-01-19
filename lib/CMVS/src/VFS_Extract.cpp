@@ -97,7 +97,7 @@ namespace CMVS::VFS
 
 	static void __stdcall ExtractThread()
 	{
-		Rut::RxConsole::Alloc(L"CMVS_VFS_Extract", true, false);
+		Rut::RxConsole::Alloc(L"CMVS_VFS_Extract", true);
 
 		std::string command;
 		while (true)
@@ -136,9 +136,11 @@ namespace CMVS::VFS
 		sg_fnRegImagePath = (Fn_RegImagePath)fnRegImagePath;
 		sg_fnRegVideoPath = (Fn_RegVideoPath)fnRegVideoPath;
 
-		Rut::RxHook::DetourAttachFunc(&sg_fnRegCommPath, RegCommPath_Hook);
-		Rut::RxHook::DetourAttachFunc(&sg_fnRegImagePath, RegImagePath_Hook);
-		Rut::RxHook::DetourAttachFunc(&sg_fnRegVideoPath, RegVideoPath_Hook);
+		Rut::RxHook::Detours::Begin();
+		Rut::RxHook::Detours::Attach(&sg_fnRegCommPath, RegCommPath_Hook);
+		Rut::RxHook::Detours::Attach(&sg_fnRegImagePath, RegImagePath_Hook);
+		Rut::RxHook::Detours::Attach(&sg_fnRegVideoPath, RegVideoPath_Hook);
+		Rut::RxHook::Detours::Commit();
 
 		::CreateThread(NULL, NULL, (LPTHREAD_START_ROUTINE)ExtractThread, NULL, NULL, NULL);
 	}
