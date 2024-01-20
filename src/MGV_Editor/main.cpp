@@ -17,13 +17,13 @@ static void UserMain(int argc, wchar_t* argv[])
 		arg.AddExample(L"-mode replace -mgv op.mgv -ogv op.ogv");
 		if (arg.Load(argc, argv) == false) { return; }
 
-		if (arg.GetValue(L"-mode") == L"extract")
+		if (arg[L"-mode"] == L"extract")
 		{
-			CMVS::MGV::Editor::Extract(arg.GetValue(L"-mgv"));
+			CMVS::MGV::Editor::Extract(arg[L"-mgv"]);
 		}
-		else if (arg.GetValue(L"-mode") == L"replace")
+		else if (arg[L"-mode"] == L"replace")
 		{
-			CMVS::MGV::Editor::Replace(arg.GetValue(L"-mgv"), arg.GetValue(L"-ogv"));
+			CMVS::MGV::Editor::Replace(arg[L"-mgv"], arg[L"-ogv"]);
 		}
 		else
 		{

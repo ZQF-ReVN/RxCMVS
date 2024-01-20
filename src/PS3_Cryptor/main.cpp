@@ -18,17 +18,17 @@ static void UserMain(int argc, wchar_t* argv[])
 		arg.AddExample(L"-mode encode -ps3 sn1001.ps3 -save sn1001.ps3.enc");
 		if (arg.Load(argc, argv) == false) { return; }
 
-		if (arg.GetValue(L"-mode") == L"decode")
+		if (arg[L"-mode"] == L"decode")
 		{
 			Rut::RxMem::Auto out_mem;
-			CMVS::PS3::Cryptor::Decode(arg.GetValue(L"-ps3"), out_mem);
-			out_mem.SaveData(arg.GetValue(L"-save"));
+			CMVS::PS3::Cryptor::Decode(arg[L"-ps3"], out_mem);
+			out_mem.SaveData(arg[L"-save"]);
 		}
-		else if (arg.GetValue(L"-mode") == L"encode")
+		else if (arg[L"-mode"] == L"encode")
 		{
 			Rut::RxMem::Auto out_mem;
-			CMVS::PS3::Cryptor::Encode(arg.GetValue(L"-ps3"), out_mem);
-			out_mem.SaveData(arg.GetValue(L"-save"));
+			CMVS::PS3::Cryptor::Encode(arg[L"-ps3"], out_mem);
+			out_mem.SaveData(arg[L"-save"]);
 		}
 		else
 		{

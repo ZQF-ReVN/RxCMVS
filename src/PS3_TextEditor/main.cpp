@@ -19,24 +19,24 @@ static void UserMain(int argc, wchar_t* argv[])
 		arg.AddExample(L"-mode import -ps3 sn1001.ps3 -json sn1001.ps3.json -save sn1001.ps3.new -code 932");
 		if (arg.Load(argc, argv) == false) { return; }
 
-		if (arg.GetValue(L"-mode") == L"export")
+		if (arg[L"-mode"] == L"export")
 		{
 			CMVS::PS3::TextEditor editor;
-			editor.Init(arg.GetValue(L"-ps3"));
-			editor.Export(arg.GetValue(L"-json"), ::_wtoi(arg.GetValue(L"-code").c_str()));
-			Rut::RxCmd::PutFormat(L"Success: %s", arg.GetValue(L"-ps3"));
+			editor.Init(arg[L"-ps3"]);
+			editor.Export(arg[L"-json"], arg[L"-code"]);
+			Rut::RxCmd::PutFormat(L"Success: %s", arg[L"-ps3"]);
 		}
-		else if (arg.GetValue(L"-mode") == L"import")
+		else if (arg[L"-mode"] == L"import")
 		{
 			CMVS::PS3::TextEditor editor;
-			editor.Init(arg.GetValue(L"-ps3"));
-			if (editor.Import(arg.GetValue(L"-json"), arg.GetValue(L"-save"), ::_wtoi(arg.GetValue(L"-code").c_str())))
+			editor.Init(arg[L"-ps3"]);
+			if (editor.Import(arg[L"-json"], arg[L"-save"], arg[L"-code"]))
 			{
-				Rut::RxCmd::PutFormat(L"Success: %s", arg.GetValue(L"-ps3"));
+				Rut::RxCmd::PutFormat(L"Success: %s", arg[L"-ps3"]);
 			}
 			else
 			{
-				Rut::RxCmd::PutFormat(L"\n\tFailure: %s\n", arg.GetValue(L"-ps3"));
+				Rut::RxCmd::PutFormat(L"\n\tFailure: %s\n", arg[L"-ps3"]);
 			}
 		}
 		else

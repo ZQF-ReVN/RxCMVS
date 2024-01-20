@@ -40,6 +40,46 @@ namespace Rut::RxCmd::ArgManager
 	{
 		return m_wsHelp;
 	}
+
+	size_t Value::ToNum() const
+	{
+		return ::_wtoi(this->GetValue().c_str());
+	}
+
+	const std::wstring& Value::ToWStr() const
+	{
+		return this->GetValue();
+	}
+
+	std::wstring_view Value::ToWStrView() const
+	{
+		return this->GetValue();
+	}
+
+	Value::operator size_t() const
+	{
+		return this->ToNum();
+	}
+
+	Value::operator std::wstring_view () const
+	{
+		return this->GetValue();
+	}
+
+	Value::operator const std::wstring& () const
+	{
+		return this->GetValue();
+	}
+
+	Value::operator std::filesystem::path() const
+	{
+		return this->GetValue();
+	}
+
+	bool Value::operator==(std::wstring_view wsValue) const
+	{
+		return this->GetValue() == wsValue;
+	}
 }
 
 namespace Rut::RxCmd::ArgManager
@@ -111,16 +151,16 @@ namespace Rut::RxCmd::ArgManager
 		m_vcExample.emplace_back(wsExample);
 	}
 
-	const std::wstring& Parser::GetValue(std::wstring_view wsOption)
-	{
-		auto ite_map = m_mpCmd.find(wsOption.data());
-		if (ite_map == m_mpCmd.end()) { throw std::runtime_error("RxCmd::Parser::GetValue: Not Cmd Find!"); }
-		return ite_map->second.GetValue();
-	}
-
 	bool Parser::Ready()
 	{
 		return !m_mpCmd.empty();
+	}
+
+	const Value& Parser::operator[](std::wstring_view wsOption)
+	{
+		auto ite_map = m_mpCmd.find(wsOption.data());
+		if (ite_map == m_mpCmd.end()) { throw std::runtime_error("RxCmd::Parser::GetValue: Not Cmd Find!"); }
+		return ite_map->second;
 	}
 }
 

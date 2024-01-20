@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <vector>
 #include <string>
+#include <filesystem>
 #include <unordered_map>
 
 
@@ -21,6 +22,19 @@ namespace Rut::RxCmd::ArgManager
 		void SetHelp(std::wstring_view wsHelp);
 		const std::wstring& GetValue() const;
 		const std::wstring& GetHelp() const;
+
+	public:
+		size_t ToNum() const;
+		const std::wstring& ToWStr() const;
+		std::wstring_view ToWStrView() const;
+
+	public:
+		operator bool() const = delete;
+		operator size_t() const;
+		operator std::wstring_view () const;
+		operator const std::wstring& () const;
+		operator std::filesystem::path() const;
+		bool operator==(std::wstring_view wsValue) const;
 	};
 
 }
@@ -42,8 +56,12 @@ namespace Rut::RxCmd::ArgManager
 		void ShowHelp();
 		void AddCmd(std::wstring_view wsOption, std::wstring_view wsHelp);
 		void AddExample(std::wstring_view wsExample);
-		const std::wstring& GetValue(std::wstring_view wsOption);
 		bool Ready();
+
+	public:
+		const Value& operator[](int) = delete;
+		const Value& operator[](size_t) = delete;
+		const Value& operator[](std::wstring_view wsOption);
 	};
 }
 
