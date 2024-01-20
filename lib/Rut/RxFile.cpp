@@ -6,111 +6,104 @@
 #include <stdexcept>
 
 
-namespace Rut::RxFile
+
+namespace Rut::RxFile::Stream
 {
-	Basic::Basic() : m_hFile(nullptr)
+	BasicStream::BasicStream() : m_hFile(nullptr)
 	{
 
 	}
 
-	Basic::Basic(Basic&& refStream) noexcept
+	BasicStream::BasicStream(BasicStream&& refStream) noexcept
 	{
 		this->m_hFile = refStream.m_hFile;
 		refStream.m_hFile = nullptr;
 	}
 
-	Basic::~Basic()
+	BasicStream::~BasicStream()
 	{
 		this->Close();
 	}
 
-	void Basic::Create(const std::filesystem::path& phPath, size_t nMode)
+	void BasicStream::Create(const std::filesystem::path& phPath, size_t nMode)
 	{
 		m_hFile = RxSys::FileOpen(phPath, nMode);
 		if (m_hFile == nullptr) { throw std::runtime_error("Create File Error!"); }
 	}
 
 
-	bool Basic::Close()
+	bool BasicStream::Close()
 	{
 		bool is_close = RxSys::FileClose(m_hFile);
 		m_hFile = nullptr;
 		return is_close;
 	}
 
-	bool Basic::Flush()
+	bool BasicStream::Flush()
 	{
 		return RxSys::FileFlush(m_hFile);
 	}
 
-	bool Basic::IsEnd()
+	bool BasicStream::IsEnd()
 	{
 		size_t file_size = GetSize();
 		size_t current_pointer = GetPos();
 		return current_pointer >= file_size;
 	}
 
-	size_t Basic::SetPos(size_t nOffset, size_t nWay)
+	size_t BasicStream::SetPos(size_t nOffset, size_t nWay)
 	{
 		return RxSys::FileSetPtr(m_hFile, nOffset, nWay);
 	}
 
-	size_t Basic::GetPos()
+	size_t BasicStream::GetPos()
 	{
 		return RxSys::FileGetPtr(m_hFile);
 	}
 
-	size_t Basic::GetSize()
+	size_t BasicStream::GetSize()
 	{
 		return RxSys::FileGetSize(m_hFile);
 	}
 
-	size_t Basic::Read(void* pBuffer, size_t nSize)
+	size_t BasicStream::Read(void* pBuffer, size_t nSize)
 	{
 		return RxSys::FileRead(m_hFile, pBuffer, nSize);
 	}
 
-	size_t Basic::Write(const void* pData, size_t nSize)
+	size_t BasicStream::Write(const void* pData, size_t nSize)
 	{
 		return RxSys::FileWrite(m_hFile, pData, nSize);
 	}
 }
 
-namespace Rut::RxFile
+namespace Rut::RxFile::Stream
 {
-	void SaveFileViaPath(const std::filesystem::path& phPath, void* pData, size_t nBytes)
-	{
-		phPath.has_parent_path() ? (std::filesystem::create_directories(phPath.parent_path())) : (false);
-		Binary{ phPath, RIO_WRITE }.Write(pData, nBytes);
-	}
-
-
-	Binary::Binary()
+	BinaryStream::BinaryStream()
 	{
 
 	}
 
-	Binary::Binary(const std::filesystem::path& phPath, size_t nMode)
+	BinaryStream::BinaryStream(const std::filesystem::path& phPath, size_t nMode)
 	{
 		this->Create(phPath, nMode);
 	}
 }
 
-
-namespace Rut::RxFile
+namespace Rut::RxFile::Stream
 {
-	Text::Text() : m_rxFormat(RFM_ANSI)
+	TextStream::TextStream() : m_rxFormat(RFM_ANSI)
 	{
 
 	}
 
-	Text::Text(const std::filesystem::path& phPath, size_t nMode, size_t nFormat) : m_rxFormat(nFormat)
+	TextStream::TextStream(const std::filesystem::path& phPath, size_t nMode, size_t nFormat) : m_rxFormat(nFormat)
 	{
 		this->Create(phPath, nMode);
 		this->EnsureBom(nMode);
 	}
 
-	void Text::WriteBOM()
+	void TextStream::WriteBOM()
 	{
 		switch (m_rxFormat)
 		{
@@ -119,7 +112,7 @@ namespace Rut::RxFile
 		}
 	}
 
-	void Text::CheckBOM()
+	void TextStream::CheckBOM()
 	{
 		uint32_t bom = 0, bom_size = 0;
 		this->Read(&bom, sizeof(bom));
@@ -133,7 +126,7 @@ namespace Rut::RxFile
 		this->SetPos(bom_size, RIO_BEGIN);
 	}
 
-	void Text::EnsureBom(size_t nMode)
+	void TextStream::EnsureBom(size_t nMode)
 	{
 		if (this->GetSize())
 		{
@@ -145,7 +138,7 @@ namespace Rut::RxFile
 		}
 	}
 
-	size_t Text::WriteLine(std::wstring_view wsStr)
+	size_t TextStream::WriteLine(std::wstring_view wsStr)
 	{
 		switch (m_rxFormat)
 		{
@@ -170,7 +163,7 @@ namespace Rut::RxFile
 		return 0;
 	}
 
-	size_t Text::WriteLine(std::string_view msStr)
+	size_t TextStream::WriteLine(std::string_view msStr)
 	{
 		switch (m_rxFormat)
 		{
@@ -203,7 +196,7 @@ namespace Rut::RxFile
 	}
 
 
-	void Text::WriteAllLine(std::vector<std::string>& vecLine)
+	void TextStream::WriteAllLine(std::vector<std::string>& vecLine)
 	{
 		std::string text;
 		for (auto& line : vecLine)
@@ -216,7 +209,7 @@ namespace Rut::RxFile
 		this->Flush();
 	}
 
-	void Text::WriteAllLine(std::vector<std::wstring>& vecLine)
+	void TextStream::WriteAllLine(std::vector<std::wstring>& vecLine)
 	{
 		std::wstring text;
 		for (auto& line : vecLine)
@@ -230,17 +223,17 @@ namespace Rut::RxFile
 	}
 
 
-	void Text::ReadAllLine(std::vector<std::string>& vecLine)
+	void TextStream::ReadAllLine(std::vector<std::string>& vecLine)
 	{
 		ReadAllLine([&vecLine](char* wpBeg, char* wpEnd) -> bool { vecLine.emplace_back(wpBeg, wpEnd); return true; });
 	}
 
-	void Text::ReadAllLine(std::vector<std::wstring>& vecLine)
+	void TextStream::ReadAllLine(std::vector<std::wstring>& vecLine)
 	{
 		ReadAllLine([&vecLine](wchar_t* wpBeg, wchar_t* wpEnd) -> bool { vecLine.emplace_back(wpBeg, wpEnd); return true; });
 	}
 
-	void Text::ReadAllLine(std::function<bool(char*, char*)> fnPerline)
+	void TextStream::ReadAllLine(std::function<bool(char*, char*)> fnPerline)
 	{
 		std::string text;
 		ReadRawText(text);
@@ -259,7 +252,7 @@ namespace Rut::RxFile
 		if (line_beg < str_end) { fnPerline(line_beg, str_end); }
 	}
 
-	void Text::ReadAllLine(std::function<bool(wchar_t*, wchar_t*)> fnPerline)
+	void TextStream::ReadAllLine(std::function<bool(wchar_t*, wchar_t*)> fnPerline)
 	{
 		std::wstring text;
 		ReadRawText(text);
@@ -279,7 +272,7 @@ namespace Rut::RxFile
 	}
 
 
-	void Text::ReadRawText(std::string& msText)
+	void TextStream::ReadRawText(std::string& msText)
 	{
 		size_t bom_size = this->GetPos();
 		size_t raw_size = this->GetSize() - bom_size;
@@ -318,7 +311,7 @@ namespace Rut::RxFile
 		}
 	}
 
-	void Text::ReadRawText(std::wstring& wsText)
+	void TextStream::ReadRawText(std::wstring& wsText)
 	{
 		size_t bom_size = this->GetPos();
 		size_t raw_size = this->GetSize() - bom_size;
@@ -348,14 +341,14 @@ namespace Rut::RxFile
 	}
 
 
-	void Text::ReadToSStream(std::wstringstream& rfSStream)
+	void TextStream::ReadToSStream(std::wstringstream& rfSStream)
 	{
 		std::wstring text;
 		ReadRawText(text);
 		rfSStream.str(std::move(text));
 	}
 
-	void Text::ReadToSStream(std::stringstream& rfSStream)
+	void TextStream::ReadToSStream(std::stringstream& rfSStream)
 	{
 		std::string text;
 		ReadRawText(text);
@@ -363,18 +356,27 @@ namespace Rut::RxFile
 	}
 
 
-	void Text::Flush()
+	void TextStream::Flush()
 	{
-		this->Binary::Flush();
+		this->BinaryStream::Flush();
 	}
 
-	void Text::Close()
+	void TextStream::Close()
 	{
-		this->Binary::Close();
+		this->BinaryStream::Close();
 	}
 
-	void Text::Rewind()
+	void TextStream::Rewind()
 	{
 		this->SetPos(0, RIO_BEGIN);
+	}
+}
+
+namespace Rut::RxFile
+{
+	void SaveFileViaPath(const std::filesystem::path& phPath, void* pData, size_t nBytes)
+	{
+		phPath.has_parent_path() ? (std::filesystem::create_directories(phPath.parent_path())) : (false);
+		RxFile::Binary{ phPath, RIO_WRITE }.Write(pData, nBytes);
 	}
 }

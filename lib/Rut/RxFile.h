@@ -20,20 +20,23 @@ namespace Rut
 
 	constexpr size_t RIO_READ = RIO_DATA_IN | RIO_OPEN_EXISTING;
 	constexpr size_t RIO_WRITE = RIO_DATA_OUT | RIO_CREATE_ALWAYS;
+
+	constexpr size_t RFM_ANSI = 0x0;
+	constexpr size_t RFM_UTF8 = 0x1;
+	constexpr size_t RFM_UTF16 = 0x2;
 }
 
-
-namespace Rut::RxFile
+namespace Rut::RxFile::Stream
 {
-	class Basic
+	class BasicStream
 	{
 	protected:
 		void* m_hFile;
 
 	protected:
-		Basic();
-		Basic(Basic&& refStream) noexcept;
-		~Basic();
+		BasicStream();
+		BasicStream(BasicStream&& refStream) noexcept;
+		~BasicStream();
 
 	public:
 		void Create(const std::filesystem::path& phPath, size_t nMode);
@@ -51,64 +54,54 @@ namespace Rut::RxFile
 	};
 }
 
-namespace Rut::RxFile
+namespace Rut::RxFile::Stream
 {
-	class Binary : public Basic
+	class BinaryStream : public BasicStream
 	{
 	public:
-		Binary();
-		Binary(const std::filesystem::path& phPath, size_t nMode);
-		Binary(const Binary& refStream) = delete;
+		BinaryStream();
+		BinaryStream(const std::filesystem::path& phPath, size_t nMode);
+		BinaryStream(const BinaryStream& refStream) = delete;
 
 	public:
-		template <class T> Binary& operator >>(T&& rfOBJ);
-		template <class T> Binary& operator <<(T&& rfOBJ);
+		template <class T> BinaryStream& operator >>(T&& rfOBJ);
+		template <class T> BinaryStream& operator <<(T&& rfOBJ);
 		template <class T, size_t nSize = sizeof(T)> T Get();
 	};
 
-	template <class T> Binary& Binary::operator >>(T&& rfOBJ)
+	template <class T> BinaryStream& BinaryStream::operator >>(T&& rfOBJ)
 	{
 		this->Read((void*)&rfOBJ, sizeof(rfOBJ));
 		return *this;
 	}
 
-	template <class T> Binary& Binary::operator <<(T&& rfOBJ)
+	template <class T> BinaryStream& BinaryStream::operator <<(T&& rfOBJ)
 	{
 		this->Write((void*)&rfOBJ, sizeof(rfOBJ));
 		return *this;
 	}
 
-	template <class T, size_t nSize> T Binary::Get()
+	template <class T, size_t nSize> T BinaryStream::Get()
 	{
 		T tmp_obj;
 		this->Read((void*)&tmp_obj, nSize);
 		return tmp_obj;
 	}
-
-	void SaveFileViaPath(const std::filesystem::path& phPath, void* pData, size_t nBytes);
 }
 
-
-namespace Rut
+namespace Rut::RxFile::Stream
 {
-	constexpr size_t RFM_ANSI = 0x0;
-	constexpr size_t RFM_UTF8 = 0x1;
-	constexpr size_t RFM_UTF16 = 0x2;
-}
-
-namespace Rut::RxFile
-{
-	class Text : private Binary
+	class TextStream : private BinaryStream
 	{
 	private:
 		size_t m_rxFormat;
 
 	public:
-		Text();
-		Text(const std::filesystem::path& phPath, size_t nMode, size_t nFormat);
+		TextStream();
+		TextStream(const std::filesystem::path& phPath, size_t nMode, size_t nFormat);
 
-		Text& operator <<(std::string_view msStr) { WriteLine(msStr); return *this; }
-		Text& operator <<(std::wstring_view wsStr) { WriteLine(wsStr); return *this; }
+		TextStream& operator <<(std::string_view msStr) { WriteLine(msStr); return *this; }
+		TextStream& operator <<(std::wstring_view wsStr) { WriteLine(wsStr); return *this; }
 
 		void WriteBOM();
 		void CheckBOM();
@@ -136,4 +129,11 @@ namespace Rut::RxFile
 
 		void Rewind();
 	};
+}
+
+namespace Rut::RxFile
+{
+	using Binary = Rut::RxFile::Stream::BinaryStream;
+	using Text = Rut::RxFile::Stream::TextStream;
+	void SaveFileViaPath(const std::filesystem::path& phPath, void* pData, size_t nBytes);
 }

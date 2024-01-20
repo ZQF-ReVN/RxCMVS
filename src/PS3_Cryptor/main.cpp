@@ -1,48 +1,44 @@
-﻿#include <stdexcept>
+﻿#include <iostream>
+#include <stdexcept>
 
 #include "../../lib/CMVS/PS3.h"
 #include "../../lib/Rut/RxMem.h"
-#include "../../lib/Rut/RxConsole.h"
+#include "../../lib/Rut/RxCmd.h"
 
 
 static void UserMain(int argc, wchar_t* argv[])
 {
 	try
 	{
-		switch (argc)
-		{
-		case 4:
-		{
-			if (wcscmp(argv[1], L"decode") == 0)
-			{
-				Rut::RxMem::Auto out_mem;
-				CMVS::PS3::Cryptor::Decode(argv[2], out_mem);
-				out_mem.SaveData(argv[3]);
-			}
-			else if (wcscmp(argv[1], L"encode") == 0)
-			{
-				Rut::RxMem::Auto out_mem;
-				CMVS::PS3::Cryptor::Encode(argv[2], out_mem);
-				out_mem.SaveData(argv[3]);
-			}
-		}
-		break;
+		Rut::RxCmd::Arg arg;
+		arg.AddCmd(L"-ps3", L"ps3 path");
+		arg.AddCmd(L"-save", L"save path");
+		arg.AddCmd(L"-mode", L"mode [decode]:decode ps3 file, [encode]:encode ps3 file");
+		arg.AddExample(L"-mode decode -ps3 sn1001.ps3 -save sn1001.ps3.dec");
+		arg.AddExample(L"-mode encode -ps3 sn1001.ps3 -save sn1001.ps3.enc");
+		if (arg.Load(argc, argv) == false) { return; }
 
-		default:
+		if (arg.GetValue(L"-mode") == L"decode")
 		{
-			Rut::RxConsole::Put(L"\n");
-			Rut::RxConsole::Put(L"\tDecode: PS3_Cryptor.exe decode [ps3 path] [out path]\n");
-			Rut::RxConsole::Put(L"\tEncode: PS3_Cryptor.exe encode [ps3 path] [out path]\n\n");
-			Rut::RxConsole::Put(L"\tPS3_Cryptor.exe decode sn1010.ps3 sn1010.ps3.dec\n");
-			Rut::RxConsole::Put(L"\tPS3_Cryptor.exe encode sn1010.ps3 sn1010.ps3.enc\n");
+			Rut::RxMem::Auto out_mem;
+			CMVS::PS3::Cryptor::Decode(arg.GetValue(L"-ps3"), out_mem);
+			out_mem.SaveData(arg.GetValue(L"-save"));
 		}
+		else if (arg.GetValue(L"-mode") == L"encode")
+		{
+			Rut::RxMem::Auto out_mem;
+			CMVS::PS3::Cryptor::Encode(arg.GetValue(L"-ps3"), out_mem);
+			out_mem.SaveData(arg.GetValue(L"-save"));
+		}
+		else
+		{
+			throw std::runtime_error("Error Command!");
 		}
 	}
 	catch (const std::runtime_error& err)
 	{
-		Rut::RxConsole::PutFormat("\n\truntime_error:%s\n\n", err.what());
+		std::cerr << err.what() << std::endl;
 	}
-
 }
 
 static void DebugMain()

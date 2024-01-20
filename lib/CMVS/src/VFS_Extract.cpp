@@ -2,7 +2,7 @@
 #include "CMVS_Types.h"
 
 #include "../lib/Rut/RxFile.h"
-#include "../lib/Rut/RxConsole.h"
+#include "../lib/Rut/RxCmd.h"
 #include "../lib/RxHook/RxHook.h"
 
 #include <set>
@@ -69,7 +69,7 @@ namespace CMVS::VFS
 		{
 			if (entry_ptr->pCoder)
 			{
-				Rut::RxConsole::PutFormat("%s\n", entry_ptr->aReadPath);
+				Rut::RxCmd::PutFormat("%s\n", entry_ptr->aReadPath);
 			}
 		}
 	}
@@ -97,7 +97,7 @@ namespace CMVS::VFS
 
 	static void __stdcall ExtractThread()
 	{
-		Rut::RxConsole::Alloc(L"CMVS_VFS_Extract", true);
+		Rut::RxCmd::Alloc(L"CMVS_VFS_Extract", true);
 
 		std::string command;
 		while (true)

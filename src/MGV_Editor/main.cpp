@@ -1,40 +1,38 @@
-﻿#include <stdexcept>
+﻿#include <iostream>
+#include <stdexcept>
 
 #include "../../lib/CMVS/MGV.h"
-#include "../../lib/Rut/RxConsole.h"
+#include "../../lib/Rut/RxCmd.h"
 
 
-static void UserMain(int argc, char* argv[])
+static void UserMain(int argc, wchar_t* argv[])
 {
 	try
 	{
-		switch (argc)
-		{
-		case 2:
-		{
-			CMVS::MGV::Editor::Extract(argv[1]);
-		}
-		break;
+		Rut::RxCmd::Arg arg;
+		arg.AddCmd(L"-mgv", L"mgv file");
+		arg.AddCmd(L"-ogv", L"ogv path");
+		arg.AddCmd(L"-mode", L"mode [extract]:extract ogv ogg file, [replace]:repalce ogv file");
+		arg.AddExample(L"-mode extract -mgv op.mgv");
+		arg.AddExample(L"-mode replace -mgv op.mgv -ogv op.ogv");
+		if (arg.Load(argc, argv) == false) { return; }
 
-		case 3:
+		if (arg.GetValue(L"-mode") == L"extract")
 		{
-			CMVS::MGV::Editor::Replace(argv[1], argv[2]);
+			CMVS::MGV::Editor::Extract(arg.GetValue(L"-mgv"));
 		}
-		break;
-
-		default:
+		else if (arg.GetValue(L"-mode") == L"replace")
 		{
-			Rut::RxConsole::Put("MGV Editor\n");
-			Rut::RxConsole::Put("Extract Video/Audio: MGV_Editor.exe op.mgv\n");
-			Rut::RxConsole::Put("Replace Video: MGV_Editor.exe op.mgv op.ogv\n\n");
+			CMVS::MGV::Editor::Replace(arg.GetValue(L"-mgv"), arg.GetValue(L"-ogv"));
 		}
-		break;
+		else
+		{
+			throw std::runtime_error("Error Command!");
 		}
-
 	}
 	catch (const std::runtime_error& err)
 	{
-		Rut::RxConsole::PutFormat("\n\truntime_error:%s\n\n", err.what());
+		std::cerr << err.what() << std::endl;
 	}
 }
 
@@ -61,7 +59,7 @@ static void DebugMain()
 }
 
 
-int main(int argc, char* argv[])
+int wmain(int argc, wchar_t* argv[])
 {
 	::UserMain(argc, argv);
 }

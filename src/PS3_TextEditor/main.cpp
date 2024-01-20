@@ -1,69 +1,52 @@
-﻿#include <stdexcept>
+﻿#include <iostream>
+#include <stdexcept>
 
 #include "../../lib/CMVS/PS3.h"
-#include "../../lib/Rut/RxConsole.h"
-
-using namespace Rut;
+#include "../../lib/Rut/RxCmd.h"
 
 
 static void UserMain(int argc, wchar_t* argv[])
 {
 	try
 	{
-		switch (argc)
-		{
-		case 5:
-		{
-			std::wstring_view ps3_path = argv[2];
-			std::wstring_view out_path = argv[3];
+		Rut::RxCmd::Arg arg;
+		arg.AddCmd(L"-ps3", L"ps3 path");
+		arg.AddCmd(L"-save", L"ps3 save path");
+		arg.AddCmd(L"-json", L"json path");
+		arg.AddCmd(L"-code", L"codepage");
+		arg.AddCmd(L"-mode", L"[export]:export texts, [import]:import texts");
+		arg.AddExample(L"-mode export -ps3 sn1001.ps3 -json sn1001.ps3.json -code 932");
+		arg.AddExample(L"-mode import -ps3 sn1001.ps3 -json sn1001.ps3.json -save sn1001.ps3.new -code 932");
+		if (arg.Load(argc, argv) == false) { return; }
 
-			size_t code_page = 932;
-			wchar_t* end = nullptr;
-			code_page = ::wcstol(argv[4], &end, 10);
-
+		if (arg.GetValue(L"-mode") == L"export")
+		{
 			CMVS::PS3::TextEditor editor;
-			editor.Init(ps3_path);
-			editor.Export(out_path, code_page);
-			RxConsole::PutFormat(L"Success: %s", ps3_path);
+			editor.Init(arg.GetValue(L"-ps3"));
+			editor.Export(arg.GetValue(L"-json"), ::_wtoi(arg.GetValue(L"-code").c_str()));
+			Rut::RxCmd::PutFormat(L"Success: %s", arg.GetValue(L"-ps3"));
 		}
-		break;
-
-		case 6:
+		else if (arg.GetValue(L"-mode") == L"import")
 		{
-			std::wstring_view ps3_path = argv[2];
-			std::wstring_view json_path = argv[3];
-			std::wstring_view out_path = argv[4];
-
-			size_t code_page = 936;
-			wchar_t* end = nullptr;
-			code_page = ::wcstol(argv[5], &end, 10);
-
 			CMVS::PS3::TextEditor editor;
-			editor.Init(ps3_path);
-			if (editor.Import(json_path, out_path, code_page))
+			editor.Init(arg.GetValue(L"-ps3"));
+			if (editor.Import(arg.GetValue(L"-json"), arg.GetValue(L"-save"), ::_wtoi(arg.GetValue(L"-code").c_str())))
 			{
-				RxConsole::PutFormat(L"Success: %s", ps3_path);
+				Rut::RxCmd::PutFormat(L"Success: %s", arg.GetValue(L"-ps3"));
 			}
 			else
 			{
-				RxConsole::PutFormat(L"\n\tFailure: %s\n", ps3_path);
+				Rut::RxCmd::PutFormat(L"\n\tFailure: %s\n", arg.GetValue(L"-ps3"));
 			}
 		}
-		break;
-
-		default:
+		else
 		{
-			RxConsole::Put(L"\n");
-			RxConsole::Put(L"\tExport: PS3_TextEditor.exe export [ps3 path] [json path] [extract codepage]\n");
-			RxConsole::Put(L"\tImport: PS3_TextEditor.exe import [ps3 path] [json path] [new ps3 path] [insert codepage]\n\n");
-			RxConsole::Put(L"\tPS3_TextEditor.exe export sn1010.ps3 sn1010.ps3.json 936\n");
-			RxConsole::Put(L"\tPS3_TextEditor.exe import sn1010.ps3 sn1010.ps3.json sn1010.ps3.new 936\n");
-		}
+			throw std::runtime_error("Error Command!");
 		}
 	}
 	catch (const std::runtime_error& err)
 	{
-		RxConsole::PutFormat("\n\truntime_error:%s\n\n", err.what());
+		std::cerr << err.what() << std::endl;
 	}
 }
 
@@ -79,8 +62,6 @@ static void DebugMain()
 		//editor.Init(L"sn1001.ps3.dec");
 		//editor.Insert(L"sn1001.ps3.json", L"sn1001.ps3.new", 932);
 	}
-
-
 }
 
 
