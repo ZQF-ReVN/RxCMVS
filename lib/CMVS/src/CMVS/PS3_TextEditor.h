@@ -2,7 +2,7 @@
 #include <vector>
 
 #include "CMVS_Types.h"
-#include "../../Rut/RxMem.h"
+#include <Rut/RxMem.h>
 
 
 namespace CMVS::PS3

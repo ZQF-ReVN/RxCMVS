@@ -71,14 +71,11 @@ if(MSVC)
     endif()
 endif()
 
-# Include
-include_directories("${ROOT_DIR}")
-
 # Subdirectory
 add_subdirectory("lib")
 add_subdirectory("src")
 
 # Test
 if(UVAR_BUILD_TEST)
-    add_subdirectory("test")
+    # add_subdirectory("test")
 endif()

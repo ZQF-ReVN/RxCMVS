@@ -1,8 +1,8 @@
 ﻿#include <iostream>
 #include <stdexcept>
 
-#include "../../lib/CMVS/MGV.h"
-#include "../../lib/Rut/RxCmd.h"
+#include <CMVS/MGV_Editor.h>
+#include <Rut/RxCmd.h>
 
 
 static void UserMain(int argc, wchar_t* argv[])

@@ -1,8 +1,8 @@
 #include "PS3_TextEditor.h"
 
-#include "../../Rut/RxFile.h"
-#include "../../Rut/RxStr.h"
-#include "../../Rut/RxJson.h"
+#include <Rut/RxStr.h>
+#include <Rut/RxJson.h>
+#include <Rut/RxFile.h>
 
 using namespace Rut;
 
@@ -29,10 +29,7 @@ namespace CMVS::PS3
 		if (this->m_vecTextIndex.empty()) { return false; }
 
 		// Read Json
-		RxJson::JValue json;
-		RxJson::Parser parser;
-		parser.Open(wsJsonPath);
-		parser.Read(json);
+		RxJson::JValue json = RxJson::Parser{}.Load(wsJsonPath);
 		RxJson::JArray& jarr_scn = json[L"Scenario"];
 
 		// Check

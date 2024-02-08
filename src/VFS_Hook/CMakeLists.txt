@@ -13,4 +13,4 @@ target_compile_definitions("${PROJECT_NAME}" PRIVATE UNICODE _UNICODE)
 target_compile_options("${PROJECT_NAME}" PRIVATE "$<$<CXX_COMPILER_ID:MSVC>:/source-charset:utf-8>")
 
 # Add Library
-target_link_libraries("${PROJECT_NAME}" PRIVATE Rut CMVS)
+target_link_libraries("${PROJECT_NAME}" PRIVATE Rut RxHook CMVS)

@@ -1,9 +1,9 @@
 #include "VFS_Extract.h"
 #include "CMVS_Types.h"
 
-#include "../lib/Rut/RxFile.h"
-#include "../lib/Rut/RxCmd.h"
-#include "../lib/RxHook/RxHook.h"
+#include <Rut/RxFile.h>
+#include <Rut/RxCmd.h>
+#include <RxHook/Hook.h>
 
 #include <set>
 #include <iostream>

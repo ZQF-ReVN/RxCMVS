@@ -1,6 +1,6 @@
 ﻿#include "VFS_Hook.h"
 #include "CMVS_Types.h"
-#include "../../RxHook/RxHook.h"
+#include <RxHook/Hook.h>
 
 #include <Windows.h>
 

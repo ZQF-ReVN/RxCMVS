@@ -1,10 +1,10 @@
 ﻿#include <Windows.h>
 #include <stdexcept>
 
-#include "../../lib/CMVS/VFS.h"
-#include "../../lib/Rut/RxPath.h"
-#include "../../lib/Rut/RxINI.h"
-#include "../../lib/RxHook/RxHook.h"
+#include <CMVS/VFS_Hook.h>
+#include <Rut/RxPath.h>
+#include <Rut/RxINI.h>
+#include <RxHook/API.h>
 
 using namespace Rut;
 

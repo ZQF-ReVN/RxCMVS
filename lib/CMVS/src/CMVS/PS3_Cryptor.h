@@ -1,5 +1,5 @@
 #pragma once
-#include "../../Rut/RxMem.h"
+#include <Rut/RxMem.h>
 
 
 namespace CMVS::PS3

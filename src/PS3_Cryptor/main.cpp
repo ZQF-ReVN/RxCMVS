@@ -1,9 +1,9 @@
 ﻿#include <iostream>
 #include <stdexcept>
 
-#include "../../lib/CMVS/PS3.h"
-#include "../../lib/Rut/RxMem.h"
-#include "../../lib/Rut/RxCmd.h"
+#include <CMVS/PS3_Cryptor.h>
+#include <Rut/RxMem.h>
+#include <Rut/RxCmd.h>
 
 
 static void UserMain(int argc, wchar_t* argv[])

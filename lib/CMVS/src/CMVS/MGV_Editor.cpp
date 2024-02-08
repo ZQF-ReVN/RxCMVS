@@ -1,7 +1,7 @@
 ﻿#include "MGV_Editor.h"
 #include "CMVS_Types.h"
-#include "../../Rut/RxMem.h"
-#include "../../Rut/RxFile.h"
+#include <Rut/RxMem.h>
+#include <Rut/RxFile.h>
 
 using namespace Rut;
 

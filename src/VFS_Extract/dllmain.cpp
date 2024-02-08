@@ -1,5 +1,6 @@
 ﻿#include <Windows.h>
-#include "../../lib/CMVS/VFS.h"
+
+#include <CMVS/VFS_Extract.h>
 
 
 static void StartHook(HMODULE hDllBase)
