@@ -42,30 +42,29 @@ struct CMVS_OBJ
 
 struct PS3_HDR
 {
-	uint32_t dwSignature;
-	uint32_t dwHeaderLen;
-	uint32_t dwUnknown0;
-	uint32_t dwKey;
-	uint32_t dwTextCount;
-	uint32_t dwCodeBlockLen;
-	uint32_t dwUnknown1;
-	uint32_t dwTextBlockLen;
-	uint32_t dwUnknown2;
-	uint32_t dwCompressSize;
-	uint32_t dwDecompressSize;
-	uint32_t dwUnknown3;
+	uint32_t uiSignature;
+	uint32_t uiHdrSize;
+	uint32_t uiUn0;
+	uint32_t uiDecryptKey;
+	uint32_t uiLabelCount;
+	uint32_t uiCodeSegSize;
+	uint32_t uiUnSegSize;
+	uint32_t uiTextSegSize;
+	uint32_t uiBegPC;
+	uint32_t uiCompressSize;
+	uint32_t uiDecompressSize;
+	uint32_t uiUn1;
 };
 
 PS3_File
 - HDR
-- 4 bytes -> 有4个字节空白
-- CodeBlock
-- TextBlock
+- Label_Table[uiLabelCount*4] // label 里每4个为一项，每一项为code segment的偏移
+- Code Segment
+- Un Segment
+- Text Segment
 ```
 
-01022001
-uint32_t -> text offset in TextBlock.
-0F023004
+
 
 ## Pack Version
 - case 0: ?
@@ -139,21 +138,21 @@ OPCode:0x0202:ParameTypeC
 ## VMCommand
 
 ```C
-OPCode:0x0400: Nop
-OPCode:0x0401:
-OPCode:0x0402:
-OPCode:0x0403:
-OPCode:0x0405:
-OPCode:0x0407:
-OPCode:0x0410:
-OPCode:0x0411:
-OPCode:0x0412:
-OPCode:0x0413:
-OPCode:0x0414:
-OPCode:0x0416:
-OPCode:0x0430: PushDWORD
-OPCode:0x0440:
-OPCode:0x0442:
+OPCode:0x0400: nop
+OPCode:0x0401: jmp if regX32 == 0 tp pc+6
+OPCode:0x0402: jmp if regX32 !=0 to pc+6
+OPCode:0x0403: jmp if reg32 == imm32 to imm32 (0304 01000000 C0960300 (reg0==01000000 -> pc = C0960300))
+OPCode:0x0405: jmp to imm16 (imm -> script_ptr - hdr_size)
+OPCode:0x0407: jmp to imm32 (jmp to imm,0704 00000000 C0960300, jmp to C0960300)
+OPCode:0x0410: call_label imm (imm:lable_index ,1004 0700 -> 0x0410(call label) 0x0007(label table index)
+OPCode:0x0411: ret stack[n]
+OPCode:0x0412: pop stack[n]
+OPCode:0x0413: jmp stack[n]
+OPCode:0x0414: switch_slot stack[slot],stack[pc]
+OPCode:0x0416: call reg032
+OPCode:0x0430: push reg032
+OPCode:0x0440: push imm32
+OPCode:0x0442: push imm32
 ```
 
 
