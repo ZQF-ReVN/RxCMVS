@@ -21,7 +21,7 @@ Tools For Purple software's CMVS Engine.
 hook the pack stream create function to get the pack stream obj, use that obj to extract pack files via input file name.
 
 ### VFS_Hook
-enable replace file without repack via hook the interface for reading files.
+patch files without repack via hook the interface for reading files.
 
 ## More
 - [note](/etc)
