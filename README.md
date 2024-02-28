@@ -29,3 +29,15 @@ patch files without repack via hook the interface for reading files.
 
 ## More
 Check the details of reverse analysis [note](/etc)  
+
+## Tested
+クナド国記 PKG  
+青春フラジャイル PKG  
+リアライブ PKG  
+アオイトリ PKG  
+アマツツミ PKG  
+ハピメアFD ハピメアＷパック PKG  
+クロノクロック PKG  
+ハピメア PKG  
+しあわせ家族部 PKG  
+未来ノスタルジア PKG  
