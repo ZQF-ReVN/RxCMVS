@@ -93,44 +93,45 @@ struct CMVS_OPCode
     [opcode]            3*4bit
 };
 
-struct CMVS_Param
+struct CMVS_DataType
 {
-    uint16_t usParameOPCode;
-    uint16_t usParameOPCode;
-    uint16_t usParameOPCode;
+    uint16_t usDataTypeOPCode;
+    uint16_t usDataTypeOPCode;
+    uint16_t usDataTypeOPCode;
     ...
     Value
     ...
     uint16_t usEnd; // 0x020F
-    uint16_t usVMOPCode;
-    uint16_t usVMOPCode;
-    uint16_t usVMOPCode;
-    ....
+
 };
 
 struct CMVS_Code
 {
-    CMVS_Param Param;  // 可选，不一定有
+    CMVS_DataType Data;  // 可选，不一定有
+    uint16_t usVMOPCode;
+    uint16_t usVMOPCode;
+    uint16_t usVMOPCode;
+    ....
     uint16_t usSysOPCode;
 };
  
 if opcode > 0x400 -> stack commnad
 if opcode = 0x400 Nop
-if opcode = 0x200 ParameTypeA
-if opcode = 0x201 ParameTypeB
-if opcode = 0x202 ParameTypeC
+if opcode = 0x200 DataTypeA
+if opcode = 0x201 DataTypeB
+if opcode = 0x202 DataTypeC
 if opcode >= 0x2000 SysCommand -> really op = opcode - 0x2000
 0x2000 = 0010 0000 0000 0000
 0x07FF = 0000 0111 1111 1111  -> op mask
     
 ```
 
-## ParameCommand
+## DataTypeCommand
 
 ```C
-OPCode:0x0200:ParameTypeA
-OPCode:0x0201:ParameTypeB
-OPCode:0x0202:ParameTypeC
+OPCode:0x0200:DataTypeA
+OPCode:0x0201:DataTypeB
+OPCode:0x0202:DataTypeC
 ```
 
 
